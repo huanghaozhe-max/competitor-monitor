@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>地图竞品动态监控 | ToB方向周报</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            background: #0f1117;
+            color: #e1e4e8;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1a1f36 0%, #0d1025 100%);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            padding: 28px 40px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(20px);
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #60a5fa, #a78bfa, #f472b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+        }
+
+        .week-badge { background: rgba(96, 165, 250, 0.12); color: #60a5fa; padding: 6px 16px; border-radius: 20px; font-size: 13px; border: 1px solid rgba(96, 165, 250, 0.2); }
+        .update-time { color: #6b7280; font-size: 13px; }
+        .controls { display: flex; gap: 10px; }
+
+        .btn { padding: 8px 20px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); color: #c9d1d9; font-size: 13px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px; }
+        .btn:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); }
+        .btn-primary { background: linear-gradient(135deg, #3b82f6, #6366f1); border: none; color: white; }
+        .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3); }
+
+        .nav-tabs { max-width: 1600px; margin: 0 auto; padding: 20px 40px 0; display: flex; gap: 4px; }
+
+        .nav-tab { padding: 12px 24px; background: transparent; border: none; color: #6b7280; font-size: 14px; cursor: pointer; border-radius: 10px 10px 0 0; transition: all 0.2s; position: relative; font-weight: 500; }
+        .nav-tab:hover { color: #c9d1d9; background: rgba(255,255,255,0.03); }
+        .nav-tab.active { color: #60a5fa; background: rgba(96, 165, 250, 0.08); }
+        .nav-tab.active::after { content: ''; position: absolute; bottom: 0; left: 20%; width: 60%; height: 2px; background: linear-gradient(90deg, #3b82f6, #6366f1); border-radius: 2px; }
+        .nav-tab .tab-count { display: inline-block; background: rgba(96, 165, 250, 0.15); color: #60a5fa; font-size: 11px; padding: 1px 7px; border-radius: 10px; margin-left: 6px; }
+
+        .main-content { max-width: 1600px; margin: 0 auto; padding: 24px 40px 60px; }
+        .vendor-section { display: none; }
+        .vendor-section.active { display: block; }
+
+        .stats-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+        .stat-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 20px; transition: all 0.2s; }
+        .stat-card:hover { border-color: rgba(255,255,255,0.12); background: rgba(255,255,255,0.05); }
+        .stat-label { color: #6b7280; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+        .stat-value { font-size: 28px; font-weight: 700; color: #f0f6fc; }
+        .stat-value.amap { color: #34d399; }
+        .stat-value.bmap { color: #60a5fa; }
+        .stat-value.ai { color: #a78bfa; }
+
+        .week-nav { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; padding: 10px 16px; width: fit-content; }
+        .week-nav-btn { width: 32px; height: 32px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.03); color: #8b949e; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; font-size: 12px; }
+        .week-nav-btn:hover { background: rgba(255,255,255,0.08); color: #c9d1d9; }
+        .week-nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+        .week-range { font-size: 14px; font-weight: 500; color: #c9d1d9; min-width: 220px; text-align: center; }
+        .week-label { font-size: 12px; color: #6b7280; margin-right: 8px; }
+
+        .module-section { margin-bottom: 36px; }
+        .module-header { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; padding-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+        .module-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+        .module-icon.platform { background: rgba(52, 211, 153, 0.12); }
+        .module-icon.bigdata { background: rgba(96, 165, 250, 0.12); }
+        .module-icon.ai { background: rgba(167, 139, 250, 0.12); }
+        .module-icon.official { background: rgba(251, 191, 36, 0.12); }
+        .module-title { font-size: 16px; font-weight: 600; }
+        .module-subtitle { color: #6b7280; font-size: 12px; margin-top: 2px; }
+
+        .news-table { width: 100%; border-collapse: separate; border-spacing: 0; }
+        .news-table thead th { background: rgba(255,255,255,0.03); color: #8b949e; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 12px 16px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.06); }
+        .news-table thead th:first-child { border-radius: 8px 0 0 0; }
+        .news-table thead th:last-child { border-radius: 0 8px 0 0; }
+        .news-table tbody tr { transition: all 0.15s; }
+        .news-table tbody tr:hover { background: rgba(255,255,255,0.03); }
+        .news-table tbody td { padding: 14px 16px; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 13px; line-height: 1.6; vertical-align: top; }
+
+        .date-cell { color: #8b949e; white-space: nowrap; font-variant-numeric: tabular-nums; }
+        .vendor-tag { display: inline-block; padding: 3px 10px; border-radius: 6px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+        .vendor-tag.amap { background: rgba(52, 211, 153, 0.1); color: #34d399; border: 1px solid rgba(52, 211, 153, 0.2); }
+        .vendor-tag.bmap { background: rgba(96, 165, 250, 0.1); color: #60a5fa; border: 1px solid rgba(96, 165, 250, 0.2); }
+
+        .event-desc { color: #c9d1d9; max-width: 420px; }
+        .event-highlight { color: #f0c674; font-weight: 500; }
+        .official-note { display: block; margin-top: 6px; padding: 4px 8px; background: rgba(251, 191, 36, 0.08); border-left: 2px solid rgba(251, 191, 36, 0.3); border-radius: 0 4px 4px 0; font-size: 12px; color: #d4a52a; }
+
+        .source-link { color: #58a6ff; text-decoration: none; font-size: 12px; transition: color 0.2s; word-break: break-all; }
+        .source-link:hover { color: #79c0ff; text-decoration: underline; }
+        .source-links { display: flex; flex-direction: column; gap: 4px; }
+
+        .evidence-cell { color: #9ca3af; font-size: 12px; max-width: 260px; line-height: 1.6; }
+        .evidence-tag { display: inline-block; padding: 1px 6px; border-radius: 3px; font-size: 10px; font-weight: 600; margin-right: 4px; vertical-align: middle; }
+        .evidence-tag.new { background: rgba(52, 211, 153, 0.15); color: #34d399; border: 1px solid rgba(52, 211, 153, 0.2); }
+        .evidence-tag.update { background: rgba(96, 165, 250, 0.15); color: #60a5fa; border: 1px solid rgba(96, 165, 250, 0.2); }
+        .evidence-tag.announce { background: rgba(251, 191, 36, 0.15); color: #fbbf24; border: 1px solid rgba(251, 191, 36, 0.2); }
+        .evidence-tag.report { background: rgba(167, 139, 250, 0.15); color: #a78bfa; border: 1px solid rgba(167, 139, 250, 0.2); }
+        .evidence-tag.observe { background: rgba(244, 114, 182, 0.15); color: #f472b6; border: 1px solid rgba(244, 114, 182, 0.2); }
+
+        .product-tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; background: rgba(255,255,255,0.06); color: #8b949e; margin-right: 4px; }
+        .importance { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 8px; }
+        .importance.high { background: #ef4444; box-shadow: 0 0 8px rgba(239, 68, 68, 0.4); }
+        .importance.medium { background: #f59e0b; }
+        .importance.low { background: #6b7280; }
+
+        .data-type-tag { display: inline-block; padding: 1px 5px; border-radius: 3px; font-size: 9px; font-weight: 600; margin-left: 6px; vertical-align: middle; }
+        .data-type-tag.article { background: rgba(52, 211, 153, 0.12); color: #34d399; border: 1px solid rgba(52, 211, 153, 0.15); }
+        .data-type-tag.patrol { background: rgba(251, 191, 36, 0.12); color: #fbbf24; border: 1px solid rgba(251, 191, 36, 0.15); }
+
+        .empty-state { text-align: center; padding: 60px 20px; color: #6b7280; }
+        .empty-state-icon { font-size: 48px; margin-bottom: 16px; }
+        .empty-state p { margin-top: 8px; }
+
+        .footer { text-align: center; padding: 40px; color: #374151; font-size: 12px; border-top: 1px solid rgba(255,255,255,0.04); }
+
+        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 1000; backdrop-filter: blur(4px); justify-content: center; align-items: center; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: #1c2033; border-radius: 16px; padding: 32px; width: 420px; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
+        .modal h3 { font-size: 18px; margin-bottom: 20px; }
+        .modal-option { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; margin-bottom: 10px; cursor: pointer; transition: all 0.2s; }
+        .modal-option:hover { background: rgba(255,255,255,0.05); border-color: rgba(96, 165, 250, 0.3); }
+        .modal-option-icon { font-size: 24px; }
+        .modal-option-text h4 { font-size: 14px; font-weight: 600; color: #e1e4e8; }
+        .modal-option-text p { font-size: 12px; color: #6b7280; margin-top: 2px; }
+        .modal-close { margin-top: 16px; width: 100%; padding: 10px; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; background: transparent; color: #8b949e; cursor: pointer; font-size: 13px; }
+        .modal-close:hover { background: rgba(255,255,255,0.05); }
+        .export-week-hint { font-size: 12px; color: #6b7280; margin-bottom: 16px; padding: 8px 12px; background: rgba(96, 165, 250, 0.08); border-radius: 8px; border: 1px solid rgba(96, 165, 250, 0.15); }
+
+        @media (max-width: 768px) {
+            .header { padding: 16px 20px; }
+            .nav-tabs { padding: 16px 20px 0; overflow-x: auto; }
+            .main-content { padding: 16px 20px 40px; }
+            .stats-bar { grid-template-columns: repeat(2, 1fr); }
+            .header-top { flex-wrap: wrap; gap: 12px; }
+            .news-table { display: block; overflow-x: auto; }
+        }
+
+        @media print {
+            body { background: white; color: #1a1a1a; }
+            .header { position: static; background: white; border-bottom: 2px solid #e5e7eb; }
+            .header h1 { -webkit-text-fill-color: #1a1a1a; }
+            .btn, .week-nav-btn, .controls { display: none !important; }
+            .nav-tabs { display: none; }
+            .vendor-section { display: block !important; page-break-after: always; }
+            .stat-card { border: 1px solid #e5e7eb; }
+            .stat-value { color: #1a1a1a !important; }
+            .evidence-cell { color: #555; }
+            .official-note { background: #fffbe6; border-left-color: #d4a52a; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <div class="header-top">
+        <div>
+            <h1>🗺️ 地图竞品动态监控 · ToB周报</h1>
+            <div style="display:flex;gap:12px;margin-top:8px;">
+                <span class="week-badge" id="headerWeekBadge">2026年 第12周</span>
+                <span class="update-time">更新时间: 2026-03-23 17:15</span>
+            </div>
+        </div>
+        <div class="controls">
+            <button class="btn" onclick="window.print()">🖨️ 打印</button>
+            <button class="btn btn-primary" onclick="showExportModal()">📤 导出数据</button>
+        </div>
+    </div>
+</div>
+
+<div class="nav-tabs">
+    <button class="nav-tab active" onclick="switchTab('overview', this)">📊 总览 <span class="tab-count" id="count-all">0</span></button>
+    <button class="nav-tab" onclick="switchTab('amap', this)">🟢 高德地图 <span class="tab-count" id="count-amap">0</span></button>
+    <button class="nav-tab" onclick="switchTab('bmap', this)">🔵 百度地图 <span class="tab-count" id="count-bmap">0</span></button>
+    <button class="nav-tab" onclick="switchTab('ai', this)">🟣 AI专题 <span class="tab-count" id="count-ai">0</span></button>
+</div>
+
+<div class="main-content">
+    <div class="vendor-section active" id="section-overview"></div>
+    <div class="vendor-section" id="section-amap"></div>
+    <div class="vendor-section" id="section-bmap"></div>
+    <div class="vendor-section" id="section-ai"></div>
+</div>
+
+<div class="footer">
+    <p>地图竞品动态监控系统 · 数据来源包括高德/百度官网、腾讯云开发者社区、SegmentFault、51CTO、InfoQ、掘金、GitHub、经济参考报、央广网、华夏时报、IT之家、人民网、中国经济网等公开渠道</p>
+    <p style="margin-top:8px;">本报告仅供内部竞品分析参考使用</p>
+    <p style="margin-top:4px;font-size:11px;">📰 资讯类数据：日期=来源实际发布时间 | 🔍 巡检类数据：日期=我方发现时间，信息判断说明发现方式</p>
+</div>
+
+<div class="modal-overlay" id="exportModal">
+    <div class="modal">
+        <h3>📤 选择导出格式</h3>
+        <div class="export-week-hint" id="exportWeekHint">将导出当前选择周的数据</div>
+        <div class="modal-option" onclick="exportCSV()"><div class="modal-option-icon">📋</div><div class="modal-option-text"><h4>CSV 表格</h4><p>适合在 Excel / WPS 中打开和编辑</p></div></div>
+        <div class="modal-option" onclick="exportJSON()"><div class="modal-option-icon">📦</div><div class="modal-option-text"><h4>JSON 数据</h4><p>适合程序化处理和数据对接</p></div></div>
+        <div class="modal-option" onclick="exportMarkdown()"><div class="modal-option-icon">📝</div><div class="modal-option-text"><h4>Markdown 文档</h4><p>适合在企业微信/飞书/钉钉等IM中分享</p></div></div>
+        <button class="modal-close" onclick="hideExportModal()">取消</button>
+    </div>
+</div>
+
+<script>
+// ===== 数据分类说明 =====
+// dataType: "article" = 资讯类（文章/公告，有明确发布日期，日期严格匹配来源发布时间）
+// dataType: "patrol"  = 巡检类（官网/平台巡检发现的变化，无明确发布日期，日期为我方发现时间）
+// 巡检类条目的evidence必须说明：怎么发现的、为什么判断是近期变化
+
+const allData = [
+    // ========== 第11周 (3.9 - 3.15) ==========
+
+    // ---- 行业合作 ----
+    {
+        date: "2026-03-11", vendor: "高德", module: "行业合作", product: "AR眼镜", direction: "AR+LBS",
+        dataType: "article",
+        event: "AWE 2026期间，雷鸟创新联合高德地图发布「雷鸟智慧生活」应用，AR扫街榜正式登陆智能眼镜，实现LBS Agent+AR导航+周边快搜三大功能",
+        evidence: "AWE 2026展会期间(3月11日)雷鸟创新与高德地图联合发布，多家媒体同日报道。核心功能：LBS Agent理解用户模糊意图并主动推荐、AR扫街榜基于位置推送高口碑门店、双模导航(HUD+沙盘)",
+        evidenceType: "new",
+        sources: [
+            { name: "新浪财经(3.21转载)", url: "https://cj.sina.com.cn/articles/view/7879848900/1d5acf3c401902ude2" },
+            { name: "腾讯新闻(3.11原始)", url: "https://news.qq.com/rain/a/20260311A06MHR00" },
+            { name: "凤凰财经(3.11)", url: "https://finance.ifeng.com/c/8rPI3XWuPlp" },
+            { name: "腾讯云开发者(3.11)", url: "https://cloud.tencent.com/developer/article/2637011" }
+        ],
+        officialNote: "📌 标志性事件：高德LBS能力首次从手机端延伸至AR眼镜端，开辟「空间计算+本地生活」新赛道",
+        importance: "high", isAI: true
+    },
+
+    // ---- 开放平台 ----
+    {
+        date: "2026-03-11", vendor: "高德", module: "开放平台", product: "Skill×OpenClaw", direction: "SKILL",
+        dataType: "article",
+        event: "高德开放平台Skill适配OpenClaw智能体平台，将地图搜索/规划/可视化/网站生成四大能力发布至ClawHub，支持自然语言调用",
+        evidence: "腾讯云开发者社区2026年3月11日16:23发布高德官方推文。Skill支持四大场景：地点搜索(搜天坛公园)、复杂旅游规划(自动生成路书)、数据可视化(热力图)、网站代码生成(POI搜索应用)",
+        evidenceType: "new",
+        sources: [
+            { name: "腾讯云开发者(3.11)", url: "https://cloud.tencent.com/developer/article/2637005" },
+            { name: "掘金(3.11)", url: "https://juejin.cn/post/7615587928516886569" }
+        ],
+        officialNote: "📌 安装命令：clawhub install amap-jsapi-skill / amap-lbs-skill。高德Skill生态从IDE扩展至AI Agent平台",
+        importance: "high", isAI: true
+    },
+
+    // ========== 第12周 (3.16 - 3.22) ==========
+
+    // ---- 开放平台 ----
+    {
+        date: "2026-03-20", vendor: "高德", module: "开放平台", product: "SKILL专区", direction: "SKILL",
+        dataType: "article",
+        event: "高德开放平台上线Amap SDK Skills，首批发布搜索、规划及数据可视化SKILL，支持AI IDE直接调用地图能力",
+        evidence: "腾讯云开发者社区发布高德官方推广文章\"Skill上新｜高德开放平台上线Amap SDK Skills！\"，文章发布时间2026年3月20日15:58",
+        evidenceType: "announce",
+        sources: [
+            { name: "腾讯云-官方推广文章(3.20发布)", url: "https://cloud.tencent.com/developer/article/2643200" },
+            { name: "高德SKILL专区页面", url: "https://lbs.amap.com/api/skill/ready-to-use/summary" }
+        ],
+        officialNote: "📌 官网同步更新：高德开放平台首页导航栏\"文档与支持\"下新增\"SKILL专区\"入口（标记NEW），与API/JS API/Android等并列",
+        importance: "high", isAI: true
+    },
+
+    // ---- AI ----
+    {
+        date: "2026-03-17", vendor: "高德", module: "AI", product: "MCP Server", direction: "MCP",
+        dataType: "article",
+        event: "高德MCP Server文档更新，推荐Streamable HTTP传输协议接入方式，支持12项地图核心功能快速集成",
+        evidence: "高德MCP Server快速接入文档页面显示最后更新时间2026年3月17日，明确推荐Streamable HTTP方式接入",
+        evidenceType: "update",
+        sources: [
+            { name: "高德MCP Server接入文档(更新3.17)", url: "https://lbs.amap.com/api/mcp-server/gettingstarted" }
+        ],
+        officialNote: "",
+        importance: "high", isAI: true
+    },
+    {
+        date: "2026-03-21", vendor: "百度", module: "AI", product: "MCP Server", direction: "MCP",
+        dataType: "article",
+        event: "百度地图MCP Server即将在腾讯云MCP广场上架，提供逆地理编码、路线规划等10大标准化接口",
+        evidence: "腾讯云开发者MCP广场百度地图页面显示「2天前」更新（约3月21日），页面浏览3.4K，GitHub仓库同步上线",
+        evidenceType: "new",
+        sources: [
+            { name: "腾讯云MCP-百度地图", url: "https://cloud.tencent.com/developer/mcp/server/10007" },
+            { name: "GitHub-百度地图MCP", url: "https://github.com/baidu-maps/mcp" }
+        ],
+        officialNote: "",
+        importance: "high", isAI: true
+    },
+
+    // ---- 行业合作 ----
+    {
+        date: "2026-03-17", vendor: "高德", module: "行业合作", product: "公益地图", direction: "公益地图",
+        dataType: "article",
+        event: "六省市政府部门联合高德推出公益地图：山东/陕西/湖北/辽宁「放心消费」地图、北京「首都公共就业服务地图」、江西「伴手礼」地图",
+        evidence: "经济参考报(新华社旗下)2026年3月17日刊发，中新经纬、网经社、公益时报、环球网等多家媒体同步报道。涵盖消费维权、求职就业、特产推介三大场景",
+        evidenceType: "report",
+        sources: [
+            { name: "经济参考报(3.17)", url: "http://jjckb.xinhuanet.com/20260317/d7c278b4983942478337ed09ffa366cb/c.html" },
+            { name: "中国经济网(3.17)", url: "http://www.ce.cn/cysc/tech/gd2012/202603/t20260317_2833656.shtml" },
+            { name: "新浪新闻转载", url: "https://news.sina.cn/minsheng/2026-03-17/detail-inhrhttn5383089.d.html?vt=4" },
+            { name: "网经社转载", url: "https://www.100ec.cn/detail--6657615.html" }
+        ],
+        officialNote: "📌 北京站融入AI Agent与大模型技术，智能生成供需分析报告与薪资参考，主动推送匹配岗位",
+        importance: "high", isAI: false
+    },
+    {
+        date: "2026-03-20", vendor: "高德", module: "行业合作", product: "公益地图", direction: "公益地图",
+        dataType: "article",
+        event: "北京市人社局联合高德地图发布「首都公共就业服务地图」，首批上线近60个就业服务实体，搜索\"就业\"一键获取岗位查询、简历投递等服务",
+        evidence: "北京日报客户端3月23日报道(事件发生3月20日)，北京朝阳区政府网站同步转载。3个示范站点率先搭载AI智能体服务",
+        evidenceType: "report",
+        sources: [
+            { name: "人民网-北京频道(3.20)", url: "http://bj.people.com.cn/n2/2026/0320/c14540-41529300.html" },
+            { name: "北京日报(3.23报道)", url: "https://news.bjd.com.cn/2026/03/23/11646470.shtml" }
+        ],
+        officialNote: "📌 系统根据用户定位自动推送3~15公里范围内的服务资讯，深度融入AI Agent与大模型技术",
+        importance: "high", isAI: true
+    },
+    {
+        date: "2026-03-17", vendor: "高德", module: "行业合作", product: "安全预警", direction: "鹰眼守护",
+        dataType: "article",
+        event: "小牛电动发布全球首款AI两轮车机系统「灵犀AIOS」，高德地图作为核心供应链合作伙伴提供「鹰眼守护」全域安全预警体系，融合时空大数据+云端AI实现超视距感知预警",
+        evidence: "发布会3月17日在北京举办，小牛官网/新浪财经/IT之家/TechWeb/中国日报/InfoQ/知乎等10+媒体报道。灵犀AIOS搭载Qwen3.5大模型，高德提供鹰眼守护+AR实景导航。合作伙伴含高通/斑马/高德/禾赛等",
+        evidenceType: "report",
+        sources: [
+            { name: "小牛电动官网(3.17)", url: "https://www.niu.com/newsroom/130" },
+            { name: "腾讯新闻/北京日报(3.19)", url: "https://news.qq.com/rain/a/20260319A03DDN00" },
+            { name: "IT之家(3.17)", url: "https://www.ithome.com/0/930/013.htm" },
+            { name: "新浪财经/TechWeb(3.17)", url: "https://finance.sina.com.cn/tech/roll/2026-03-17/doc-inhrikri7958867.shtml" },
+            { name: "中国日报(3.18)", url: "https://cn.chinadaily.com.cn/a/202603/18/WS69ba1580a310942cc49a3b56.html" }
+        ],
+        officialNote: "📌 标志性事件：高德开放平台时空大数据+鹰眼守护首次赋能两轮电动车安全领域。高德与高通/斑马/禾赛等同列核心供应链",
+        importance: "high", isAI: true
+    },
+    {
+        date: "2026-03-17", vendor: "高德", module: "行业合作", product: "系统集成", direction: "OS集成",
+        dataType: "article",
+        event: "vivo OriginOS 6原子通知新增支持高德驾车实时导航信息显示，系统级入口整合地图核心数据",
+        evidence: "IT之家(搜狐转载)3月17日报道。vivo原子岛整合地图导航：骑行/步行支持高德+百度，新增驾车导航仅支持高德；打车服务同时接入高德+百度+滴滴",
+        evidenceType: "report",
+        sources: [
+            { name: "搜狐/IT之家(3.17)", url: "https://www.sohu.com/a/997712919_114760" }
+        ],
+        officialNote: "📌 竞争态势：驾车导航仅接入高德（百度暂未支持），高德在系统级入口竞争中占得先机",
+        importance: "high", isAI: false
+    },
+    {
+        date: "2026-03-20", vendor: "百度", module: "行业合作", product: "智慧停车", direction: "智慧城市",
+        dataType: "article",
+        event: "青岛「青岛停车」智慧平台日均向百度、高德推送动态停车数据近80万次，47万泊位实现一键导航",
+        evidence: "央广网3月20日报道。平台联网接入1669个停车场、47万泊位，App注册用户242万。日均向百度/高德推送数据80万次。金家岭立交桥下实现全国首个车位级导航",
+        evidenceType: "report",
+        sources: [
+            { name: "腾讯新闻/央广网(3.20)", url: "https://news.qq.com/rain/a/20260320A08XCN00" }
+        ],
+        officialNote: "",
+        importance: "medium", isAI: false
+    },
+    {
+        date: "2026-03-19", vendor: "百度", module: "行业合作", product: "数据应用", direction: "充电网络",
+        dataType: "article",
+        event: "基于百度地图2026年3月充电站数据的分析报道：15座城市充电站超2千个，揭示百度地图在新能源POI数据领域的覆盖能力",
+        evidence: "腾讯新闻3月19日发布(作者\"安安小小姐姐说城市\")。文章明确以百度地图数据为基础，分析全国充电站分布。反映百度地图在充电桩POI数据领域的领先覆盖",
+        evidenceType: "report",
+        sources: [
+            { name: "腾讯新闻(3.19)", url: "https://news.qq.com/rain/a/20260318A01ZDK00" }
+        ],
+        officialNote: "",
+        importance: "medium", isAI: false
+    },
+    {
+        date: "2026-03-17", vendor: "高德", module: "行业合作", product: "顺风车合规", direction: "出行监管",
+        dataType: "article",
+        event: "常州交通部门约谈滴滴、高德、百度等8家顺风车平台企业，督促打击\"伪顺风车\"非法营运",
+        evidence: "腾讯新闻3月17日发布(来源\"常州发布\")。被约谈8家企业含百度地图、高德打车、腾讯出行(腾讯地图)、美团打车、滴滴、嘀嗒、哈啰、同程",
+        evidenceType: "report",
+        sources: [
+            { name: "腾讯新闻/常州发布(3.17)", url: "https://news.qq.com/rain/a/20260317A02FAX00" }
+        ],
+        officialNote: "",
+        importance: "low", isAI: false
+    },
+
+    // ---- 开发者运营 ----
+    {
+        date: "2026-03-19", vendor: "高德", module: "开放平台", product: "开发者运营", direction: "SKILL",
+        dataType: "article",
+        event: "高德开放平台发起「OpenClaw开发者专属福利」活动，注册新用户调用Skill即可领取32元瑞幸咖啡券，活动截至3月27日",
+        evidence: "SegmentFault思否2026年3月19日发布高德官方推广文章。活动标语\"码力全开，福利满杯\"，面向OpenClaw平台开发者推广Skill能力",
+        evidenceType: "announce",
+        sources: [
+            { name: "SegmentFault(3.19)", url: "https://segmentfault.com/a/1190000047663873" }
+        ],
+        officialNote: "📌 开发者拉新策略：通过福利活动推动Skill生态用户增长，截止日3月27日",
+        importance: "medium", isAI: true
+    },
+    {
+        date: "2026-03-20", vendor: "高德", module: "开放平台", product: "Amap SDK Skills", direction: "SKILL",
+        dataType: "article",
+        event: "高德Amap SDK Skills上线公告同步分发至腾讯云、SegmentFault、51CTO、InfoQ、CSDN、技术栈等6+主流开发者社区，覆盖RTOS/Android/iOS三大平台SDK",
+        evidence: "腾讯云(3.20)、SegmentFault(3.20)、51CTO(3.20)、InfoQ(3.20)、CSDN(3.20)、技术栈(3.21)同步发布\"Skill上新\"推文。GitHub仓库amap-demo/amap-sdk-skills同步上线",
+        evidenceType: "announce",
+        sources: [
+            { name: "腾讯云(3.20)", url: "https://cloud.tencent.com/developer/article/2643200" },
+            { name: "SegmentFault(3.20)", url: "https://segmentfault.com/a/1190000047666371" },
+            { name: "51CTO(3.20)", url: "https://blog.51cto.com/u_17390245/14518801" },
+            { name: "GitHub仓库", url: "https://github.com/amap-demo/amap-sdk-skills" }
+        ],
+        officialNote: "📌 高德首次将开放平台SDK文档打包为AI IDE Skill形态，覆盖RTOS/Android/iOS全平台，大规模多渠道分发",
+        importance: "high", isAI: true
+    },
+
+    // ---- 官网产品动态监控（巡检类）----
+    {
+        date: "2026-03-20", vendor: "高德", module: "官网动态", product: "SKILL专区", direction: "SKILL",
+        dataType: "patrol",
+        event: "SKILL专区新增至高德开放平台首页导航栏，成为与API/SDK并列的全新服务形态",
+        evidence: "访问高德开放平台首页(lbs.amap.com)确认导航栏\"文档与支持\"下新增\"SKILL专区\"入口（标记NEW），与API/JS API/Android等并列；此前不存在该入口",
+        evidenceType: "new",
+        sources: [
+            { name: "高德SKILL专区（导航栏入口）", url: "https://lbs.amap.com/api/skill/ready-to-use/summary" }
+        ],
+        officialNote: "",
+        importance: "high", isAI: true
+    },
+    {
+        date: "2026-03-19", vendor: "百度", module: "官网动态", product: "具身智能", direction: "具身智能",
+        dataType: "patrol",
+        event: "百度官网首页展示具身智能解决方案，作为新兴热门行业方向重点推荐",
+        evidence: "访问百度地图开放平台首页(lbsyun.baidu.com)，页脚\"热门解决方案\"列表中新增\"具身智能\"为第一位入口，此前不存在该入口；解决方案专题页(lbsyun.baidu.com/solutions/embodied)链接已上线但内容仍在建设中",
+        evidenceType: "new",
+        sources: [
+            { name: "百度具身智能解决方案页", url: "https://lbsyun.baidu.com/solutions/embodied" }
+        ],
+        officialNote: "",
+        importance: "high", isAI: true
+    },
+    {
+        date: "2026-03-18", vendor: "高德", module: "官网动态", product: "智能客服", direction: "智能客服",
+        dataType: "patrol",
+        event: "高德开放平台智能客服全新上线，7×24h秒级答疑+直连人工支持",
+        evidence: "访问高德开放平台FAQ页面(lbs.amap.com/faq)底部确认新增\"智能客服\"入口按钮，点击后弹出AI客服对话窗口；此前该入口不存在",
+        evidenceType: "new",
+        sources: [
+            { name: "高德FAQ页-智能客服入口", url: "https://lbs.amap.com/faq" }
+        ],
+        officialNote: "",
+        importance: "medium", isAI: false
+    },
+    {
+        date: "2026-03-18", vendor: "高德", module: "官网动态", product: "协议公告", direction: "协议公告",
+        dataType: "patrol",
+        event: "高德开放平台服务协议更新、基础服务日配额取消公告正式发布",
+        evidence: "访问高德公告中心(lbs.amap.com/news)确认存在《服务协议更新公告》(2025.07.31)和《基础服务日配额取消公告》(2025.05.15)两项公告，当前仍为最新有效公告，直接影响开发者接入策略",
+        evidenceType: "announce",
+        sources: [
+            { name: "高德公告中心", url: "https://lbs.amap.com/news" }
+        ],
+        officialNote: "",
+        importance: "medium", isAI: false
+    },
+    {
+        date: "2026-03-18", vendor: "百度", module: "官网动态", product: "鸿蒙NEXT SDK", direction: "鸿蒙生态",
+        dataType: "patrol",
+        event: "百度地图HarmonyOS NEXT全套SDK（地图/定位/导航/鹰眼/司乘同显）持续更新迭代",
+        evidence: "访问百度地图鸿蒙NEXT SDK独立文档站(lbsyun.baidu.com/index.php?title=harmonyos-mapsdk)，确认涵盖地图/定位/导航/鹰眼/司乘同显五大模块文档，文档站持续维护中",
+        evidenceType: "update",
+        sources: [
+            { name: "百度鸿蒙NEXT SDK文档站", url: "https://lbsyun.baidu.com/index.php?title=harmonyos-mapsdk" }
+        ],
+        officialNote: "",
+        importance: "medium", isAI: false
+    },
+
+    // ========== 第13周 (3.23 - 3.29) ==========
+    {
+        date: "2026-03-23", vendor: "百度", module: "AI", product: "MCP Server", direction: "MCP",
+        dataType: "article",
+        event: "百度地图MCP Server正式在腾讯云MCP广场上架，提供逆地理编码、路线规划等10大标准化接口，支持Claude等智能助手开箱即用",
+        evidence: "腾讯云MCP广场百度地图页面显示上架日期2026-03-23。注：百度地图MCP服务此前已开源支持，本次为正式入驻腾讯云MCP广场分发渠道",
+        evidenceType: "new",
+        sources: [
+            { name: "腾讯云MCP广场-百度地图(上架3.23)", url: "https://cloud.tencent.com/developer/mcp/server/10007" },
+            { name: "GitHub-baidu-maps/mcp", url: "https://github.com/baidu-maps/mcp" }
+        ],
+        officialNote: "",
+        importance: "high", isAI: true
+    },
+    {
+        date: "2026-03-23", vendor: "高德", module: "行业合作", product: "公益地图", direction: "公益地图",
+        dataType: "article",
+        event: "「首都公共就业服务地图」正式入驻高德地图，北京青年报等多家媒体集中报道",
+        evidence: "北京青年报(腾讯新闻转载)3月23日报道。首批上线近60个就业服务实体，首批3个AI智能体示范站点启用",
+        evidenceType: "report",
+        sources: [
+            { name: "腾讯新闻/北京青年报(3.23)", url: "https://news.qq.com/rain/a/20260323A03FY400" },
+            { name: "朝阳区政府网(3.23)", url: "https://www.bjchp.gov.cn/cpqzf/315734/tzgg27/2026032311020632857/index.html" }
+        ],
+        officialNote: "",
+        importance: "medium", isAI: true
+    },
+];
+
+// ===== 周定义 =====
+const weeks = [
+    { id: "w11", label: "第11周", start: "2026-03-09", end: "2026-03-15", display: "2026.03.09 — 2026.03.15" },
+    { id: "w12", label: "第12周", start: "2026-03-16", end: "2026-03-22", display: "2026.03.16 — 2026.03.22" },
+    { id: "w13", label: "第13周", start: "2026-03-23", end: "2026-03-29", display: "2026.03.23 — 2026.03.29" },
+];
+
+let currentWeekIndex = 1;
+let currentTab = 'overview';
+
+function initWeek() {
+    const today = "2026-03-23";
+    for (let i = weeks.length - 1; i >= 0; i--) {
+        if (today >= weeks[i].start && today <= weeks[i].end) {
+            currentWeekIndex = i;
+            break;
+        }
+    }
+}
+
+function getWeekData(weekIndex) {
+    const w = weeks[weekIndex];
+    return allData.filter(d => d.date >= w.start && d.date <= w.end);
+}
+
+function filterByTab(data, tab) {
+    switch (tab) {
+        case 'overview': return data;
+        case 'amap': return data.filter(d => d.vendor === '高德');
+        case 'bmap': return data.filter(d => d.vendor === '百度');
+        case 'ai': return data.filter(d => d.isAI);
+        default: return data;
+    }
+}
+
+function render() {
+    const weekData = getWeekData(currentWeekIndex);
+    const w = weeks[currentWeekIndex];
+
+    document.getElementById('headerWeekBadge').textContent = `2026年 ${w.label}`;
+    document.getElementById('count-all').textContent = weekData.length;
+    document.getElementById('count-amap').textContent = weekData.filter(d => d.vendor === '高德').length;
+    document.getElementById('count-bmap').textContent = weekData.filter(d => d.vendor === '百度').length;
+    document.getElementById('count-ai').textContent = weekData.filter(d => d.isAI).length;
+
+    renderSection('section-overview', weekData, w, 'overview');
+    renderSection('section-amap', weekData, w, 'amap');
+    renderSection('section-bmap', weekData, w, 'bmap');
+    renderSection('section-ai', weekData, w, 'ai');
+}
+
+function renderSection(sectionId, allWeekData, w, tabType) {
+    let data;
+    switch (tabType) {
+        case 'amap': data = allWeekData.filter(d => d.vendor === '高德'); break;
+        case 'bmap': data = allWeekData.filter(d => d.vendor === '百度'); break;
+        case 'ai': data = allWeekData.filter(d => d.isAI); break;
+        default: data = allWeekData;
+    }
+
+    const amapCount = data.filter(d => d.vendor === '高德').length;
+    const bmapCount = data.filter(d => d.vendor === '百度').length;
+    const aiCount = data.filter(d => d.isAI).length;
+
+    const platform = data.filter(d => d.module === '开放平台');
+    const bigdata = data.filter(d => d.module === '大数据');
+    const ai = data.filter(d => d.isAI);
+    const official = data.filter(d => d.module === '官网动态');
+    const collab = data.filter(d => d.module === '行业合作');
+
+    let statsHtml;
+    if (tabType === 'overview') {
+        statsHtml = `
+            <div class="stat-card"><div class="stat-label">本周资讯总数</div><div class="stat-value">${data.length}</div></div>
+            <div class="stat-card"><div class="stat-label">高德动态</div><div class="stat-value amap">${amapCount}</div></div>
+            <div class="stat-card"><div class="stat-label">百度动态</div><div class="stat-value bmap">${bmapCount}</div></div>
+            <div class="stat-card"><div class="stat-label">AI相关</div><div class="stat-value ai">${aiCount}</div></div>`;
+    } else if (tabType === 'ai') {
+        const mcp = data.filter(d => (d.direction||'').includes('MCP')).length;
+        const agent = data.filter(d => (d.direction||'').includes('Agent') || (d.direction||'').includes('SKILL')).length;
+        statsHtml = `
+            <div class="stat-card"><div class="stat-label">AI专题资讯</div><div class="stat-value ai">${data.length}</div></div>
+            <div class="stat-card"><div class="stat-label">MCP相关</div><div class="stat-value" style="color:#34d399;">${mcp}</div></div>
+            <div class="stat-card"><div class="stat-label">Agent/Skill</div><div class="stat-value" style="color:#60a5fa;">${agent}</div></div>
+            <div class="stat-card"><div class="stat-label">高德</div><div class="stat-value amap">${data.filter(d=>d.vendor==='高德').length}</div></div>`;
+    } else {
+        const vendorName = tabType === 'amap' ? '高德' : '百度';
+        const collabCount = collab.length;
+        statsHtml = `
+            <div class="stat-card"><div class="stat-label">${vendorName}本周资讯</div><div class="stat-value ${tabType}">${data.length}</div></div>
+            <div class="stat-card"><div class="stat-label">行业合作</div><div class="stat-value" style="color:#34d399;">${collabCount}</div></div>
+            <div class="stat-card"><div class="stat-label">官网动态</div><div class="stat-value" style="color:#fbbf24;">${official.length}</div></div>
+            <div class="stat-card"><div class="stat-label">AI相关</div><div class="stat-value" style="color:#a78bfa;">${ai.length}</div></div>`;
+    }
+
+    const cols = tabType === 'ai' ? colsAI : (tabType === 'overview' ? colsFull : colsNoVendor);
+    const moduleData = tabType === 'ai' ? [{ type: 'ai', icon: '🤖', title: 'AI · MCP · 空间智能 · Agent · Skill', sub: '强AI属性资讯独立汇总', items: data }]
+        : [
+            { type: 'platform', icon: '🔌', title: '开放平台', sub: tabType === 'amap' ? '高德 lbs.amap.com' : tabType === 'bmap' ? '百度 lbsyun.baidu.com' : '高德 lbs.amap.com | 百度 lbsyun.baidu.com 的开放平台资讯', items: platform },
+            { type: 'official', icon: '🌐', title: '官网产品动态监控', sub: tabType === 'amap' ? '高德 lbs.amap.com' : tabType === 'bmap' ? '百度 lbsyun.baidu.com' : '高德 lbs.amap.com | 百度 lbsyun.baidu.com 的产品级更新', items: official },
+            { type: 'platform', icon: '🤝', title: '行业合作·生态拓展', sub: '硬件合作、政企合作、OS集成、安全出行等行业级动态', items: collab },
+            { type: 'ai', icon: '🤖', title: 'AI · MCP · Agent', sub: '强AI属性资讯', items: ai },
+            { type: 'bigdata', icon: '📊', title: '大数据', sub: '先机、云睿、慧眼、星河大数据等', items: bigdata },
+        ];
+
+    let modulesHtml = '';
+    moduleData.forEach(m => {
+        modulesHtml += buildModule(m.type, m.icon, m.title, m.sub, m.items, cols);
+    });
+
+    document.getElementById(sectionId).innerHTML = `
+        <div class="stats-bar">${statsHtml}</div>
+        ${buildWeekNav(w)}
+        ${modulesHtml}
+    `;
+}
+
+function buildWeekNav(weekInfo) {
+    const prevDisabled = currentWeekIndex <= 0 ? 'disabled' : '';
+    const nextDisabled = currentWeekIndex >= weeks.length - 1 ? 'disabled' : '';
+    return `<div class="week-nav">
+        <span class="week-label">📅 周期选择</span>
+        <button class="week-nav-btn" onclick="changeWeek(-1)" ${prevDisabled}>◀</button>
+        <span class="week-range">${weekInfo.label} | ${weekInfo.display}</span>
+        <button class="week-nav-btn" onclick="changeWeek(1)" ${nextDisabled}>▶</button>
+    </div>`;
+}
+
+function buildTable(items, columns) {
+    if (items.length === 0) {
+        return `<div class="empty-state"><div class="empty-state-icon">📭</div><p>本周暂无相关资讯</p><p style="font-size:12px;margin-top:4px;color:#4b5563;">如有新动态将及时补充</p></div>`;
+    }
+    let html = '<table class="news-table"><thead><tr>';
+    columns.forEach(col => { html += `<th style="width:${col.width||'auto'}">${col.label}</th>`; });
+    html += '</tr></thead><tbody>';
+    items.sort((a, b) => b.date.localeCompare(a.date));
+    items.forEach(item => {
+        html += '<tr>';
+        columns.forEach(col => { html += `<td>${col.render(item)}</td>`; });
+        html += '</tr>';
+    });
+    html += '</tbody></table>';
+    return html;
+}
+
+function buildModule(type, icon, title, subtitle, items, cols) {
+    return `<div class="module-section">
+        <div class="module-header">
+            <div class="module-icon ${type}">${icon}</div>
+            <div><div class="module-title">${title}</div><div class="module-subtitle">${subtitle}</div></div>
+        </div>
+        ${buildTable(items, cols)}
+    </div>`;
+}
+
+function importanceHtml(level) { return `<span class="importance ${level}"></span>`; }
+
+function vendorHtml(vendor) {
+    return vendor === '高德' ? '<span class="vendor-tag amap">高德</span>' : '<span class="vendor-tag bmap">百度</span>';
+}
+
+function dataTypeHtml(item) {
+    if (item.dataType === 'article') return '<span class="data-type-tag article">资讯</span>';
+    if (item.dataType === 'patrol') return '<span class="data-type-tag patrol">巡检</span>';
+    return '';
+}
+
+function eventHtml(item) {
+    let text = item.event.replace(/\"([^\"]+)\"/g, '<span class="event-highlight">$1</span>');
+    ['SKILL专区', 'Amap SDK Skills', 'MCP Server', 'MCP协议', 'MCP广场', 'Streamable HTTP', '具身智能', 'HarmonyOS NEXT', 'Claude', '10大标准化接口', '智能客服', '日配额取消', '服务协议', '雷鸟智慧生活', 'AR扫街榜', 'LBS Agent', '鹰眼守护', '公益地图', '首都公共就业服务地图', 'OriginOS 6', '原子通知', 'AI Agent', '充电站', '青岛停车', '车位级导航', '放心消费', 'OpenClaw', 'ClawHub', '灵犀AIOS', 'Qwen3.5'].forEach(h => {
+        if (text.includes(h) && !text.includes(`class="event-highlight">${h}`)) {
+            text = text.replace(h, `<span class="event-highlight">${h}</span>`);
+        }
+    });
+    let html = `<span class="event-desc">${importanceHtml(item.importance)}${text}`;
+    if (item.officialNote) { html += `<span class="official-note">${item.officialNote}</span>`; }
+    html += `</span>`;
+    return html;
+}
+
+function evidenceHtml(item) {
+    const map = { 'new': {l:'新增',c:'new'}, 'update': {l:'更新',c:'update'}, 'announce': {l:'公告',c:'announce'}, 'report': {l:'报道',c:'report'}, 'observe': {l:'监测',c:'observe'} };
+    const tag = map[item.evidenceType] || {l:'监测',c:'observe'};
+    return `<div class="evidence-cell"><span class="evidence-tag ${tag.c}">${tag.l}</span> ${item.evidence}</div>`;
+}
+
+function sourceHtml(item) {
+    if (!item.sources || item.sources.length === 0) return '-';
+    if (item.sources.length === 1) return `<a class="source-link" href="${item.sources[0].url}" target="_blank">${item.sources[0].name}</a>`;
+    let html = '<div class="source-links">';
+    item.sources.forEach(s => { html += `<a class="source-link" href="${s.url}" target="_blank">${s.name}</a>`; });
+    html += '</div>';
+    return html;
+}
+
+const colsFull = [
+    { label: '日期', width: '90px', render: i => `<span class="date-cell">${i.date}</span>${dataTypeHtml(i)}` },
+    { label: '厂商', width: '70px', render: i => vendorHtml(i.vendor) },
+    { label: '产品线', width: '85px', render: i => `<span class="product-tag">${i.product}</span>` },
+    { label: '核心事件', width: '', render: i => eventHtml(i) },
+    { label: '信息判断', width: '260px', render: i => evidenceHtml(i) },
+    { label: '信息来源', width: '180px', render: i => sourceHtml(i) },
+];
+
+const colsNoVendor = [
+    { label: '日期', width: '90px', render: i => `<span class="date-cell">${i.date}</span>${dataTypeHtml(i)}` },
+    { label: '产品线', width: '85px', render: i => `<span class="product-tag">${i.product}</span>` },
+    { label: '核心事件', width: '', render: i => eventHtml(i) },
+    { label: '信息判断', width: '260px', render: i => evidenceHtml(i) },
+    { label: '信息来源', width: '180px', render: i => sourceHtml(i) },
+];
+
+const colsAI = [
+    { label: '日期', width: '90px', render: i => `<span class="date-cell">${i.date}</span>${dataTypeHtml(i)}` },
+    { label: '厂商', width: '70px', render: i => vendorHtml(i.vendor) },
+    { label: 'AI方向', width: '100px', render: i => `<span class="product-tag">${i.direction || i.product}</span>` },
+    { label: '核心事件', width: '', render: i => eventHtml(i) },
+    { label: '信息判断', width: '260px', render: i => evidenceHtml(i) },
+    { label: '信息来源', width: '180px', render: i => sourceHtml(i) },
+];
+
+function switchTab(tab, el) {
+    currentTab = tab;
+    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+    document.querySelectorAll('.vendor-section').forEach(s => s.classList.remove('active'));
+    document.getElementById('section-' + tab).classList.add('active');
+}
+
+function changeWeek(delta) {
+    const newIndex = currentWeekIndex + delta;
+    if (newIndex >= 0 && newIndex < weeks.length) {
+        currentWeekIndex = newIndex;
+        render();
+        document.querySelectorAll('.vendor-section').forEach(s => s.classList.remove('active'));
+        document.getElementById('section-' + currentTab).classList.add('active');
+    }
+}
+
+function showExportModal() {
+    const w = weeks[currentWeekIndex];
+    document.getElementById('exportWeekHint').textContent = `📅 将导出 ${w.label}（${w.display}）的数据`;
+    document.getElementById('exportModal').classList.add('active');
+}
+function hideExportModal() { document.getElementById('exportModal').classList.remove('active'); }
+
+function getCurrentExportData() { return filterByTab(getWeekData(currentWeekIndex), currentTab); }
+
+function exportCSV() {
+    const data = getCurrentExportData(); const w = weeks[currentWeekIndex];
+    let csv = '\uFEFF日期,数据类型,厂商,模块,产品线,核心事件,官网同步更新,信息判断,判断类型,信息来源,来源链接,是否AI相关\n';
+    data.forEach(i => {
+        const dt = i.dataType === 'article' ? '资讯' : '巡检';
+        csv += `"${i.date}","${dt}","${i.vendor}","${i.module}","${i.product}","${i.event}","${i.officialNote||''}","${i.evidence}","${i.evidenceType}","${i.sources.map(s=>s.name).join(' | ')}","${i.sources.map(s=>s.url).join(' | ')}","${i.isAI?'是':'否'}"\n`;
+    });
+    downloadFile(csv, `竞品监控-${w.label}-${currentTab}-${getDateStr()}.csv`, 'text/csv;charset=utf-8');
+    hideExportModal();
+}
+
+function exportJSON() {
+    const data = getCurrentExportData(); const w = weeks[currentWeekIndex];
+    downloadFile(JSON.stringify({ week: w.label, period: w.display, tab: currentTab, exportTime: new Date().toISOString(), count: data.length, data }, null, 2), `竞品监控-${w.label}-${currentTab}-${getDateStr()}.json`, 'application/json');
+    hideExportModal();
+}
+
+function exportMarkdown() {
+    const data = getCurrentExportData(); const w = weeks[currentWeekIndex];
+    let md = `# 地图竞品动态监控周报\n\n> 周期: ${w.display} (${w.label})\n> 导出: ${new Date().toLocaleString('zh-CN')}\n> 📰 资讯=来源发布时间 | 🔍 巡检=我方发现时间\n\n`;
+    md += `| 日期 | 类型 | 厂商 | 产品 | 核心事件 | 信息判断 | 来源 |\n|------|------|------|------|----------|----------|------|\n`;
+    data.forEach(i => {
+        const dt = i.dataType === 'article' ? '📰资讯' : '🔍巡检';
+        const src = i.sources.map(s => `[${s.name}](${s.url})`).join(' ');
+        md += `| ${i.date} | ${dt} | ${i.vendor} | ${i.product} | ${i.event}${i.officialNote?' '+i.officialNote:''} | ${i.evidence} | ${src} |\n`;
+    });
+    downloadFile(md, `竞品监控-${w.label}-${currentTab}-${getDateStr()}.md`, 'text/markdown');
+    hideExportModal();
+}
+
+function downloadFile(content, filename, type) {
+    const blob = new Blob([content], { type }); const url = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url; a.download = filename; a.click(); URL.revokeObjectURL(url);
+}
+
+function getDateStr() { const d = new Date(); return `${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}`; }
+
+document.getElementById('exportModal').addEventListener('click', function(e) { if (e.target === this) hideExportModal(); });
+
+initWeek();
+render();
+</script>
+</body>
+</html>
