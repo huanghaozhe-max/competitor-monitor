@@ -515,6 +515,39 @@ const allData = [
         officialNote: "",
         importance: "medium", isAI: true
     },
+
+    // ---- 开放平台 ----
+    {
+        date: "2026-03-23", vendor: "高德", module: "开放平台", product: "Skill×OpenClaw", direction: "SKILL",
+        dataType: "article",
+        event: "高德开放平台Skills适配OpenClaw获TechWeb、凤凰科技、太平洋电脑网、ITBEAR等主流科技媒体集中报道，标志Skill生态进入大众传播阶段",
+        evidence: "TechWeb 3月23日15:37首发，凤凰科技(3.23 15:45)、太平洋电脑网(3.23)、ITBEAR(3.23)、CITNews(3.23)等同日密集发稿。此前3月11日腾讯云开发者社区/掘金为开发者渠道首发，本次为科技大众媒体的第二波集中报道",
+        evidenceType: "report",
+        sources: [
+            { name: "TechWeb(3.23)", url: "https://finance.sina.com.cn/tech/roll/2026-03-23/doc-inhryhiv4172326.shtml" },
+            { name: "凤凰科技(3.23)", url: "https://tech.ifeng.com/c/8rjHyGG48NF" },
+            { name: "太平洋电脑网(3.23)", url: "https://www.pconline.com.cn/ai/2119/21195375.html" },
+            { name: "ITBEAR(3.23)", url: "https://www.itbear.com.cn/html/2026-03/1227493.html" }
+        ],
+        officialNote: "📌 从开发者社区(3.11)到科技大众媒体(3.23)的传播升级，高德Skill×OpenClaw进入大众认知阶段",
+        importance: "high", isAI: true
+    },
+
+    // ---- 行业合作 ----
+    {
+        date: "2026-03-23", vendor: "高德", module: "行业合作", product: "司机驿站", direction: "民生出行",
+        dataType: "article",
+        event: "多地交通部门联合高德上线超2100个司机驿站，覆盖全国30省份，出租车/网约车/货车司机可一图查询歇脚点",
+        evidence: "中国消费网3月23日报道(同花顺财经转载)。全国累计超2100个出租汽车司机驿站和货车司机之家在高德地图上线，覆盖30个省份。搜索「司机驿站」可查周边驿站信息、服务设施和开放时间。鹰眼守护预警系统同步服务货车司机安全",
+        evidenceType: "report",
+        sources: [
+            { name: "同花顺/中国消费网(3.23)", url: "https://news.10jqka.com.cn/20260323/c675464706.shtml" },
+            { name: "新浪财经/上游新闻(3.13)", url: "https://finance.sina.com.cn/stock/t/2026-03-13/doc-inhqvnzn1062944.shtml" },
+            { name: "中国交通报(3.5首发)", url: "https://www.zgjtb.com/2026-03/05/content_510042.html" }
+        ],
+        officialNote: "📌 从200座合作出行企业司机服务中心扩展至2100+全行业驿站，覆盖出租车+网约车+货车三大群体。搭载鹰眼守护预警系统服务货车司机安全",
+        importance: "high", isAI: false
+    },
 ];
 
 // ===== 周定义 =====
@@ -528,7 +561,7 @@ let currentWeekIndex = 1;
 let currentTab = 'overview';
 
 function initWeek() {
-    const today = "2026-03-23";
+    const today = "2026-03-24";
     for (let i = weeks.length - 1; i >= 0; i--) {
         if (today >= weeks[i].start && today <= weeks[i].end) {
             currentWeekIndex = i;
