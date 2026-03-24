@@ -177,7 +177,7 @@
             <h1>🗺️ 地图竞品动态监控 · ToB周报</h1>
             <div style="display:flex;gap:12px;margin-top:8px;">
                 <span class="week-badge" id="headerWeekBadge">2026年 第12周</span>
-                <span class="update-time">更新时间: 2026-03-23 17:15</span>
+                <span class="update-time">更新时间: 2026-03-24 09:30</span>
             </div>
         </div>
         <div class="controls">
@@ -259,6 +259,55 @@ const allData = [
         importance: "high", isAI: true
     },
 
+    // ========== 补录：第10-11周重大事件 ==========
+
+    // ---- 鸿蒙生态 ----
+    {
+        date: "2026-03-06", vendor: "高德", module: "行业合作", product: "鸿蒙AR导航", direction: "鸿蒙生态",
+        dataType: "article",
+        event: "高德地图基于HarmonyOS SDK AR Engine，在鸿蒙版App首发AR实景步行导航功能，解决复杂场景下'我在哪、往哪走'的痛点",
+        evidence: "IT之家3月6日首发报道，华为手机官方同日介绍。新浪财经(3.6)、搜狐(3.6)、百度百家号(3.13)、新浪新闻(3.19)、CSDN(3.19)等多家媒体跟进。功能特性：全场景无缝衔接GPS/VPS、暗光环境稳定、虚实融合导航箭头",
+        evidenceType: "new",
+        sources: [
+            { name: "IT之家(3.6)", url: "https://www.ithome.com/0/926/525.htm" },
+            { name: "新浪财经(3.6)", url: "https://finance.sina.com.cn/stock/t/2026-03-06/doc-inhpzret2604710.shtml" },
+            { name: "搜狐(3.22)", url: "https://www.sohu.com/a/999743060_120248784" },
+            { name: "腾讯新闻(3.10)", url: "https://news.qq.com/rain/a/20260310A04NH100" }
+        ],
+        officialNote: "📌 出行领域首个启动鸿蒙原生开发的应用，鸿蒙安装量已达297万。AR实景导航是高德×华为鸿蒙深度合作的标志性成果",
+        importance: "high", isAI: true
+    },
+
+    // ---- 开放平台 ----
+    {
+        date: "2026-03-06", vendor: "百度", module: "开放平台", product: "Maps UI-Kit", direction: "低代码",
+        dataType: "article",
+        event: "百度地图Maps UI-Kit上新RoutePlan路径规划组件，从地点搜索到路径规划一站式低代码集成",
+        evidence: "掘金3月6日发布百度地图开放平台官方文章。继2月10日首发Places UI-Kit后，新增RoutePlan组件，支持搜完地点直接规划路线。配合Map Skills可实现AI辅助开发",
+        evidenceType: "update",
+        sources: [
+            { name: "掘金(3.6)", url: "https://juejin.cn/post/7613808397826818057" },
+            { name: "百度地图UI-Kit文档站", url: "https://bmap-uikit.bj.bcebos.com/docs/index.html" }
+        ],
+        officialNote: "",
+        importance: "medium", isAI: true
+    },
+
+    // ---- 公益出行 ----
+    {
+        date: "2026-03-04", vendor: "高德", module: "行业合作", product: "实时公交", direction: "公益出行",
+        dataType: "article",
+        event: "阿里公益联合高德地图将实时公交服务延伸至甘肃陇南礼县农村，到站误差小于2分钟，覆盖全国超360城市",
+        evidence: "快科技/新浪财经3月4日报道。高德实时公交已覆盖360+城市，核心城市到站预测准确率87%，首次延伸至乡村地区，针对山区信号弱场景优化算法",
+        evidenceType: "report",
+        sources: [
+            { name: "新浪财经/快科技(3.4)", url: "https://finance.sina.com.cn/tech/discovery/2026-03-04/doc-inhpvpqp7162961.shtml" },
+            { name: "搜狐(3.20评测)", url: "https://www.sohu.com/a/998952046_121704615" }
+        ],
+        officialNote: "",
+        importance: "medium", isAI: false
+    },
+
     // ========== 第12周 (3.16 - 3.22) ==========
 
     // ---- 开放平台 ----
@@ -300,6 +349,23 @@ const allData = [
             { name: "GitHub-百度地图MCP", url: "https://github.com/baidu-maps/mcp" }
         ],
         officialNote: "",
+        importance: "high", isAI: true
+    },
+
+    // ---- 出行AI（行业重要关联动态）----
+    {
+        date: "2026-03-17", vendor: "高德", module: "AI", product: "滴滴小滴", direction: "AI出行",
+        dataType: "article",
+        event: "滴滴AI出行助手「小滴」v1.0正式上线，支持90+服务标签一句话个性化叫车，覆盖扶老携幼、商务接待等场景",
+        evidence: "IT之家3月17日首发，新浪财经/快科技(3.17)、新华网(3.17)、光明网(3.20)同步报道。去年9月公测后正式上线。支持「空气清新」「后备厢大」「驾驶平稳」等90+服务标签。高德打车作为聚合平台在竞争中面临挑战",
+        evidenceType: "new",
+        sources: [
+            { name: "IT之家(3.17)", url: "https://www.ithome.com/0/930/029.htm" },
+            { name: "新浪财经/快科技(3.17)", url: "https://finance.sina.com.cn/tech/discovery/2026-03-17/doc-inhrieim8037071.shtml" },
+            { name: "新华网(3.17)", url: "https://www3.xinhuanet.com/tech/20260317/5df749b54baa416d8587216b2b8a0164/c.html" },
+            { name: "光明网(3.20)", url: "https://economy.gmw.cn/2026-03/20/content_38660045.htm" }
+        ],
+        officialNote: "📌 网约车领域首个正式上线的AI出行助手。57%用户将「又快又便宜」作为核心诉求，12.5%用户明确要求「空气清新」",
         importance: "high", isAI: true
     },
 
@@ -489,6 +555,24 @@ const allData = [
     },
 
     // ========== 第13周 (3.23 - 3.29) ==========
+
+    // ---- AI ----
+    {
+        date: "2026-03-23", vendor: "高德", module: "AI", product: "千问AI打车", direction: "AI出行",
+        dataType: "article",
+        event: "阿里千问App正式上线AI打车功能，用户授权绑定高德账号后可一句话完成选车型、设途经点、预约时间等全流程操作",
+        evidence: "财新网3月23日报道(付费)，腾讯新闻(3.23)、网易(3.23)、澎湃(3.23)、PConline(3.23)、i黑马(3.23)等10+媒体集中报道。千问已陆续整合高德打车、飞猪、淘鲜达等阿里生态资源。千问2026春节期间日活峰值达1.3亿",
+        evidenceType: "new",
+        sources: [
+            { name: "财新网(3.23)", url: "https://companies.caixin.com/2026-03-23/102426455.html" },
+            { name: "腾讯新闻(3.23)", url: "https://news.qq.com/rain/a/20260323A06ROR00" },
+            { name: "网易(3.24)", url: "https://www.163.com/dy/article/KOOC9ROQ055616EC.html" },
+            { name: "i黑马(3.23)", url: "https://www.iheima.com/article-395349.html" }
+        ],
+        officialNote: "📌 战略意义重大：千问(3亿月活)接入高德打车，AI应用从「对话助手」升级为「生活服务入口」。滴滴小滴(3.17)→千问AI打车(3.23)，AI出行赛道一周内密集交锋",
+        importance: "high", isAI: true
+    },
+
     {
         date: "2026-03-23", vendor: "百度", module: "AI", product: "MCP Server", direction: "MCP",
         dataType: "article",
@@ -548,16 +632,33 @@ const allData = [
         officialNote: "📌 从200座合作出行企业司机服务中心扩展至2100+全行业驿站，覆盖出租车+网约车+货车三大群体。搭载鹰眼守护预警系统服务货车司机安全",
         importance: "high", isAI: false
     },
+
+    // ---- 开放平台 ----
+    {
+        date: "2026-03-23", vendor: "百度", module: "开放平台", product: "Map Skills", direction: "SKILL",
+        dataType: "article",
+        event: "百度地图Map Skills获CSDN等多家开发者社区深度报道：AI生成地图代码可用率提升至90%，开发效率提升50%",
+        evidence: "CSDN(3.23)发布深度测评文章。Map Skills于2月2日首发(知乎/掘金)，2月5日官方直播推介，本次为开发者社区的第二轮传播。核心数据：代码可用率90%、效率提升50%、支持JSAPI 4.0-5.3全版本、内置7种应用模板",
+        evidenceType: "report",
+        sources: [
+            { name: "CSDN(3.23)", url: "https://blog.csdn.net/N2314029753_/article/details/159349812" },
+            { name: "知乎(2.2首发)", url: "https://zhuanlan.zhihu.com/p/2001748374148370645" },
+            { name: "GitHub仓库", url: "https://github.com/baidu-maps/jsapi-skills" }
+        ],
+        officialNote: "",
+        importance: "medium", isAI: true
+    },
 ];
 
 // ===== 周定义 =====
 const weeks = [
+    { id: "w10", label: "第10周", start: "2026-03-02", end: "2026-03-08", display: "2026.03.02 — 2026.03.08" },
     { id: "w11", label: "第11周", start: "2026-03-09", end: "2026-03-15", display: "2026.03.09 — 2026.03.15" },
     { id: "w12", label: "第12周", start: "2026-03-16", end: "2026-03-22", display: "2026.03.16 — 2026.03.22" },
     { id: "w13", label: "第13周", start: "2026-03-23", end: "2026-03-29", display: "2026.03.23 — 2026.03.29" },
 ];
 
-let currentWeekIndex = 1;
+let currentWeekIndex = 2;
 let currentTab = 'overview';
 
 function initWeek() {
@@ -719,7 +820,7 @@ function dataTypeHtml(item) {
 
 function eventHtml(item) {
     let text = item.event.replace(/\"([^\"]+)\"/g, '<span class="event-highlight">$1</span>');
-    ['SKILL专区', 'Amap SDK Skills', 'MCP Server', 'MCP协议', 'MCP广场', 'Streamable HTTP', '具身智能', 'HarmonyOS NEXT', 'Claude', '10大标准化接口', '智能客服', '日配额取消', '服务协议', '雷鸟智慧生活', 'AR扫街榜', 'LBS Agent', '鹰眼守护', '公益地图', '首都公共就业服务地图', 'OriginOS 6', '原子通知', 'AI Agent', '充电站', '青岛停车', '车位级导航', '放心消费', 'OpenClaw', 'ClawHub', '灵犀AIOS', 'Qwen3.5'].forEach(h => {
+    ['SKILL专区', 'Amap SDK Skills', 'MCP Server', 'MCP协议', 'MCP广场', 'Streamable HTTP', '具身智能', 'HarmonyOS NEXT', 'Claude', '10大标准化接口', '智能客服', '日配额取消', '服务协议', '雷鸟智慧生活', 'AR扫街榜', 'LBS Agent', '鹰眼守护', '公益地图', '首都公共就业服务地图', 'OriginOS 6', '原子通知', 'AI Agent', '充电站', '青岛停车', '车位级导航', '放心消费', 'OpenClaw', 'ClawHub', '灵犀AIOS', 'Qwen3.5', 'AR实景步行导航', 'AR Engine', 'HarmonyOS SDK', 'Maps UI-Kit', 'RoutePlan', 'Map Skills', '千问', 'AI打车', '小滴', '实时公交', 'JSAPI Skills', '司机驿站'].forEach(h => {
         if (text.includes(h) && !text.includes(`class="event-highlight">${h}`)) {
             text = text.replace(h, `<span class="event-highlight">${h}</span>`);
         }
