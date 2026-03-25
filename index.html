@@ -177,7 +177,7 @@
             <h1>🗺️ 地图竞品动态监控 · ToB周报</h1>
             <div style="display:flex;gap:12px;margin-top:8px;">
                 <span class="week-badge" id="headerWeekBadge">2026年 第12周</span>
-                <span class="update-time">更新时间: 2026-03-24 09:30</span>
+                <span class="update-time">更新时间: 2026-03-25 09:00</span>
             </div>
         </div>
         <div class="controls">
@@ -648,6 +648,38 @@ const allData = [
         officialNote: "",
         importance: "medium", isAI: true
     },
+
+    // ---- 行业合作 ----
+    {
+        date: "2026-03-23", vendor: "高德", module: "行业合作", product: "百亿补贴约谈", direction: "平台监管",
+        dataType: "article",
+        event: "北京市市场监管局联合市商务局、市文旅局约谈12家平台企业，高德地图因\"百亿补贴\"活动已结束但标识仍在酒店板块展示被点名通报，涉嫌误导消费者",
+        evidence: "央视新闻3月23日首发，人民日报(3.24)、澎湃新闻(3.24)、观察者网(3.24)、凤凰科技(3.24)、腾讯新闻/信网(3.24)等多家权威媒体报道。12家被约谈企业含携程、去哪儿、高德、京东、淘宝闪购、美团、飞猪、同程、途家、小猪、抖音、快手。监管部门已送达《行政告诫书》并指导高德完成整改",
+        evidenceType: "report",
+        sources: [
+            { name: "央视新闻(3.23)", url: "https://news.cctv.com/2026/03/23/ARTIcGZ8ke8duNxuSQ4eU42U260323.shtml" },
+            { name: "人民网(3.24)", url: "https://finance.people.com.cn/n1/2026/0324/c1004-40687353.html" },
+            { name: "澎湃新闻(3.24)", url: "https://www.thepaper.cn/newsDetail_forward_32816969" },
+            { name: "腾讯新闻/信网(3.24)", url: "https://news.qq.com/rain/a/20260324A01AF100" }
+        ],
+        officialNote: "📌 高德酒店业务\"百亿补贴\"活动到期未及时撤除促销标识，属于平台运营合规问题。监管部门重点打击\"内卷式\"竞争四大乱象",
+        importance: "medium", isAI: false
+    },
+    {
+        date: "2026-03-24", vendor: "百度", module: "行业合作", product: "AI赏花地图", direction: "智慧文旅",
+        dataType: "article",
+        event: "北京市文化和旅游局联合百度地图推出「北京赏花地图」，覆盖全市主要赏花点位，集成AI智能寻花、花期预报、精选路线及周边服务功能",
+        evidence: "人民网北京频道3月20日首发报道(活动当日)，文化和旅游部官网(3.23)、新京报(3.20)、百度百家号(3.23)、微新创想(3.24)等多家媒体持续跟进。用户在百度地图App搜索\"北京赏花地图\"或\"地区+花种+赏花攻略\"即可使用。同步发布10条\"漫步北京\"品质赏花游主题线路",
+        evidenceType: "new",
+        sources: [
+            { name: "人民网-北京(3.20)", url: "http://bj.people.com.cn/n2/2026/0320/c14540-41529300.html" },
+            { name: "文旅部官网(3.23)", url: "https://www.mct.gov.cn/whzx/qgwhxxlb/bj/202603/t20260323_965091.htm" },
+            { name: "新京报(3.20)", url: "https://m.bjnews.com.cn/detail/1773997498129001.html" },
+            { name: "百度官方推文(3.23)", url: "https://www.visitbeijing.com.cn/article/4QsSgHKLLz0" }
+        ],
+        officialNote: "📌 百度地图在政务+文旅方向的标志性合作。AI能力赋能赏花场景：输入自然语言即可获得智能寻花服务，体现百度地图AI开放平台定位",
+        importance: "high", isAI: true
+    },
 ];
 
 // ===== 周定义 =====
@@ -662,7 +694,7 @@ let currentWeekIndex = 2;
 let currentTab = 'overview';
 
 function initWeek() {
-    const today = "2026-03-24";
+    const today = "2026-03-25";
     for (let i = weeks.length - 1; i >= 0; i--) {
         if (today >= weeks[i].start && today <= weeks[i].end) {
             currentWeekIndex = i;
