@@ -728,6 +728,23 @@ const allData = [
         officialNote: "",
         importance: "medium", isAI: false
     },
+    {
+        date: "2026-03-28", vendor: "高德", module: "行业合作", product: "卒中救治数字地图", direction: "智慧医疗",
+        dataType: "article",
+        event: "国家卫健委百万减残工程专委会携手高德共建「卒中救治数字地图」，天津率先试点上线，用户搜索「卒中中心」可快速定位具备救治能力的医院并一键导航",
+        evidence: "3月28日天津启动仪式，高德董事长刘振飞、吉训明院士出席。新华网(3.28)、天津日报(3.29头版)、中国交通新闻网(3.29)、中华网(3.29)、网易(3.29)、搜狐(3.29)、新浪财经(3.29)、福州新闻网(3.28)等8+家媒体报道。核心功能：卒中中心点位信息整合+出行导航规划，解决患者急救「去哪治」难题。天津已建成25家卒中中心+164家基层卒中救治单元，近十年减少残疾卒中患者累计节约社会资金654亿元",
+        evidenceType: "new",
+        sources: [
+            { name: "新华网(3.28)", url: "http://www.news.cn/tech/20260328/02fd77854b0d4de981b4d78709592d72/c.html" },
+            { name: "天津日报(3.29)", url: "https://epaper.tianjinwe.com/tjrb/html/2026-03/29/content_143080_3273469.htm" },
+            { name: "中国交通新闻网(3.29)", url: "https://www.zgjtb.com/2026-03/29/content_513508.html" },
+            { name: "中华网(3.29)", url: "https://news.china.com/socialgd/10000169/20260329/49365427.html" },
+            { name: "网易(3.29)", url: "https://www.163.com/dy/article/KP4PM07O05506BEH.html" },
+            { name: "搜狐(3.29)", url: "https://www.sohu.com/a/1002452141_121443915" }
+        ],
+        officialNote: "📌 高德空间智能首次进入医疗急救领域，董事长级别出席。卒中为我国居民致死致残首位病因，4.5小时溶栓关键窗口期内快速导航至卒中中心具有救命价值。「医疗+科技」跨界合作标志性事件",
+        importance: "high", isAI: true
+    },
 ];
 
 // ===== 周定义 =====
@@ -901,7 +918,7 @@ function dataTypeHtml(item) {
 
 function eventHtml(item) {
     let text = item.event.replace(/\"([^\"]+)\"/g, '<span class="event-highlight">$1</span>');
-    ['SKILL专区', 'Amap SDK Skills', 'MCP Server', 'MCP协议', 'MCP广场', 'Streamable HTTP', '具身智能', 'HarmonyOS NEXT', 'Claude', '10大标准化接口', '智能客服', '日配额取消', '服务协议', '雷鸟智慧生活', 'AR扫街榜', 'LBS Agent', '鹰眼守护', '公益地图', '首都公共就业服务地图', 'OriginOS 6', '原子通知', 'AI Agent', '充电站', '青岛停车', '车位级导航', '放心消费', 'OpenClaw', 'ClawHub', '灵犀AIOS', 'Qwen3.5', 'AR实景步行导航', 'AR Engine', 'HarmonyOS SDK', 'Maps UI-Kit', 'RoutePlan', 'Map Skills', '千问', 'AI打车', '小滴', '实时公交', 'JSAPI Skills', '司机驿站', '扫街榜', '飞行街景', '烟火澳门支持计划', '金沙中国', '澳门通', 'AI智慧校园', '鲁山一高', '便民快巴', '富临运业'].forEach(h => {
+    ['SKILL专区', 'Amap SDK Skills', 'MCP Server', 'MCP协议', 'MCP广场', 'Streamable HTTP', '具身智能', 'HarmonyOS NEXT', 'Claude', '10大标准化接口', '智能客服', '日配额取消', '服务协议', '雷鸟智慧生活', 'AR扫街榜', 'LBS Agent', '鹰眼守护', '公益地图', '首都公共就业服务地图', 'OriginOS 6', '原子通知', 'AI Agent', '充电站', '青岛停车', '车位级导航', '放心消费', 'OpenClaw', 'ClawHub', '灵犀AIOS', 'Qwen3.5', 'AR实景步行导航', 'AR Engine', 'HarmonyOS SDK', 'Maps UI-Kit', 'RoutePlan', 'Map Skills', '千问', 'AI打车', '小滴', '实时公交', 'JSAPI Skills', '司机驿站', '扫街榜', '飞行街景', '烟火澳门支持计划', '金沙中国', '澳门通', 'AI智慧校园', '鲁山一高', '便民快巴', '富临运业', '卒中救治数字地图', '百万减残', '卒中中心'].forEach(h => {
         if (text.includes(h) && !text.includes(`class="event-highlight">${h}`)) {
             text = text.replace(h, `<span class="event-highlight">${h}</span>`);
         }
