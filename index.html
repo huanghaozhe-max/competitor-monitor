@@ -816,12 +816,14 @@ const allData = [
         date: "2026-04-01", vendor: "高德", module: "开放平台", product: "CLI工具", direction: "AI Agent基建",
         dataType: "article",
         event: "高德开放平台正式上线CLI命令行工具，推出「Skill + CLI + Container」三位一体解决方案，让AI Agent零代码集成地图能力，一行命令即可调用POI搜索、路线规划、地图可视化等全链路功能",
-        evidence: "高德开放平台微信公众号4月1日18:13官方发布。CLI指令集支持amap-gui start/route/search等标准化命令；SKILL技能包指导Agent智能匹配指令；GUI容器实时展示地图操作结果。已同步上架ClawHub(amap-cli-skill)，支持npm全局安装(@amap-lbs/amap-gui)",
+        evidence: "高德开放平台微信公众号4月1日18:13官方发布，AtomGit/CSDN(4.2)转载。CLI指令集支持amap-gui start/route/search等标准化命令；SKILL技能包指导Agent智能匹配指令；GUI容器实时展示地图操作结果。已同步上架ClawHub(amap-cli-skill)，LLMBase平台收录。支持npm全局安装(@amap-lbs/amap-gui)和OpenClaw两种接入方式",
         evidenceType: "new",
         sources: [
             { name: "高德开放平台公众号(4.1)", url: "https://mp.weixin.qq.com/s/LKLboUSJGI3UVfu41Bhh1w" },
-            { name: "高德CLI文档站", url: "https://lbs.amap.com/api/cli/map-cli/summary" },
-            { name: "ClawHub(amap-cli-skill)", url: "https://clawhub.ai/lbs-amap/amap-cli-skill" }
+            { name: "AtomGit/CSDN(4.2)", url: "https://gitcode.csdn.net/69ce352d0a2f6a37c59c8976.html" },
+            { name: "ClawHub(amap-cli-skill)", url: "https://clawhub.ai/lbs-amap/amap-cli-skill" },
+            { name: "LLMBase收录", url: "https://llmbase.ai/openclaw/amap-cli-skill/" },
+            { name: "高德CLI文档站", url: "https://lbs.amap.com/api/cli/map-cli/summary" }
         ],
         officialNote: "📌 重要升级：高德从Skill(自然语言调用)扩展到CLI(命令行调用)，形成SKILL+CLI+MCP三轨并行的AI Agent接入体系。CLI方案比MCP更轻量，比纯Skill更精准可控，标志着地图开放平台从'API服务商'向'AI Agent基础设施'全面转型",
         importance: "high", isAI: true
@@ -830,10 +832,13 @@ const allData = [
         date: "2026-04-01", vendor: "百度", module: "开放平台", product: "Map Agent Plan", direction: "AI Agent基建",
         dataType: "article",
         event: "百度地图开放平台发布Map Agent Plan，为AI Agent提供极简零门槛的地图技能包，基于3.4亿POI数据支持自然语言交互，无需注册认证即可使用",
-        evidence: "百度地图开放平台微信公众号发布。提供双轨方案：路径一Map Agent Plan面向非开发者(零代码Prompt配置)，路径二地图Skills面向开发者(API深度定制)。已适配OpenClaw平台，用户登录lbs.baidu.com/apiconsole/agentplan领取TOKEN后即可使用。应用场景覆盖社交推荐(语义分析筛选咖啡馆)、适老出行(路面平坦度规划)、亲子出行等",
+        evidence: "3月30日SegmentFault/CSDN首批内测招募→4月1日GitHub baidu-maps/map-skills仓库发布v1.0.0→4月2日DoNews快讯正式发布。提供双轨方案：路径一Map Agent Plan面向非开发者(零代码Prompt配置)，路径二地图Skills面向开发者(API深度定制)。已适配OpenClaw平台，领取TOKEN即用。GitHub仓库含baidu-ai-map Skill，覆盖地点检索/路线规划/地理编码/逆地理编码/天气查询五大能力",
         evidenceType: "new",
         sources: [
             { name: "百度地图开放平台公众号", url: "https://mp.weixin.qq.com/s/tCBPVkyseuZXInhybNeOrw" },
+            { name: "DoNews快讯(4.2)", url: "https://www.donews.com/news/detail/8/6496046.html" },
+            { name: "SegmentFault内测招募(3.30)", url: "https://segmentfault.com/a/1190000047683978" },
+            { name: "GitHub baidu-maps/map-skills", url: "https://github.com/baidu-maps/map-skills" },
             { name: "百度Map Agent Plan", url: "https://lbs.baidu.com/apiconsole/agentplan" }
         ],
         officialNote: "📌 百度地图首次推出面向非开发者的AI Agent地图接入方案，与高德CLI/Skill形成直接竞争。双方均在OpenClaw平台布局，AI Agent时代地图开放平台之争正式开打",
