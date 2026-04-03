@@ -177,7 +177,7 @@
             <h1>🗺️ 地图竞品动态监控 · ToB周报</h1>
             <div style="display:flex;gap:12px;margin-top:8px;">
                 <span class="week-badge" id="headerWeekBadge">2026年 第14周</span>
-                <span class="update-time">更新时间: 2026-04-03 09:00</span>
+                <span class="update-time">更新时间: 2026-04-03 10:20</span>
             </div>
         </div>
         <div class="controls">
@@ -811,6 +811,35 @@ const allData = [
         importance: "high", isAI: false
     },
 
+    // ---- 开放平台/AI ----
+    {
+        date: "2026-04-01", vendor: "高德", module: "开放平台", product: "CLI工具", direction: "AI Agent基建",
+        dataType: "article",
+        event: "高德开放平台正式上线CLI命令行工具，推出「Skill + CLI + Container」三位一体解决方案，让AI Agent零代码集成地图能力，一行命令即可调用POI搜索、路线规划、地图可视化等全链路功能",
+        evidence: "高德开放平台微信公众号4月1日18:13官方发布。CLI指令集支持amap-gui start/route/search等标准化命令；SKILL技能包指导Agent智能匹配指令；GUI容器实时展示地图操作结果。已同步上架ClawHub(amap-cli-skill)，支持npm全局安装(@amap-lbs/amap-gui)",
+        evidenceType: "new",
+        sources: [
+            { name: "高德开放平台公众号(4.1)", url: "https://mp.weixin.qq.com/s/LKLboUSJGI3UVfu41Bhh1w" },
+            { name: "高德CLI文档站", url: "https://lbs.amap.com/api/cli/map-cli/summary" },
+            { name: "ClawHub(amap-cli-skill)", url: "https://clawhub.ai/lbs-amap/amap-cli-skill" }
+        ],
+        officialNote: "📌 重要升级：高德从Skill(自然语言调用)扩展到CLI(命令行调用)，形成SKILL+CLI+MCP三轨并行的AI Agent接入体系。CLI方案比MCP更轻量，比纯Skill更精准可控，标志着地图开放平台从'API服务商'向'AI Agent基础设施'全面转型",
+        importance: "high", isAI: true
+    },
+    {
+        date: "2026-04-01", vendor: "百度", module: "开放平台", product: "Map Agent Plan", direction: "AI Agent基建",
+        dataType: "article",
+        event: "百度地图开放平台发布Map Agent Plan，为AI Agent提供极简零门槛的地图技能包，基于3.4亿POI数据支持自然语言交互，无需注册认证即可使用",
+        evidence: "百度地图开放平台微信公众号发布。提供双轨方案：路径一Map Agent Plan面向非开发者(零代码Prompt配置)，路径二地图Skills面向开发者(API深度定制)。已适配OpenClaw平台，用户登录lbs.baidu.com/apiconsole/agentplan领取TOKEN后即可使用。应用场景覆盖社交推荐(语义分析筛选咖啡馆)、适老出行(路面平坦度规划)、亲子出行等",
+        evidenceType: "new",
+        sources: [
+            { name: "百度地图开放平台公众号", url: "https://mp.weixin.qq.com/s/tCBPVkyseuZXInhybNeOrw" },
+            { name: "百度Map Agent Plan", url: "https://lbs.baidu.com/apiconsole/agentplan" }
+        ],
+        officialNote: "📌 百度地图首次推出面向非开发者的AI Agent地图接入方案，与高德CLI/Skill形成直接竞争。双方均在OpenClaw平台布局，AI Agent时代地图开放平台之争正式开打",
+        importance: "high", isAI: true
+    },
+
     // ---- AI ----
     {
         date: "2026-04-01", vendor: "高德", module: "AI", product: "煎蛋侠", direction: "AI Agent",
@@ -997,7 +1026,7 @@ function dataTypeHtml(item) {
 
 function eventHtml(item) {
     let text = item.event.replace(/\"([^\"]+)\"/g, '<span class="event-highlight">$1</span>');
-    ['SKILL专区', 'Amap SDK Skills', 'MCP Server', 'MCP协议', 'MCP广场', 'Streamable HTTP', '具身智能', 'HarmonyOS NEXT', 'Claude', '10大标准化接口', '智能客服', '日配额取消', '服务协议', '雷鸟智慧生活', 'AR扫街榜', 'LBS Agent', '鹰眼守护', '公益地图', '首都公共就业服务地图', 'OriginOS 6', '原子通知', 'AI Agent', '充电站', '青岛停车', '车位级导航', '放心消费', 'OpenClaw', 'ClawHub', '灵犀AIOS', 'Qwen3.5', 'AR实景步行导航', 'AR Engine', 'HarmonyOS SDK', 'Maps UI-Kit', 'RoutePlan', 'Map Skills', '千问', 'AI打车', '小滴', '实时公交', 'JSAPI Skills', '司机驿站', '扫街榜', '飞行街景', '烟火澳门支持计划', '金沙中国', '澳门通', 'AI智慧校园', '鲁山一高', '便民快巴', '富临运业', '卒中救治数字地图', '百万减残', '卒中中心', '黄小西', '智慧游门户', '贵州旅游产业发展大会', '煎蛋侠', '无网导航', '清明出行预测报告', '比亚迪', '腾讯地图', 'DiLink', '天神之眼'].forEach(h => {
+    ['SKILL专区', 'Amap SDK Skills', 'MCP Server', 'MCP协议', 'MCP广场', 'Streamable HTTP', '具身智能', 'HarmonyOS NEXT', 'Claude', '10大标准化接口', '智能客服', '日配额取消', '服务协议', '雷鸟智慧生活', 'AR扫街榜', 'LBS Agent', '鹰眼守护', '公益地图', '首都公共就业服务地图', 'OriginOS 6', '原子通知', 'AI Agent', '充电站', '青岛停车', '车位级导航', '放心消费', 'OpenClaw', 'ClawHub', '灵犀AIOS', 'Qwen3.5', 'AR实景步行导航', 'AR Engine', 'HarmonyOS SDK', 'Maps UI-Kit', 'RoutePlan', 'Map Skills', '千问', 'AI打车', '小滴', '实时公交', 'JSAPI Skills', '司机驿站', '扫街榜', '飞行街景', '烟火澳门支持计划', '金沙中国', '澳门通', 'AI智慧校园', '鲁山一高', '便民快巴', '富临运业', '卒中救治数字地图', '百万减残', '卒中中心', '黄小西', '智慧游门户', '贵州旅游产业发展大会', '煎蛋侠', '无网导航', '清明出行预测报告', '比亚迪', '腾讯地图', 'DiLink', '天神之眼', 'CLI', 'amap-gui', 'Map Agent Plan', 'Container', 'TOKEN', '3.4亿POI'].forEach(h => {
         if (text.includes(h) && !text.includes(`class="event-highlight">${h}`)) {
             text = text.replace(h, `<span class="event-highlight">${h}</span>`);
         }
