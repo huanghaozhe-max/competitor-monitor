@@ -177,7 +177,7 @@
             <h1>🗺️ 地图竞品动态监控 · ToB周报</h1>
             <div style="display:flex;gap:12px;margin-top:8px;">
                 <span class="week-badge" id="headerWeekBadge">2026年 第14周</span>
-                <span class="update-time">更新时间: 2026-04-03 11:35</span>
+                <span class="update-time">更新时间: 2026-04-07 10:35</span>
             </div>
         </div>
         <div class="controls">
@@ -896,6 +896,39 @@ const allData = [
         officialNote: "📌 战略信号：高德正从地图App向AI Agent原生产品形态演进。'煎蛋侠'若推出将是地图行业首个AI Agent原生应用，与OpenClaw Skill生态形成闭环",
         importance: "high", isAI: true
     },
+
+    // ========== 第15周 (4.06 - 4.12) ==========
+
+    // ---- AI ----
+    {
+        date: "2026-04-05", vendor: "百度", module: "AI", product: "MCP Server", direction: "MCP",
+        dataType: "article",
+        event: "百度地图MCP Server在腾讯云MCP广场新增「2天前」更新提示，提供逆地理编码、地点检索、路线规划等10大标准化接口，全面支持MCP协议",
+        evidence: "腾讯云开发者MCP广场百度地图页面显示「2天前」更新（约4月5日），页面浏览量持续增长。GitHub仓库baidu-maps/mcp同步维护",
+        evidenceType: "update",
+        sources: [
+            { name: "腾讯云MCP-百度地图(更新4.5)", url: "https://cloud.tencent.com/developer/mcp/server/10007" },
+            { name: "GitHub-baidu-maps/mcp", url: "https://github.com/baidu-maps/mcp" }
+        ],
+        officialNote: "",
+        importance: "medium", isAI: true
+    },
+
+    // ---- AI Skills应用 ----
+    {
+        date: "2026-04-02", vendor: "百度", module: "AI", product: "Skills场景", direction: "SKILL",
+        dataType: "article",
+        event: "百度地图Skills联合OpenClaw智能体平台，继「城市横行私人管家」后扩展至商业选址、智慧物流等垂直场景，打造「龙溢」Agent生态",
+        evidence: "微信公众号文章显示百度地图Skills+OpenClaw已在多场景落地，包括城市私人管家(3.16)、智慧物流(3.26)、商业选址(3.30)等，形成完整的垂直场景Skill矩阵",
+        evidenceType: "report",
+        sources: [
+            { name: "百度地图公众号-私人管家(3.16)", url: "https://mp.weixin.qq.com/s?src=11&timestamp=1775529416&ver=6645&signature=iDNjjdqzC4Q7kw-nLOnN29OTRJVNZTTPNuIUTenb4AJlu4nx1N4ulPhjbbs-3UMx5Dz6FLoRMsfIOOaUrmuZ94fzJ-AGsmb8iBsELfYfd48KmbpKo01MaKsunUGuzasK" },
+            { name: "百度地图公众号-智慧物流(3.26)", url: "https://mp.weixin.qq.com/s?src=11&timestamp=1775529416&ver=6645&signature=0aeroNzsfZPTzbAXUEYjp3gjpgblnZMTiy8ZmzxXqtj0iH32NXPqVOb06zXZ1e5wnHCLb7Y4o3-e2i8SklQQqhXSYzSgkp9fgcGaL5mFUNbnEYiIx5H2VcArEOLi9fmF" },
+            { name: "百度地图公众号-商业选址(3.30)", url: "https://mp.weixin.qq.com/s?src=11&timestamp=1775529416&ver=6645&signature=0aeroNzsfZPTzbAXUEYjp3gjpgblnZMTiy8ZmzxXqth4gHqFTbg*ERVMOil3rumAw-bVGpAy4kkLQ49yZCzYULRrcJZ9wpvnZFFoCnSI3F3UfWCTobWwprXIXXe9LEoY" }
+        ],
+        officialNote: "📌 百度Skills生态从通用场景向垂直行业延伸，商业选址+智慧物流形成行业解决方案矩阵",
+        importance: "medium", isAI: true
+    },
 ];
 
 // ===== 周定义 =====
@@ -905,13 +938,14 @@ const weeks = [
     { id: "w12", label: "第12周", start: "2026-03-16", end: "2026-03-22", display: "2026.03.16 — 2026.03.22" },
     { id: "w13", label: "第13周", start: "2026-03-23", end: "2026-03-29", display: "2026.03.23 — 2026.03.29" },
     { id: "w14", label: "第14周", start: "2026-03-30", end: "2026-04-05", display: "2026.03.30 — 2026.04.05" },
+    { id: "w15", label: "第15周", start: "2026-04-06", end: "2026-04-12", display: "2026.04.06 — 2026.04.12" },
 ];
 
 let currentWeekIndex = 2;
 let currentTab = 'overview';
 
 function initWeek() {
-    const today = "2026-04-03";
+    const today = "2026-04-07";
     for (let i = weeks.length - 1; i >= 0; i--) {
         if (today >= weeks[i].start && today <= weeks[i].end) {
             currentWeekIndex = i;
@@ -1069,7 +1103,7 @@ function dataTypeHtml(item) {
 
 function eventHtml(item) {
     let text = item.event.replace(/\"([^\"]+)\"/g, '<span class="event-highlight">$1</span>');
-    ['SKILL专区', 'Amap SDK Skills', 'MCP Server', 'MCP协议', 'MCP广场', 'Streamable HTTP', '具身智能', 'HarmonyOS NEXT', 'Claude', '10大标准化接口', '智能客服', '日配额取消', '服务协议', '雷鸟智慧生活', 'AR扫街榜', 'LBS Agent', '鹰眼守护', '公益地图', '首都公共就业服务地图', 'OriginOS 6', '原子通知', 'AI Agent', '充电站', '青岛停车', '车位级导航', '放心消费', 'OpenClaw', 'ClawHub', '灵犀AIOS', 'Qwen3.5', 'AR实景步行导航', 'AR Engine', 'HarmonyOS SDK', 'Maps UI-Kit', 'RoutePlan', 'Map Skills', '千问', 'AI打车', '小滴', '实时公交', 'JSAPI Skills', '司机驿站', '扫街榜', '飞行街景', '烟火澳门支持计划', '金沙中国', '澳门通', 'AI智慧校园', '鲁山一高', '便民快巴', '富临运业', '卒中救治数字地图', '百万减残', '卒中中心', '黄小西', '智慧游门户', '贵州旅游产业发展大会', '煎蛋侠', '无网导航', '清明出行预测报告', '比亚迪', '腾讯地图', 'DiLink', '天神之眼', 'CLI', 'amap-gui', 'Map Agent Plan', 'Container', 'TOKEN', '3.4亿POI', 'GDPS2026', 'DuMate', 'RoboClaw', '空间感知', '超视距', '两轮车'].forEach(h => {
+    ['SKILL专区', 'Amap SDK Skills', 'MCP Server', 'MCP协议', 'MCP广场', 'Streamable HTTP', '具身智能', 'HarmonyOS NEXT', 'Claude', '10大标准化接口', '智能客服', '日配额取消', '服务协议', '雷鸟智慧生活', 'AR扫街榜', 'LBS Agent', '鹰眼守护', '公益地图', '首都公共就业服务地图', 'OriginOS 6', '原子通知', 'AI Agent', '充电站', '青岛停车', '车位级导航', '放心消费', 'OpenClaw', 'ClawHub', '灵犀AIOS', 'Qwen3.5', 'AR实景步行导航', 'AR Engine', 'HarmonyOS SDK', 'Maps UI-Kit', 'RoutePlan', 'Map Skills', '千问', 'AI打车', '小滴', '实时公交', 'JSAPI Skills', '司机驿站', '扫街榜', '飞行街景', '烟火澳门支持计划', '金沙中国', '澳门通', 'AI智慧校园', '鲁山一高', '便民快巴', '富临运业', '卒中救治数字地图', '百万减残', '卒中中心', '黄小西', '智慧游门户', '贵州旅游产业发展大会', '煎蛋侠', '无网导航', '清明出行预测报告', '比亚迪', '腾讯地图', 'DiLink', '天神之眼', 'CLI', 'amap-gui', 'Map Agent Plan', 'Container', 'TOKEN', '3.4亿POI', 'GDPS2026', 'DuMate', 'RoboClaw', '空间感知', '超视距', '两轮车', 'Skills场景', '商业选址', '智慧物流', '龙溢'].forEach(h => {
         if (text.includes(h) && !text.includes(`class="event-highlight">${h}`)) {
             text = text.replace(h, `<span class="event-highlight">${h}</span>`);
         }
