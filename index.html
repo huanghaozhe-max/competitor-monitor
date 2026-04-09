@@ -176,8 +176,8 @@
         <div>
             <h1>🗺️ 地图竞品动态监控 · ToB周报</h1>
             <div style="display:flex;gap:12px;margin-top:8px;">
-                <span class="week-badge" id="headerWeekBadge">2026年 第14周</span>
-                <span class="update-time">更新时间: 2026-04-07 10:35</span>
+                <span class="week-badge" id="headerWeekBadge">2026年 第15周</span>
+                <span class="update-time">更新时间: 2026-04-09 17:10</span>
             </div>
         </div>
         <div class="controls">
@@ -912,6 +912,61 @@ const allData = [
         importance: "high", isAI: true
     },
 
+    // ---- 行业合作/OS集成 ----
+    {
+        date: "2026-04-03", vendor: "高德", module: "行业合作", product: "系统集成", direction: "OS集成",
+        dataType: "article",
+        event: "高德地图公交地铁导航正式接入vivo OriginOS小V建议和原子通知，号称安卓首发，用户无需打开App即可在系统级入口查看公交地铁线路、站点信息和实时到站提醒",
+        evidence: "4月3日vivo OriginOS官方微博宣布。IT之家(4.3)首发，CNMO(4.3)、凤凰科技(4.3)、PChome(4.3)、太平洋电脑网(4.3)、搜狐(4.6)、网易(4.6)、同花顺(4.3)、17173(4.3)等10+媒体报道。继3月17日驾车导航首发后，公交地铁导航进一步深化高德×vivo系统级合作。vivo/iQOO用户升级最新版高德地图后即可使用",
+        evidenceType: "new",
+        sources: [
+            { name: "IT之家(4.3)", url: "https://www.ithome.com/0/935/636.htm" },
+            { name: "CNMO/腾讯新闻(4.3)", url: "https://news.qq.com/rain/a/20260403A02QLT00" },
+            { name: "凤凰科技(4.3)", url: "https://tech.ifeng.com/c/8s1EuOZBnru" },
+            { name: "PChome(4.3)", url: "https://article.pchome.net/info/12535.html" },
+            { name: "搜狐(4.6)", url: "https://www.sohu.com/a/1006029296_100085330" },
+            { name: "网易(4.6)", url: "https://www.163.com/dy/article/KPRTIM6U0530RMN7.html" }
+        ],
+        officialNote: "📌 继驾车导航(3.17)后，高德公交地铁导航也接入vivo OriginOS系统级入口，安卓首发。高德在vivo系统集成竞争中持续领先百度，覆盖驾车+骑行+步行+公交地铁全场景",
+        importance: "high", isAI: false
+    },
+
+    // ---- 开放平台（补录） ----
+    {
+        date: "2026-04-02", vendor: "高德", module: "开放平台", product: "CLI工具", direction: "CLI",
+        dataType: "article",
+        event: "高德开放平台正式上线CLI能力，为AI Agent提供「Skill+CLI指令集+GUI容器」三位一体的地图智能操控方案，支持自然语言一行命令操控地图",
+        evidence: "4月2日腾讯云开发者/知乎/CSDN/SegmentFault/51CTO等10+技术平台同步发布官方推广文章。CLI架构：SKILL技能包(指导Agent安装指令集)+CLI指令集(标准化命令行)+GUI容器(可视化地图界面)。官方文档已上线lbs.amap.com/api/cli/map-cli/summary",
+        evidenceType: "new",
+        sources: [
+            { name: "腾讯云开发者(4.7)", url: "https://cloud.tencent.com/developer/article/2651125" },
+            { name: "知乎(4.2)", url: "https://zhuanlan.zhihu.com/p/2023065508929349114" },
+            { name: "CSDN(4.2)", url: "https://blog.csdn.net/weixin_67361678/article/details/159766725" },
+            { name: "SegmentFault(4.7)", url: "https://segmentfault.com/a/1190000047697497" },
+            { name: "微信公众号ToB Dev(4.1)", url: "https://mp.weixin.qq.com/s?src=11&timestamp=1775725252&ver=6649&signature=nQUrL91V2VLqODFLH-3P4z7VDYF-0ECMbrg3S3xO119QOpnxaMr6DJBDkhaeSpkiIkgnE3AuAUfDMjuV5NPIuIex2adRfmTrdF9mOGHQR5hlD-7mdFjgvGcM1Dik0MDy&new=1" }
+        ],
+        officialNote: "📌 继MCP Server和SKILL专区后，高德开放平台推出第三代AI交互形态——CLI命令行工具。形成MCP(协议层)+SKILL(技能层)+CLI(命令行层)三层AI能力矩阵",
+        importance: "high", isAI: true
+    },
+
+    // ---- 开放平台（补录） ----
+    {
+        date: "2026-04-02", vendor: "百度", module: "开放平台", product: "Map Agent Plan", direction: "AI Agent",
+        dataType: "article",
+        event: "百度地图正式发布Map Agent Plan，面向AI Agent提供「极简、零门槛、开箱即用」的地图技能包，挖掘3.4亿POI数据深层信息，支持自然语言交互，2步即可让智能体获得地图能力",
+        evidence: "4月2日百度专网地图DuGIS公众号首发、电商派/DoNews/壹览商业(4.2)同日报道、掘金(3.30)开启首批内测招募、CSDN(4.7)技术解读。提供两条交付路径：Map Agent Plan(零代码)+地图Skills(代码定制)，企业级Skills含智慧物流/商业选址",
+        evidenceType: "new",
+        sources: [
+            { name: "电商派(4.2)", url: "https://www.pai.com.cn/news/01kn6p0d6tbhffxshd8mv99bhc" },
+            { name: "DoNews(4.2)", url: "https://www.donews.com/news/detail/8/6496046.html" },
+            { name: "掘金-内测招募(3.30)", url: "https://juejin.cn/post/7622662117822529577" },
+            { name: "CSDN技术解读(4.7)", url: "https://blog.csdn.net/quruijie/article/details/159926509" },
+            { name: "百度DuGIS公众号(4.2)", url: "https://mp.weixin.qq.com/s?src=11&timestamp=1775725267&ver=6649&signature=gFIChDsYWybN*LGG*twItQfMr*O7VF35m3FppmuexhYiIoXoX5Nm0TID1ANfnXbKGnLeS5DjMoOtOEmoBqSRyM5nLz5Kd*nlKxxnoO8*Chx10IoHr9MyoLHCCwhHX4-H&new=1" }
+        ],
+        officialNote: "📌 百度地图AI Agent战略升级：Map Agent Plan(零代码) + Skills(代码定制)双轨并行。与高德CLI形成正面竞争，双方同日(4.2)发布AI Agent新品",
+        importance: "high", isAI: true
+    },
+
     // ========== 第15周 (4.06 - 4.12) ==========
 
     // ---- AI ----
@@ -963,6 +1018,38 @@ const allData = [
         officialNote: "📌 煎蛋侠从「曝光开发」到「APP发布」，多平台密集报道，高德AI Agent产品化加速。与百度Map Agent Plan形成正面竞争",
         importance: "medium", isAI: true
     },
+
+    // ---- 鸿蒙生态 ----
+    {
+        date: "2026-04-07", vendor: "高德", module: "行业合作", product: "鸿蒙智能路况", direction: "鸿蒙生态",
+        dataType: "article",
+        event: "鸿蒙版高德地图业内首发系统级「智能路况提醒」功能，与HarmonyOS 6深度共创，驾驶/骑行至红绿灯路口时无需打开地图App，系统通过「实况窗」自动推送红绿灯读秒信息",
+        evidence: "4月7日北青网/网易号报道，华为畅享90 Pro Max(4.2首销)为首发机型。功能路径：设置>情景模式>智感畅行，开启后全程无需打开高德App。已覆盖全国多城各类道路路口，后续逐步适配更多鸿蒙6设备",
+        evidenceType: "new",
+        sources: [
+            { name: "网易号/北青网(4.7)", url: "https://www.163.com/dy/article/KPTTR0LC0514R9KQ.html" }
+        ],
+        officialNote: "📌 从「App内导航」到「系统级无感服务」的质变。高德×鸿蒙合作深度再进一步：AR实景导航(3.6) → vivo系统级入口(3.17) → 鸿蒙实况窗(4.7)，系统级集成加速",
+        importance: "high", isAI: true
+    },
+
+    // ---- 行业合作 ----
+    {
+        date: "2026-04-09", vendor: "高德", module: "行业合作", product: "养老服务地图", direction: "公益地图",
+        dataType: "article",
+        event: "北京市民政局与高德地图联合推进「北京市养老服务地图」将于4月正式上线，提供一站式养老服务查询指引；高德暖心车站已在北京建设1200余座，覆盖社区/医院等老年人集中区域",
+        evidence: "人民政协报(4.9)、新京报贝壳财经(4.3)、财经网康养(3.31)、搜狐(4.3)、网易(4.4)等多家权威媒体报道。合作签约时间3月27日，北京市民政局已先后与美团/京东/阿里巴巴三大互联网平台签署战略协议",
+        evidenceType: "new",
+        sources: [
+            { name: "人民政协报(4.9)", url: "https://www.rmzxb.com.cn/c/2026-04-09/3898730.shtml" },
+            { name: "新京报贝壳财经(4.3)", url: "https://news.qq.com/rain/a/20260403A038FM00" },
+            { name: "财经网康养(3.31)", url: "http://health.caijing.com.cn/2026/0331/5151027.shtml" },
+            { name: "新浪财经(4.3)", url: "https://finance.sina.com.cn/jjxw/2026-04-03/doc-inhtfkwz8811543.shtml" },
+            { name: "搜狐(4.3)", url: "https://www.sohu.com/a/1005029084_122014422" }
+        ],
+        officialNote: "📌 政企合作标杆：北京民政局先后签约美团→京东→阿里(高德)，高德负责「行」赛道(养老地图+暖心车站+无障碍打车)。1200+暖心车站、4月上线养老服务地图",
+        importance: "high", isAI: false
+    },
 ];
 
 // ===== 周定义 =====
@@ -979,7 +1066,7 @@ let currentWeekIndex = 2;
 let currentTab = 'overview';
 
 function initWeek() {
-    const today = "2026-04-07";
+    const today = "2026-04-09";
     for (let i = weeks.length - 1; i >= 0; i--) {
         if (today >= weeks[i].start && today <= weeks[i].end) {
             currentWeekIndex = i;
@@ -1137,7 +1224,7 @@ function dataTypeHtml(item) {
 
 function eventHtml(item) {
     let text = item.event.replace(/\"([^\"]+)\"/g, '<span class="event-highlight">$1</span>');
-    ['SKILL专区', 'Amap SDK Skills', 'MCP Server', 'MCP协议', 'MCP广场', 'Streamable HTTP', '具身智能', 'HarmonyOS NEXT', 'Claude', '10大标准化接口', '智能客服', '日配额取消', '服务协议', '雷鸟智慧生活', 'AR扫街榜', 'LBS Agent', '鹰眼守护', '公益地图', '首都公共就业服务地图', 'OriginOS 6', '原子通知', 'AI Agent', '充电站', '青岛停车', '车位级导航', '放心消费', 'OpenClaw', 'ClawHub', '灵犀AIOS', 'Qwen3.5', 'AR实景步行导航', 'AR Engine', 'HarmonyOS SDK', 'Maps UI-Kit', 'RoutePlan', 'Map Skills', '千问', 'AI打车', '小滴', '实时公交', 'JSAPI Skills', '司机驿站', '扫街榜', '飞行街景', '烟火澳门支持计划', '金沙中国', '澳门通', 'AI智慧校园', '鲁山一高', '便民快巴', '富临运业', '卒中救治数字地图', '百万减残', '卒中中心', '黄小西', '智慧游门户', '贵州旅游产业发展大会', '煎蛋侠', '无网导航', '清明出行预测报告', '比亚迪', '腾讯地图', 'DiLink', '天神之眼', 'CLI', 'amap-gui', 'Map Agent Plan', 'Container', 'TOKEN', '3.4亿POI', 'GDPS2026', 'DuMate', 'RoboClaw', '空间感知', '超视距', '两轮车', 'Skills场景', '商业选址', '智慧物流', '龙溢'].forEach(h => {
+    ['SKILL专区', 'Amap SDK Skills', 'MCP Server', 'MCP协议', 'MCP广场', 'Streamable HTTP', '具身智能', 'HarmonyOS NEXT', 'Claude', '10大标准化接口', '智能客服', '日配额取消', '服务协议', '雷鸟智慧生活', 'AR扫街榜', 'LBS Agent', '鹰眼守护', '公益地图', '首都公共就业服务地图', 'OriginOS 6', '原子通知', 'AI Agent', '充电站', '青岛停车', '车位级导航', '放心消费', 'OpenClaw', 'ClawHub', '灵犀AIOS', 'Qwen3.5', 'AR实景步行导航', 'AR Engine', 'HarmonyOS SDK', 'Maps UI-Kit', 'RoutePlan', 'Map Skills', '千问', 'AI打车', '小滴', '实时公交', 'JSAPI Skills', '司机驿站', '扫街榜', '飞行街景', '烟火澳门支持计划', '金沙中国', '澳门通', 'AI智慧校园', '鲁山一高', '便民快巴', '富临运业', '卒中救治数字地图', '百万减残', '卒中中心', '黄小西', '智慧游门户', '贵州旅游产业发展大会', '煎蛋侠', '无网导航', '清明出行预测报告', '比亚迪', '腾讯地图', 'DiLink', '天神之眼', 'CLI', 'amap-gui', 'Map Agent Plan', 'Container', 'TOKEN', '3.4亿POI', 'GDPS2026', 'DuMate', 'RoboClaw', '空间感知', '超视距', '两轮车', 'Skills场景', '商业选址', '智慧物流', '龙溢', '智能路况提醒', 'HarmonyOS 6', '实况窗', '智感畅行', '畅享90', '养老服务地图', '暖心车站', '适老出行', 'CLI指令集', 'GUI容器', 'Skill技能包'].forEach(h => {
         if (text.includes(h) && !text.includes(`class="event-highlight">${h}`)) {
             text = text.replace(h, `<span class="event-highlight">${h}</span>`);
         }
