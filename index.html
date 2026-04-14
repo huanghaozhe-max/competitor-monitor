@@ -176,8 +176,8 @@
         <div>
             <h1>🗺️ 地图竞品动态监控 · ToB周报</h1>
             <div style="display:flex;gap:12px;margin-top:8px;">
-                <span class="week-badge" id="headerWeekBadge">2026年 第15周</span>
-                <span class="update-time">更新时间: 2026-04-09 17:10</span>
+                <span class="week-badge" id="headerWeekBadge">2026年 第16周</span>
+                <span class="update-time">更新时间: 2026-04-14 09:00</span>
             </div>
         </div>
         <div class="controls">
@@ -967,6 +967,29 @@ const allData = [
         importance: "high", isAI: true
     },
 
+    // ========== 第16周 (4.13 - 4.19) ==========
+
+    // ---- AI/车载 ----
+    {
+        date: "2026-04-12", vendor: "百度", module: "AI", product: "AI座舱智能体", direction: "AI汽车",
+        dataType: "article",
+        event: "百度地图在2026年中国电动汽车百人会论坛上发布行业首个量产端到端AI座舱智能体，提出AI地图从「导航工具」升级为「智能体中枢」战略定位，同时宣布车道级SR导航实现全域大规模量产，NOA辅助驾驶地图市占率超41.8%行业领跑",
+        evidence: "4月12日百人会论坛现场演讲，百度地图事业部副总经理刘增刚分享。腾讯新闻/新民晚报(4.13)、环球网(4.13)、新浪汽车(4.13)、泰伯网(4.13)、电商派(4.13)、亿欧(4.13)、江西商报(4.13)、同花顺(4.13)等10+家媒体密集报道。核心数据：语音伴聊交互数增长13倍、AI副驾日活用户环比增长54倍。AI座舱智能体以百度语音语言大模型为基座，由中枢Agent统一调度导航/娱乐/车控/伴聊四大子Agent。车道级SR导航已与小鹏汽车、深蓝汽车+梧桐车联量产，零跑D19即将搭载。2026下半年将推出沉浸式车位级SR导航",
+        evidenceType: "new",
+        sources: [
+            { name: "腾讯新闻/新民晚报(4.13)", url: "https://news.qq.com/rain/a/20260413A03MJM00" },
+            { name: "环球网(4.13)", url: "https://tech.huanqiu.com/article/4R8wdRGi1Mj" },
+            { name: "新浪汽车(4.13)", url: "https://auto.sina.cn/news/2026-04-13/detail-inhuipik4893253.d.html" },
+            { name: "泰伯网(4.13)", url: "https://www.taibo.cn/p/99199" },
+            { name: "电商派(4.13)", url: "https://www.pai.com.cn/p/01kp312fvg8cf4kb12jy435ska" },
+            { name: "亿欧(4.13)", url: "https://data.iyiou.com/intelligence/details/81f62784c192478c2f1d5ca379dff58d" },
+            { name: "同花顺(4.13)", url: "https://news.10jqka.com.cn/20260413/c675932769.shtml" },
+            { name: "微信公众号-智能网联前沿(4.13)", url: "https://mp.weixin.qq.com/s?src=11&timestamp=1776128411&ver=6659&signature=8s0Nr8wMiy-9YxZ2V3AhnC5yrQHQ1rZCRo2sageiGqcREzTkgYgHZ2rolBEEeZYxb8a8Bco6GqR108vzvppL58NUpB3RS1L7XypgU8FU2sjpNd*4yVq2NxRtCv3aPbqQ&new=1" }
+        ],
+        officialNote: "📌 百度地图在百人会重磅亮相，三大核心发布：①行业首个量产端到端AI座舱智能体(中枢Agent统调四大子Agent) ②车道级SR导航全域量产(小鹏/深蓝/零跑) ③NOA智驾地图市占超41.8%。战略升级为'连接智能座舱与智能驾驶的核心基建与关键桥梁'，预告2026下半年推出车位级SR导航打通'车位到车位'全场景",
+        importance: "high", isAI: true
+    },
+
     // ========== 第15周 (4.06 - 4.12) ==========
 
     // ---- AI ----
@@ -1024,13 +1047,37 @@ const allData = [
         date: "2026-04-07", vendor: "高德", module: "行业合作", product: "鸿蒙智能路况", direction: "鸿蒙生态",
         dataType: "article",
         event: "鸿蒙版高德地图业内首发系统级「智能路况提醒」功能，与HarmonyOS 6深度共创，驾驶/骑行至红绿灯路口时无需打开地图App，系统通过「实况窗」自动推送红绿灯读秒信息",
-        evidence: "4月7日北青网/网易号报道，华为畅享90 Pro Max(4.2首销)为首发机型。功能路径：设置>情景模式>智感畅行，开启后全程无需打开高德App。已覆盖全国多城各类道路路口，后续逐步适配更多鸿蒙6设备",
+        evidence: "4月7日北青网/网易号首发，4月8日IT之家/腾讯新闻/17173/极客公园等10+家媒体密集跟进，4月9日快科技/凤凰科技二轮传播。华为畅享90 Pro Max(4.2首销)为首发机型。功能路径：设置>情景模式>智感畅行，开启后全程无需打开高德App。已覆盖全国多城各类道路路口",
         evidenceType: "new",
         sources: [
-            { name: "网易号/北青网(4.7)", url: "https://www.163.com/dy/article/KPTTR0LC0514R9KQ.html" }
+            { name: "网易号/北青网(4.7)", url: "https://www.163.com/dy/article/KPTTR0LC0514R9KQ.html" },
+            { name: "IT之家/腾讯新闻(4.8)", url: "https://news.qq.com/rain/a/20260408A07QPB00" },
+            { name: "快科技/凤凰科技(4.9)", url: "https://tech.ifeng.com/c/8sARB2Isrce" },
+            { name: "极客公园(4.7)", url: "https://www.geekpark.net/news/362232" },
+            { name: "快科技(4.8)", url: "https://news.mydrivers.com/1/1114/1114092.htm" }
         ],
         officialNote: "📌 从「App内导航」到「系统级无感服务」的质变。高德×鸿蒙合作深度再进一步：AR实景导航(3.6) → vivo系统级入口(3.17) → 鸿蒙实况窗(4.7)，系统级集成加速",
         importance: "high", isAI: true
+    },
+
+    // ---- 车载生态/辟谣 ----
+    {
+        date: "2026-04-09", vendor: "高德", module: "行业合作", product: "比亚迪合作", direction: "车载生态",
+        dataType: "article",
+        event: "高德地图与比亚迪联合发布辟谣声明，澄清「高德与比亚迪合作全面中断」系不实信息。双方明确各项合作业务正常推进，比亚迪闪充网络已于4月1日全量接入高德地图，覆盖全国超300万根充电桩",
+        evidence: "4月8日高德官方发布辟谣通告(腾讯新闻/网易/搜狐/泰伯网4.8报道)，4月9日太平洋汽车等跟进。辟谣背景：3月中旬比亚迪车机导航切换至腾讯地图后，自媒体传播「合作全面中断」谣言。实际情况：车机导航合作调整≠全面中断，高德仍为比亚迪提供高精地图、新能源充电导航等服务。比亚迪闪充3月30日全量入驻高德(国际充换电网4.2、新浪3.31、虎扑3.30等报道)，用户搜索\"比亚迪闪充\"可查看实时站点信息并一键导航",
+        evidenceType: "new",
+        sources: [
+            { name: "腾讯新闻/潮新闻(4.8)", url: "https://news.qq.com/rain/a/20260408A07FF300" },
+            { name: "网易(4.9)", url: "https://www.163.com/dy/article/KQ2BO6UT0519U3I5.html" },
+            { name: "搜狐(4.9)", url: "https://www.sohu.com/a/1007057368_100117963" },
+            { name: "太平洋汽车(4.9)", url: "https://www.pcauto.com.cn/ask/5134083.html" },
+            { name: "泰伯网(4.9)", url: "https://www.taibo.cn/newsflashes/30633285" },
+            { name: "国际充换电网-闪充入驻(4.2)", url: "https://mchd.in-en.com/html/chd-2458540.shtml" },
+            { name: "新浪-闪充入驻(3.31)", url: "https://www.sina.cn/news/detail/5282592708364295.html" }
+        ],
+        officialNote: "📌 重要后续：此前3.30比亚迪车机切换腾讯地图引发市场恐慌，4.8-9高德官方辟谣+比亚迪闪充全量接入(300万桩)证明合作仍在深化。车机导航是合作调整而非全面中断，高精地图+充电导航+打车等业务正常推进",
+        importance: "high", isAI: false
     },
 
     // ---- 行业合作 ----
@@ -1060,13 +1107,14 @@ const weeks = [
     { id: "w13", label: "第13周", start: "2026-03-23", end: "2026-03-29", display: "2026.03.23 — 2026.03.29" },
     { id: "w14", label: "第14周", start: "2026-03-30", end: "2026-04-05", display: "2026.03.30 — 2026.04.05" },
     { id: "w15", label: "第15周", start: "2026-04-06", end: "2026-04-12", display: "2026.04.06 — 2026.04.12" },
+    { id: "w16", label: "第16周", start: "2026-04-13", end: "2026-04-19", display: "2026.04.13 — 2026.04.19" },
 ];
 
 let currentWeekIndex = 2;
 let currentTab = 'overview';
 
 function initWeek() {
-    const today = "2026-04-09";
+    const today = "2026-04-14";
     for (let i = weeks.length - 1; i >= 0; i--) {
         if (today >= weeks[i].start && today <= weeks[i].end) {
             currentWeekIndex = i;
@@ -1224,7 +1272,7 @@ function dataTypeHtml(item) {
 
 function eventHtml(item) {
     let text = item.event.replace(/\"([^\"]+)\"/g, '<span class="event-highlight">$1</span>');
-    ['SKILL专区', 'Amap SDK Skills', 'MCP Server', 'MCP协议', 'MCP广场', 'Streamable HTTP', '具身智能', 'HarmonyOS NEXT', 'Claude', '10大标准化接口', '智能客服', '日配额取消', '服务协议', '雷鸟智慧生活', 'AR扫街榜', 'LBS Agent', '鹰眼守护', '公益地图', '首都公共就业服务地图', 'OriginOS 6', '原子通知', 'AI Agent', '充电站', '青岛停车', '车位级导航', '放心消费', 'OpenClaw', 'ClawHub', '灵犀AIOS', 'Qwen3.5', 'AR实景步行导航', 'AR Engine', 'HarmonyOS SDK', 'Maps UI-Kit', 'RoutePlan', 'Map Skills', '千问', 'AI打车', '小滴', '实时公交', 'JSAPI Skills', '司机驿站', '扫街榜', '飞行街景', '烟火澳门支持计划', '金沙中国', '澳门通', 'AI智慧校园', '鲁山一高', '便民快巴', '富临运业', '卒中救治数字地图', '百万减残', '卒中中心', '黄小西', '智慧游门户', '贵州旅游产业发展大会', '煎蛋侠', '无网导航', '清明出行预测报告', '比亚迪', '腾讯地图', 'DiLink', '天神之眼', 'CLI', 'amap-gui', 'Map Agent Plan', 'Container', 'TOKEN', '3.4亿POI', 'GDPS2026', 'DuMate', 'RoboClaw', '空间感知', '超视距', '两轮车', 'Skills场景', '商业选址', '智慧物流', '龙溢', '智能路况提醒', 'HarmonyOS 6', '实况窗', '智感畅行', '畅享90', '养老服务地图', '暖心车站', '适老出行', 'CLI指令集', 'GUI容器', 'Skill技能包'].forEach(h => {
+    ['SKILL专区', 'Amap SDK Skills', 'MCP Server', 'MCP协议', 'MCP广场', 'Streamable HTTP', '具身智能', 'HarmonyOS NEXT', 'Claude', '10大标准化接口', '智能客服', '日配额取消', '服务协议', '雷鸟智慧生活', 'AR扫街榜', 'LBS Agent', '鹰眼守护', '公益地图', '首都公共就业服务地图', 'OriginOS 6', '原子通知', 'AI Agent', '充电站', '青岛停车', '车位级导航', '放心消费', 'OpenClaw', 'ClawHub', '灵犀AIOS', 'Qwen3.5', 'AR实景步行导航', 'AR Engine', 'HarmonyOS SDK', 'Maps UI-Kit', 'RoutePlan', 'Map Skills', '千问', 'AI打车', '小滴', '实时公交', 'JSAPI Skills', '司机驿站', '扫街榜', '飞行街景', '烟火澳门支持计划', '金沙中国', '澳门通', 'AI智慧校园', '鲁山一高', '便民快巴', '富临运业', '卒中救治数字地图', '百万减残', '卒中中心', '黄小西', '智慧游门户', '贵州旅游产业发展大会', '煎蛋侠', '无网导航', '清明出行预测报告', '比亚迪', '腾讯地图', 'DiLink', '天神之眼', 'CLI', 'amap-gui', 'Map Agent Plan', 'Container', 'TOKEN', '3.4亿POI', 'GDPS2026', 'DuMate', 'RoboClaw', '空间感知', '超视距', '两轮车', 'Skills场景', '商业选址', '智慧物流', '龙溢', '智能路况提醒', 'HarmonyOS 6', '实况窗', '智感畅行', '畅享90', '养老服务地图', '暖心车站', '适老出行', 'CLI指令集', 'GUI容器', 'Skill技能包', '闪充', '300万根充电桩', '辟谣', '高精地图', '充电导航', 'AI座舱智能体', '百人会', '中枢Agent', '车道级SR导航', 'NOA', '41.8%', '小鹏汽车', '深蓝汽车', '梧桐车联', '零跑', '车位级SR导航', '舱驾融合', '端到端', 'AI司机', 'AI助理', 'AI搭子', 'V21'].forEach(h => {
         if (text.includes(h) && !text.includes(`class="event-highlight">${h}`)) {
             text = text.replace(h, `<span class="event-highlight">${h}</span>`);
         }
