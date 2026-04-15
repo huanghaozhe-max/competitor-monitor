@@ -176,8 +176,8 @@
         <div>
             <h1>🗺️ 地图竞品动态监控 · ToB周报</h1>
             <div style="display:flex;gap:12px;margin-top:8px;">
-                <span class="week-badge" id="headerWeekBadge">2026年 第15周</span>
-                <span class="update-time">更新时间: 2026-04-10 09:00</span>
+                <span class="week-badge" id="headerWeekBadge">2026年 第16周</span>
+                <span class="update-time">更新时间: 2026-04-15 09:00</span>
             </div>
         </div>
         <div class="controls">
@@ -202,7 +202,7 @@
 </div>
 
 <div class="footer">
-    <p>地图竞品动态监控系统 · 数据来源包括高德/百度官网、腾讯云开发者社区、SegmentFault、51CTO、InfoQ、掘金、GitHub、新华网、经济参考报、央广网、华夏时报、IT之家、人民网、中国经济网、环球网、i黑马等公开渠道</p>
+    <p>地图竞品动态监控系统 · 数据来源包括高德/百度官网、腾讯云开发者社区、SegmentFault、51CTO、InfoQ、掘金、GitHub、新华网、经济参考报、央广网、华夏时报、IT之家、人民网、中国经济网、环球网、i黑马、光明网、科技日报、每日经济新闻、新华财经、中国新闻网、封面新闻、上海证券报等公开渠道</p>
     <p style="margin-top:8px;">本报告仅供内部竞品分析参考使用</p>
     <p style="margin-top:4px;font-size:11px;">📰 资讯类数据：日期=来源实际发布时间 | 🔍 巡检类数据：日期=我方发现时间，信息判断说明发现方式</p>
 </div>
@@ -967,6 +967,83 @@ const allData = [
         importance: "high", isAI: true
     },
 
+    // ========== 第16周 (4.13 - 4.19) ==========
+
+    // ---- 具身智能 ----
+    {
+        date: "2026-04-14", vendor: "高德", module: "AI", product: "具身智能机器人", direction: "具身智能",
+        dataType: "article",
+        event: "高德具身业务部宣布即将发布首款四足机器人，为阿里巴巴集团首个具身机器人产品，将于4月19日亦庄机器人半马赛事首次公开亮相，在开放场景完成自主感知、智能决策与交互任务挑战",
+        evidence: "4月14日上海证券报独家获悉，IT之家/新浪科技/时代财经/封面新闻/光明网/中关村在线/钛媒体/东方财富/每日经济新闻/雪球等20+媒体密集报道。高德于2026年初成立具身业务部，3月31日全量开源ABot-M0(全球首个基于统一架构的机器人具身操作基座模型，多个权威基准SOTA)。已构建业内最大规模具身导航数据引擎，同步探索四足机器人与人形机器人两种形态",
+        evidenceType: "new",
+        sources: [
+            { name: "新浪科技/快科技(4.15)", url: "https://finance.sina.com.cn/tech/roll/2026-04-15/doc-inhunxzr8829851.shtml" },
+            { name: "IT之家(4.14)", url: "https://finance.sina.com.cn/tech/digi/2026-04-14/doc-inhumshf9193217.shtml" },
+            { name: "光明网(4.14)", url: "https://economy.gmw.cn/2026-04/14/content_38708045.htm" },
+            { name: "东方财富(4.14)", url: "http://finance.eastmoney.com/a/202604143704302665.html" },
+            { name: "封面新闻(4.14)", url: "https://www.thecover.cn/news/h78ZQK1hb3SH90qSdq8Jkw==" },
+            { name: "中关村在线(4.14)", url: "https://m.zol.com.cn/article/11653459.html" }
+        ],
+        officialNote: "📌 标志性事件：高德从地图服务向具身智能硬件跨越，阿里集团首款具身机器人。ABot-M0已开源，实现'一个通用大脑适配多种形态机器人'。4.19亦庄半马将是首次实战验证",
+        importance: "high", isAI: true
+    },
+
+    // ---- 行业合作/本地生活 ----
+    {
+        date: "2026-04-13", vendor: "高德", module: "行业合作", product: "扫街榜×北京文旅", direction: "本地生活",
+        dataType: "article",
+        event: "高德扫街榜「烟火城市发布会·北京站」举行，联合北京市文旅局、商务局启动「烟火北京支持计划」，发布「畅游北京」扫街榜及文旅地图，全国首个非遗榜单同步上线，北京已覆盖3万家优质门店、259家入选状元榜",
+        evidence: "4月13日发布会现场，北京文旅局局长郭怀刚与高德董事长刘振飞出席并签署战略合作协议。中国新闻网(4.14)、科技日报(4.14)、每日经济新闻(4.14)、新华财经(4.14)、中国经营报(4.14)、中国旅游新闻网(4.14)、同花顺(4.13)、长安街知事(4.13)、北京日报/劳动午报(4.15)等20+权威媒体密集报道。三大政策：①零门槛入驻(首年年费减免最高4800元) ②亿级流量补贴 ③AI经营工具(AI营销全托管)。扫街榜自2025.9上线后以'一月一城'节奏推进(上海→济南→长沙→澳门→北京)，全国700万+餐厅点位+日1.2亿次搜索",
+        evidenceType: "new",
+        sources: [
+            { name: "中国新闻网(4.14)", url: "https://www.chinanews.com.cn/cj/2026/04-14/10603444.shtml" },
+            { name: "科技日报(4.14)", url: "https://www.stdaily.com/web/gdxw/2026-04/14/content_501843.html" },
+            { name: "每日经济新闻(4.14)", url: "https://www.nbd.com.cn/articles/2026-04-14/4339442.html" },
+            { name: "新华财经(4.14)", url: "https://www.cnfin.com/cq-lb/detail/20260414/4399140_1.html" },
+            { name: "同花顺(4.13)", url: "https://news.10jqka.com.cn/20260413/c675954846.shtml" },
+            { name: "微信公众号-文旅北京(4.13)", url: "https://mp.weixin.qq.com/s?src=11&timestamp=1776215345&ver=6661&signature=V-9h*tKKecHE1PitJ8ejKQasFGsngDfYSYZ9y6pUU41UircYosbZnWU0xUAYS53ToXGoaHxH0VNPUCxCYDFhXlksTjgWwrY9vMS1DK*dP6yuT7yPH*Jf9oWsMhhzaSnK&new=1" },
+            { name: "微信公众号-高德扫街榜(4.14)", url: "https://mp.weixin.qq.com/s?src=11&timestamp=1776215345&ver=6661&signature=0lbI*Y8wOpDdQsFmMwTRE1QBY8*rRelNtBQbwQsx*-H7ObhVmRFIANuwNrE8VGWfB-SlltyRrZyP3x6A8gyd0RKQTwI9KIEYRdIasT1pKQYLo46DugVz4Zh*Nb3W1P*Y&new=1" }
+        ],
+        officialNote: "📌 高德本地生活战略深化：扫街榜落地北京标志C端消费生态扩张加速。北京文旅局官方签约+全国首个非遗榜单，政企合作层级高。CEO郭宁承诺'扫街榜永不商业化'，与美团必吃榜/抖音心动榜/京东真榜形成'四分天下'格局",
+        importance: "high", isAI: false
+    },
+
+    // ---- 开放平台/AI编程 ----
+    {
+        date: "2026-04-14", vendor: "百度", module: "开放平台", product: "文档MCP化+Rules", direction: "AI编程生态",
+        dataType: "article",
+        event: "百度地图开放平台持续推进位置服务大模型友好化改造，将官网文档MCP化，为Codex、Cursor、Claude Code等AI编程工具补充官方Rules与Skills支持，实现从API调用到AI编程工具原生集成的能力升级",
+        evidence: "百度地图开放平台官方CSDN博客4月14日发布《百度地图赋能AI智能体的新路径》，浏览量316。文中明确提出'将官网文档MCP化，为Codex、Cursor、Claude Code等AI编程工具补充官方支持的Rules与Skills'。此举将百度地图开发者生态从传统SDK/API扩展至AI IDE原生集成，企业级Skills含智慧物流(配送路径优化)、商业选址(选址决策支撑)等高级功能",
+        evidenceType: "update",
+        sources: [
+            { name: "CSDN-百度地图官方博客(4.14)", url: "https://blog.csdn.net/baiduopenmap/article/details/160140460" },
+            { name: "百度开发者社区-MCP实践(4.11)", url: "https://developer.baidu.com/article/detail.html?id=6514218" }
+        ],
+        officialNote: "📌 百度地图将开发者文档MCP协议化+Rules标准化，直接对标高德Skill+CLI方案。从SDK时代→MCP/Rules时代，AI编程工具(Codex/Cursor/Claude Code)成为新的开发者入口",
+        importance: "medium", isAI: true
+    },
+
+    // ---- AI/车载 ----
+    {
+        date: "2026-04-12", vendor: "百度", module: "AI", product: "AI座舱智能体", direction: "AI汽车",
+        dataType: "article",
+        event: "百度地图在2026年中国电动汽车百人会论坛上发布行业首个量产端到端AI座舱智能体，提出AI地图从「导航工具」升级为「智能体中枢」战略定位，同时宣布车道级SR导航实现全域大规模量产，NOA辅助驾驶地图市占率超41.8%行业领跑",
+        evidence: "4月12日百人会论坛现场演讲，百度地图事业部副总经理刘增刚分享。腾讯新闻/新民晚报(4.13)、环球网(4.13)、新浪汽车(4.13)、泰伯网(4.13)、电商派(4.13)、亿欧(4.13)、江西商报(4.13)、同花顺(4.13)等10+家媒体密集报道。核心数据：语音伴聊交互数增长13倍、AI副驾日活用户环比增长54倍。AI座舱智能体以百度语音语言大模型为基座，由中枢Agent统一调度导航/娱乐/车控/伴聊四大子Agent。车道级SR导航已与小鹏汽车、深蓝汽车+梧桐车联量产，零跑D19即将搭载。2026下半年将推出沉浸式车位级SR导航",
+        evidenceType: "new",
+        sources: [
+            { name: "腾讯新闻/新民晚报(4.13)", url: "https://news.qq.com/rain/a/20260413A03MJM00" },
+            { name: "环球网(4.13)", url: "https://tech.huanqiu.com/article/4R8wdRGi1Mj" },
+            { name: "新浪汽车(4.13)", url: "https://auto.sina.cn/news/2026-04-13/detail-inhuipik4893253.d.html" },
+            { name: "泰伯网(4.13)", url: "https://www.taibo.cn/p/99199" },
+            { name: "电商派(4.13)", url: "https://www.pai.com.cn/p/01kp312fvg8cf4kb12jy435ska" },
+            { name: "亿欧(4.13)", url: "https://data.iyiou.com/intelligence/details/81f62784c192478c2f1d5ca379dff58d" },
+            { name: "同花顺(4.13)", url: "https://news.10jqka.com.cn/20260413/c675932769.shtml" },
+            { name: "微信公众号-智能网联前沿(4.13)", url: "https://mp.weixin.qq.com/s?src=11&timestamp=1776128411&ver=6659&signature=8s0Nr8wMiy-9YxZ2V3AhnC5yrQHQ1rZCRo2sageiGqcREzTkgYgHZ2rolBEEeZYxb8a8Bco6GqR108vzvppL58NUpB3RS1L7XypgU8FU2sjpNd*4yVq2NxRtCv3aPbqQ&new=1" }
+        ],
+        officialNote: "📌 百度地图在百人会重磅亮相，三大核心发布：①行业首个量产端到端AI座舱智能体(中枢Agent统调四大子Agent) ②车道级SR导航全域量产(小鹏/深蓝/零跑) ③NOA智驾地图市占超41.8%。战略升级为'连接智能座舱与智能驾驶的核心基建与关键桥梁'，预告2026下半年推出车位级SR导航打通'车位到车位'全场景",
+        importance: "high", isAI: true
+    },
+
     // ========== 第15周 (4.06 - 4.12) ==========
 
     // ---- AI ----
@@ -1084,13 +1161,14 @@ const weeks = [
     { id: "w13", label: "第13周", start: "2026-03-23", end: "2026-03-29", display: "2026.03.23 — 2026.03.29" },
     { id: "w14", label: "第14周", start: "2026-03-30", end: "2026-04-05", display: "2026.03.30 — 2026.04.05" },
     { id: "w15", label: "第15周", start: "2026-04-06", end: "2026-04-12", display: "2026.04.06 — 2026.04.12" },
+    { id: "w16", label: "第16周", start: "2026-04-13", end: "2026-04-19", display: "2026.04.13 — 2026.04.19" },
 ];
 
 let currentWeekIndex = 2;
 let currentTab = 'overview';
 
 function initWeek() {
-    const today = "2026-04-10";
+    const today = "2026-04-14";
     for (let i = weeks.length - 1; i >= 0; i--) {
         if (today >= weeks[i].start && today <= weeks[i].end) {
             currentWeekIndex = i;
@@ -1248,7 +1326,7 @@ function dataTypeHtml(item) {
 
 function eventHtml(item) {
     let text = item.event.replace(/\"([^\"]+)\"/g, '<span class="event-highlight">$1</span>');
-    ['SKILL专区', 'Amap SDK Skills', 'MCP Server', 'MCP协议', 'MCP广场', 'Streamable HTTP', '具身智能', 'HarmonyOS NEXT', 'Claude', '10大标准化接口', '智能客服', '日配额取消', '服务协议', '雷鸟智慧生活', 'AR扫街榜', 'LBS Agent', '鹰眼守护', '公益地图', '首都公共就业服务地图', 'OriginOS 6', '原子通知', 'AI Agent', '充电站', '青岛停车', '车位级导航', '放心消费', 'OpenClaw', 'ClawHub', '灵犀AIOS', 'Qwen3.5', 'AR实景步行导航', 'AR Engine', 'HarmonyOS SDK', 'Maps UI-Kit', 'RoutePlan', 'Map Skills', '千问', 'AI打车', '小滴', '实时公交', 'JSAPI Skills', '司机驿站', '扫街榜', '飞行街景', '烟火澳门支持计划', '金沙中国', '澳门通', 'AI智慧校园', '鲁山一高', '便民快巴', '富临运业', '卒中救治数字地图', '百万减残', '卒中中心', '黄小西', '智慧游门户', '贵州旅游产业发展大会', '煎蛋侠', '无网导航', '清明出行预测报告', '比亚迪', '腾讯地图', 'DiLink', '天神之眼', 'CLI', 'amap-gui', 'Map Agent Plan', 'Container', 'TOKEN', '3.4亿POI', 'GDPS2026', 'DuMate', 'RoboClaw', '空间感知', '超视距', '两轮车', 'Skills场景', '商业选址', '智慧物流', '龙溢', '智能路况提醒', 'HarmonyOS 6', '实况窗', '智感畅行', '畅享90', '养老服务地图', '暖心车站', '适老出行', 'CLI指令集', 'GUI容器', 'Skill技能包', '闪充', '300万根充电桩', '辟谣', '高精地图', '充电导航'].forEach(h => {
+    ['SKILL专区', 'Amap SDK Skills', 'MCP Server', 'MCP协议', 'MCP广场', 'Streamable HTTP', '具身智能', 'HarmonyOS NEXT', 'Claude', '10大标准化接口', '智能客服', '日配额取消', '服务协议', '雷鸟智慧生活', 'AR扫街榜', 'LBS Agent', '鹰眼守护', '公益地图', '首都公共就业服务地图', 'OriginOS 6', '原子通知', 'AI Agent', '充电站', '青岛停车', '车位级导航', '放心消费', 'OpenClaw', 'ClawHub', '灵犀AIOS', 'Qwen3.5', 'AR实景步行导航', 'AR Engine', 'HarmonyOS SDK', 'Maps UI-Kit', 'RoutePlan', 'Map Skills', '千问', 'AI打车', '小滴', '实时公交', 'JSAPI Skills', '司机驿站', '扫街榜', '飞行街景', '烟火澳门支持计划', '金沙中国', '澳门通', 'AI智慧校园', '鲁山一高', '便民快巴', '富临运业', '卒中救治数字地图', '百万减残', '卒中中心', '黄小西', '智慧游门户', '贵州旅游产业发展大会', '煎蛋侠', '无网导航', '清明出行预测报告', '比亚迪', '腾讯地图', 'DiLink', '天神之眼', 'CLI', 'amap-gui', 'Map Agent Plan', 'Container', 'TOKEN', '3.4亿POI', 'GDPS2026', 'DuMate', 'RoboClaw', '空间感知', '超视距', '两轮车', 'Skills场景', '商业选址', '智慧物流', '龙溢', '智能路况提醒', 'HarmonyOS 6', '实况窗', '智感畅行', '畅享90', '养老服务地图', '暖心车站', '适老出行', 'CLI指令集', 'GUI容器', 'Skill技能包', '闪充', '300万根充电桩', '辟谣', '高精地图', '充电导航', 'AI座舱智能体', '百人会', '中枢Agent', '车道级SR导航', 'NOA', '41.8%', '小鹏汽车', '深蓝汽车', '梧桐车联', '零跑', '车位级SR导航', '舱驾融合', '端到端', 'AI司机', 'AI助理', 'AI搭子', 'V21', '四足机器人', 'ABot-M0', '具身导航', '亦庄机器人半马', '具身操作基座模型', '畅游北京', '烟火北京支持计划', '非遗榜单', '3万家', '259家', '状元榜', '一月一城', '文档MCP化', 'Codex', 'Cursor', 'Claude Code', 'Rules'].forEach(h => {
         if (text.includes(h) && !text.includes(`class="event-highlight">${h}`)) {
             text = text.replace(h, `<span class="event-highlight">${h}</span>`);
         }
