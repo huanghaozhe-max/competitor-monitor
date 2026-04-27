@@ -177,11 +177,7 @@
             <h1>🗺️ 地图竞品动态监控 · ToB周报</h1>
             <div style="display:flex;gap:12px;margin-top:8px;">
                 <span class="week-badge" id="headerWeekBadge">2026年 第17周</span>
-<<<<<<< HEAD
                 <span class="update-time">更新时间: 2026-04-27 09:06</span>
-=======
-                <span class="update-time">更新时间: 2026-04-20 10:20</span>
->>>>>>> 7f1b9f42736e7f7ca79a2efb996bcc19424986dd
             </div>
         </div>
         <div class="controls">
@@ -971,7 +967,6 @@ const allData = [
         importance: "high", isAI: true
     },
 
-<<<<<<< HEAD
     // ========== 第17周 (4.20 - 4.26) ==========
 
     // ---- AI ----
@@ -1105,8 +1100,6 @@ const allData = [
         importance: "medium", isAI: true
     },
 
-=======
->>>>>>> 7f1b9f42736e7f7ca79a2efb996bcc19424986dd
     // ========== 第16周 (4.13 - 4.19) ==========
 
     // ---- 具身智能/ABot全栈体系正式发布 ----
@@ -1368,11 +1361,7 @@ let currentWeekIndex = 2;
 let currentTab = 'overview';
 
 function initWeek() {
-<<<<<<< HEAD
     const today = "2026-04-22";
-=======
-    const today = "2026-04-20";
->>>>>>> 7f1b9f42736e7f7ca79a2efb996bcc19424986dd
     for (let i = weeks.length - 1; i >= 0; i--) {
         if (today >= weeks[i].start && today <= weeks[i].end) {
             currentWeekIndex = i;
@@ -1530,11 +1519,7 @@ function dataTypeHtml(item) {
 
 function eventHtml(item) {
     let text = item.event.replace(/\"([^\"]+)\"/g, '<span class="event-highlight">$1</span>');
-<<<<<<< HEAD
     ['SKILL专区', 'Amap SDK Skills', 'MCP Server', 'MCP协议', 'MCP广场', 'Streamable HTTP', '具身智能', 'HarmonyOS NEXT', 'Claude', '10大标准化接口', '智能客服', '日配额取消', '服务协议', '雷鸟智慧生活', 'AR扫街榜', 'LBS Agent', '鹰眼守护', '公益地图', '首都公共就业服务地图', 'OriginOS 6', '原子通知', 'AI Agent', '充电站', '青岛停车', '车位级导航', '放心消费', 'OpenClaw', 'ClawHub', '灵犀AIOS', 'Qwen3.5', 'AR实景步行导航', 'AR Engine', 'HarmonyOS SDK', 'Maps UI-Kit', 'RoutePlan', 'Map Skills', '千问', 'AI打车', '小滴', '实时公交', 'JSAPI Skills', '司机驿站', '扫街榜', '飞行街景', '烟火澳门支持计划', '金沙中国', '澳门通', 'AI智慧校园', '鲁山一高', '便民快巴', '富临运业', '卒中救治数字地图', '百万减残', '卒中中心', '黄小西', '智慧游门户', '贵州旅游产业发展大会', '煎蛋侠', '无网导航', '清明出行预测报告', '比亚迪', '腾讯地图', 'DiLink', '天神之眼', 'CLI', 'amap-gui', 'Map Agent Plan', 'Container', 'TOKEN', '3.4亿POI', 'GDPS2026', 'DuMate', 'RoboClaw', '空间感知', '超视距', '两轮车', 'Skills场景', '商业选址', '智慧物流', '龙溢', '智能路况提醒', 'HarmonyOS 6', '实况窗', '智感畅行', '畅享90', '养老服务地图', '暖心车站', '适老出行', 'CLI指令集', 'GUI容器', 'Skill技能包', '闪充', '300万根充电桩', '辟谣', '高精地图', '充电导航', 'AI座舱智能体', '百人会', '中枢Agent', '车道级SR导航', 'NOA', '41.8%', '小鹏汽车', '深蓝汽车', '梧桐车联', '零跑', '车位级SR导航', '舱驾融合', '端到端', 'AI司机', 'AI助理', 'AI搭子', 'V21', '四足机器人', 'ABot-M0', '具身导航', '亦庄机器人半马', '具身操作基座模型', '畅游北京', '烟火北京支持计划', '非遗榜单', '3万家', '259家', '状元榜', '一月一城', '文档MCP化', 'Codex', 'Cursor', 'Claude Code', 'Rules', 'ABot-World', 'Agibot World Challenge', 'World Arena', '15项', '世界模型', '途途', 'ABot-Claw', 'ABot全栈', 'AGI', '全面开源', '导盲', '来华通', 'GBIC', '小度想想', 'Agent Plan', '入境游', 'ABot-N', 'ABot-M', 'ABot-PhysWorld', 'CVPR 2026', '14B DiT', 'QQ音乐', '超级会员年卡', 'SegmentFault', '千龙网', '北京科技大学', '北科大', '雄安校区', '空间智能高校', '雅迪', '鸿蒙投屏', '冠能白鲨', '冠能星舰', '冠能龙霆', '两轮车导航', '汽车出行AI Agent', 'AI伴行', '千问大模型', '语言大脑', '空间大脑', '理想汽车', 'QwenPaw', '多模态感知', '哈啰租车', '地图+租车', '东风猛士', 'HERE Technologies', '车企出海', '全球实时红绿灯', '海外智驾地图'].forEach(h => {
-=======
-    ['SKILL专区', 'Amap SDK Skills', 'MCP Server', 'MCP协议', 'MCP广场', 'Streamable HTTP', '具身智能', 'HarmonyOS NEXT', 'Claude', '10大标准化接口', '智能客服', '日配额取消', '服务协议', '雷鸟智慧生活', 'AR扫街榜', 'LBS Agent', '鹰眼守护', '公益地图', '首都公共就业服务地图', 'OriginOS 6', '原子通知', 'AI Agent', '充电站', '青岛停车', '车位级导航', '放心消费', 'OpenClaw', 'ClawHub', '灵犀AIOS', 'Qwen3.5', 'AR实景步行导航', 'AR Engine', 'HarmonyOS SDK', 'Maps UI-Kit', 'RoutePlan', 'Map Skills', '千问', 'AI打车', '小滴', '实时公交', 'JSAPI Skills', '司机驿站', '扫街榜', '飞行街景', '烟火澳门支持计划', '金沙中国', '澳门通', 'AI智慧校园', '鲁山一高', '便民快巴', '富临运业', '卒中救治数字地图', '百万减残', '卒中中心', '黄小西', '智慧游门户', '贵州旅游产业发展大会', '煎蛋侠', '无网导航', '清明出行预测报告', '比亚迪', '腾讯地图', 'DiLink', '天神之眼', 'CLI', 'amap-gui', 'Map Agent Plan', 'Container', 'TOKEN', '3.4亿POI', 'GDPS2026', 'DuMate', 'RoboClaw', '空间感知', '超视距', '两轮车', 'Skills场景', '商业选址', '智慧物流', '龙溢', '智能路况提醒', 'HarmonyOS 6', '实况窗', '智感畅行', '畅享90', '养老服务地图', '暖心车站', '适老出行', 'CLI指令集', 'GUI容器', 'Skill技能包', '闪充', '300万根充电桩', '辟谣', '高精地图', '充电导航', 'AI座舱智能体', '百人会', '中枢Agent', '车道级SR导航', 'NOA', '41.8%', '小鹏汽车', '深蓝汽车', '梧桐车联', '零跑', '车位级SR导航', '舱驾融合', '端到端', 'AI司机', 'AI助理', 'AI搭子', 'V21', '四足机器人', 'ABot-M0', '具身导航', '亦庄机器人半马', '具身操作基座模型', '畅游北京', '烟火北京支持计划', '非遗榜单', '3万家', '259家', '状元榜', '一月一城', '文档MCP化', 'Codex', 'Cursor', 'Claude Code', 'Rules', 'ABot-World', 'Agibot World Challenge', 'World Arena', '15项', '世界模型', '途途', 'ABot-Claw', 'ABot全栈', 'AGI', '全面开源', '导盲', '来华通', 'GBIC', '小度想想', 'Agent Plan', '入境游', 'ABot-N', 'ABot-M', 'ABot-PhysWorld', 'CVPR 2026', '14B DiT'].forEach(h => {
->>>>>>> 7f1b9f42736e7f7ca79a2efb996bcc19424986dd
         if (text.includes(h) && !text.includes(`class="event-highlight">${h}`)) {
             text = text.replace(h, `<span class="event-highlight">${h}</span>`);
         }
