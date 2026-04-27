@@ -1,0 +1,1644 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>地图竞品动态监控 | ToB方向周报</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            background: #0f1117;
+            color: #e1e4e8;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1a1f36 0%, #0d1025 100%);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            padding: 28px 40px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(20px);
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #60a5fa, #a78bfa, #f472b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+        }
+
+        .week-badge { background: rgba(96, 165, 250, 0.12); color: #60a5fa; padding: 6px 16px; border-radius: 20px; font-size: 13px; border: 1px solid rgba(96, 165, 250, 0.2); }
+        .update-time { color: #6b7280; font-size: 13px; }
+        .controls { display: flex; gap: 10px; }
+
+        .btn { padding: 8px 20px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); color: #c9d1d9; font-size: 13px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px; }
+        .btn:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); }
+        .btn-primary { background: linear-gradient(135deg, #3b82f6, #6366f1); border: none; color: white; }
+        .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3); }
+
+        .nav-tabs { max-width: 1600px; margin: 0 auto; padding: 20px 40px 0; display: flex; gap: 4px; }
+
+        .nav-tab { padding: 12px 24px; background: transparent; border: none; color: #6b7280; font-size: 14px; cursor: pointer; border-radius: 10px 10px 0 0; transition: all 0.2s; position: relative; font-weight: 500; }
+        .nav-tab:hover { color: #c9d1d9; background: rgba(255,255,255,0.03); }
+        .nav-tab.active { color: #60a5fa; background: rgba(96, 165, 250, 0.08); }
+        .nav-tab.active::after { content: ''; position: absolute; bottom: 0; left: 20%; width: 60%; height: 2px; background: linear-gradient(90deg, #3b82f6, #6366f1); border-radius: 2px; }
+        .nav-tab .tab-count { display: inline-block; background: rgba(96, 165, 250, 0.15); color: #60a5fa; font-size: 11px; padding: 1px 7px; border-radius: 10px; margin-left: 6px; }
+
+        .main-content { max-width: 1600px; margin: 0 auto; padding: 24px 40px 60px; }
+        .vendor-section { display: none; }
+        .vendor-section.active { display: block; }
+
+        .stats-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+        .stat-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 20px; transition: all 0.2s; }
+        .stat-card:hover { border-color: rgba(255,255,255,0.12); background: rgba(255,255,255,0.05); }
+        .stat-label { color: #6b7280; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+        .stat-value { font-size: 28px; font-weight: 700; color: #f0f6fc; }
+        .stat-value.amap { color: #34d399; }
+        .stat-value.bmap { color: #60a5fa; }
+        .stat-value.ai { color: #a78bfa; }
+
+        .week-nav { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; padding: 10px 16px; width: fit-content; }
+        .week-nav-btn { width: 32px; height: 32px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.03); color: #8b949e; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; font-size: 12px; }
+        .week-nav-btn:hover { background: rgba(255,255,255,0.08); color: #c9d1d9; }
+        .week-nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+        .week-range { font-size: 14px; font-weight: 500; color: #c9d1d9; min-width: 220px; text-align: center; }
+        .week-label { font-size: 12px; color: #6b7280; margin-right: 8px; }
+
+        .module-section { margin-bottom: 36px; }
+        .module-header { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; padding-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+        .module-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+        .module-icon.platform { background: rgba(52, 211, 153, 0.12); }
+        .module-icon.bigdata { background: rgba(96, 165, 250, 0.12); }
+        .module-icon.ai { background: rgba(167, 139, 250, 0.12); }
+        .module-icon.official { background: rgba(251, 191, 36, 0.12); }
+        .module-title { font-size: 16px; font-weight: 600; }
+        .module-subtitle { color: #6b7280; font-size: 12px; margin-top: 2px; }
+
+        .news-table { width: 100%; border-collapse: separate; border-spacing: 0; }
+        .news-table thead th { background: rgba(255,255,255,0.03); color: #8b949e; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 12px 16px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.06); }
+        .news-table thead th:first-child { border-radius: 8px 0 0 0; }
+        .news-table thead th:last-child { border-radius: 0 8px 0 0; }
+        .news-table tbody tr { transition: all 0.15s; }
+        .news-table tbody tr:hover { background: rgba(255,255,255,0.03); }
+        .news-table tbody td { padding: 14px 16px; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 13px; line-height: 1.6; vertical-align: top; }
+
+        .date-cell { color: #8b949e; white-space: nowrap; font-variant-numeric: tabular-nums; }
+        .vendor-tag { display: inline-block; padding: 3px 10px; border-radius: 6px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+        .vendor-tag.amap { background: rgba(52, 211, 153, 0.1); color: #34d399; border: 1px solid rgba(52, 211, 153, 0.2); }
+        .vendor-tag.bmap { background: rgba(96, 165, 250, 0.1); color: #60a5fa; border: 1px solid rgba(96, 165, 250, 0.2); }
+
+        .event-desc { color: #c9d1d9; max-width: 420px; }
+        .event-highlight { color: #f0c674; font-weight: 500; }
+        .official-note { display: block; margin-top: 6px; padding: 4px 8px; background: rgba(251, 191, 36, 0.08); border-left: 2px solid rgba(251, 191, 36, 0.3); border-radius: 0 4px 4px 0; font-size: 12px; color: #d4a52a; }
+
+        .source-link { color: #58a6ff; text-decoration: none; font-size: 12px; transition: color 0.2s; word-break: break-all; }
+        .source-link:hover { color: #79c0ff; text-decoration: underline; }
+        .source-links { display: flex; flex-direction: column; gap: 4px; }
+
+        .evidence-cell { color: #9ca3af; font-size: 12px; max-width: 260px; line-height: 1.6; }
+        .evidence-tag { display: inline-block; padding: 1px 6px; border-radius: 3px; font-size: 10px; font-weight: 600; margin-right: 4px; vertical-align: middle; }
+        .evidence-tag.new { background: rgba(52, 211, 153, 0.15); color: #34d399; border: 1px solid rgba(52, 211, 153, 0.2); }
+        .evidence-tag.update { background: rgba(96, 165, 250, 0.15); color: #60a5fa; border: 1px solid rgba(96, 165, 250, 0.2); }
+        .evidence-tag.announce { background: rgba(251, 191, 36, 0.15); color: #fbbf24; border: 1px solid rgba(251, 191, 36, 0.2); }
+        .evidence-tag.report { background: rgba(167, 139, 250, 0.15); color: #a78bfa; border: 1px solid rgba(167, 139, 250, 0.2); }
+        .evidence-tag.observe { background: rgba(244, 114, 182, 0.15); color: #f472b6; border: 1px solid rgba(244, 114, 182, 0.2); }
+
+        .product-tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; background: rgba(255,255,255,0.06); color: #8b949e; margin-right: 4px; }
+        .importance { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 8px; }
+        .importance.high { background: #ef4444; box-shadow: 0 0 8px rgba(239, 68, 68, 0.4); }
+        .importance.medium { background: #f59e0b; }
+        .importance.low { background: #6b7280; }
+
+        .data-type-tag { display: inline-block; padding: 1px 5px; border-radius: 3px; font-size: 9px; font-weight: 600; margin-left: 6px; vertical-align: middle; }
+        .data-type-tag.article { background: rgba(52, 211, 153, 0.12); color: #34d399; border: 1px solid rgba(52, 211, 153, 0.15); }
+        .data-type-tag.patrol { background: rgba(251, 191, 36, 0.12); color: #fbbf24; border: 1px solid rgba(251, 191, 36, 0.15); }
+
+        .empty-state { text-align: center; padding: 60px 20px; color: #6b7280; }
+        .empty-state-icon { font-size: 48px; margin-bottom: 16px; }
+        .empty-state p { margin-top: 8px; }
+
+        .footer { text-align: center; padding: 40px; color: #374151; font-size: 12px; border-top: 1px solid rgba(255,255,255,0.04); }
+
+        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 1000; backdrop-filter: blur(4px); justify-content: center; align-items: center; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: #1c2033; border-radius: 16px; padding: 32px; width: 420px; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
+        .modal h3 { font-size: 18px; margin-bottom: 20px; }
+        .modal-option { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; margin-bottom: 10px; cursor: pointer; transition: all 0.2s; }
+        .modal-option:hover { background: rgba(255,255,255,0.05); border-color: rgba(96, 165, 250, 0.3); }
+        .modal-option-icon { font-size: 24px; }
+        .modal-option-text h4 { font-size: 14px; font-weight: 600; color: #e1e4e8; }
+        .modal-option-text p { font-size: 12px; color: #6b7280; margin-top: 2px; }
+        .modal-close { margin-top: 16px; width: 100%; padding: 10px; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; background: transparent; color: #8b949e; cursor: pointer; font-size: 13px; }
+        .modal-close:hover { background: rgba(255,255,255,0.05); }
+        .export-week-hint { font-size: 12px; color: #6b7280; margin-bottom: 16px; padding: 8px 12px; background: rgba(96, 165, 250, 0.08); border-radius: 8px; border: 1px solid rgba(96, 165, 250, 0.15); }
+
+        @media (max-width: 768px) {
+            .header { padding: 16px 20px; }
+            .nav-tabs { padding: 16px 20px 0; overflow-x: auto; }
+            .main-content { padding: 16px 20px 40px; }
+            .stats-bar { grid-template-columns: repeat(2, 1fr); }
+            .header-top { flex-wrap: wrap; gap: 12px; }
+            .news-table { display: block; overflow-x: auto; }
+        }
+
+        @media print {
+            body { background: white; color: #1a1a1a; }
+            .header { position: static; background: white; border-bottom: 2px solid #e5e7eb; }
+            .header h1 { -webkit-text-fill-color: #1a1a1a; }
+            .btn, .week-nav-btn, .controls { display: none !important; }
+            .nav-tabs { display: none; }
+            .vendor-section { display: block !important; page-break-after: always; }
+            .stat-card { border: 1px solid #e5e7eb; }
+            .stat-value { color: #1a1a1a !important; }
+            .evidence-cell { color: #555; }
+            .official-note { background: #fffbe6; border-left-color: #d4a52a; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <div class="header-top">
+        <div>
+            <h1>🗺️ 地图竞品动态监控 · ToB周报</h1>
+            <div style="display:flex;gap:12px;margin-top:8px;">
+                <span class="week-badge" id="headerWeekBadge">2026年 第17周</span>
+                <span class="update-time">更新时间: 2026-04-27 09:06</span>
+            </div>
+        </div>
+        <div class="controls">
+            <button class="btn" onclick="window.print()">🖨️ 打印</button>
+            <button class="btn btn-primary" onclick="showExportModal()">📤 导出数据</button>
+        </div>
+    </div>
+</div>
+
+<div class="nav-tabs">
+    <button class="nav-tab active" onclick="switchTab('overview', this)">📊 总览 <span class="tab-count" id="count-all">0</span></button>
+    <button class="nav-tab" onclick="switchTab('amap', this)">🟢 高德地图 <span class="tab-count" id="count-amap">0</span></button>
+    <button class="nav-tab" onclick="switchTab('bmap', this)">🔵 百度地图 <span class="tab-count" id="count-bmap">0</span></button>
+    <button class="nav-tab" onclick="switchTab('ai', this)">🟣 AI专题 <span class="tab-count" id="count-ai">0</span></button>
+</div>
+
+<div class="main-content">
+    <div class="vendor-section active" id="section-overview"></div>
+    <div class="vendor-section" id="section-amap"></div>
+    <div class="vendor-section" id="section-bmap"></div>
+    <div class="vendor-section" id="section-ai"></div>
+</div>
+
+<div class="footer">
+    <p>地图竞品动态监控系统 · 数据来源包括高德/百度官网、腾讯云开发者社区、SegmentFault、51CTO、InfoQ、掘金、GitHub、新华网、经济参考报、央广网、华夏时报、IT之家、人民网、中国经济网、环球网、i黑马、光明网、科技日报、每日经济新闻、新华财经、中国新闻网、封面新闻、上海证券报等公开渠道</p>
+    <p style="margin-top:8px;">本报告仅供内部竞品分析参考使用</p>
+    <p style="margin-top:4px;font-size:11px;">📰 资讯类数据：日期=来源实际发布时间 | 🔍 巡检类数据：日期=我方发现时间，信息判断说明发现方式</p>
+</div>
+
+<div class="modal-overlay" id="exportModal">
+    <div class="modal">
+        <h3>📤 选择导出格式</h3>
+        <div class="export-week-hint" id="exportWeekHint">将导出当前选择周的数据</div>
+        <div class="modal-option" onclick="exportCSV()"><div class="modal-option-icon">📋</div><div class="modal-option-text"><h4>CSV 表格</h4><p>适合在 Excel / WPS 中打开和编辑</p></div></div>
+        <div class="modal-option" onclick="exportJSON()"><div class="modal-option-icon">📦</div><div class="modal-option-text"><h4>JSON 数据</h4><p>适合程序化处理和数据对接</p></div></div>
+        <div class="modal-option" onclick="exportMarkdown()"><div class="modal-option-icon">📝</div><div class="modal-option-text"><h4>Markdown 文档</h4><p>适合在企业微信/飞书/钉钉等IM中分享</p></div></div>
+        <button class="modal-close" onclick="hideExportModal()">取消</button>
+    </div>
+</div>
+
+<script>
+// ===== 数据分类说明 =====
+// dataType: "article" = 资讯类（文章/公告，有明确发布日期，日期严格匹配来源发布时间）
+// dataType: "patrol"  = 巡检类（官网/平台巡检发现的变化，无明确发布日期，日期为我方发现时间）
+// 巡检类条目的evidence必须说明：怎么发现的、为什么判断是近期变化
+
+const allData = [
+    // ========== 第11周 (3.9 - 3.15) ==========
+
+    // ---- 行业合作 ----
+    {
+        date: "2026-03-11", vendor: "高德", module: "行业合作", product: "AR眼镜", direction: "AR+LBS",
+        dataType: "article",
+        event: "AWE 2026期间，雷鸟创新联合高德地图发布「雷鸟智慧生活」应用，AR扫街榜正式登陆智能眼镜，实现LBS Agent+AR导航+周边快搜三大功能",
+        evidence: "AWE 2026展会期间(3月11日)雷鸟创新与高德地图联合发布，多家媒体同日报道。核心功能：LBS Agent理解用户模糊意图并主动推荐、AR扫街榜基于位置推送高口碑门店、双模导航(HUD+沙盘)",
+        evidenceType: "new",
+        sources: [
+            { name: "新浪财经(3.21转载)", url: "https://cj.sina.com.cn/articles/view/7879848900/1d5acf3c401902ude2" },
+            { name: "腾讯新闻(3.11原始)", url: "https://news.qq.com/rain/a/20260311A06MHR00" },
+            { name: "凤凰财经(3.11)", url: "https://finance.ifeng.com/c/8rPI3XWuPlp" },
+            { name: "腾讯云开发者(3.11)", url: "https://cloud.tencent.com/developer/article/2637011" }
+        ],
+        officialNote: "📌 标志性事件：高德LBS能力首次从手机端延伸至AR眼镜端，开辟「空间计算+本地生活」新赛道",
+        importance: "high", isAI: true
+    },
+
+    // ---- 开放平台 ----
+    {
+        date: "2026-03-11", vendor: "高德", module: "开放平台", product: "Skill×OpenClaw", direction: "SKILL",
+        dataType: "article",
+        event: "高德开放平台Skill适配OpenClaw智能体平台，将地图搜索/规划/可视化/网站生成四大能力发布至ClawHub，支持自然语言调用",
+        evidence: "腾讯云开发者社区2026年3月11日16:23发布高德官方推文。Skill支持四大场景：地点搜索(搜天坛公园)、复杂旅游规划(自动生成路书)、数据可视化(热力图)、网站代码生成(POI搜索应用)",
+        evidenceType: "new",
+        sources: [
+            { name: "腾讯云开发者(3.11)", url: "https://cloud.tencent.com/developer/article/2637005" },
+            { name: "掘金(3.11)", url: "https://juejin.cn/post/7615587928516886569" }
+        ],
+        officialNote: "📌 安装命令：clawhub install amap-jsapi-skill / amap-lbs-skill。高德Skill生态从IDE扩展至AI Agent平台",
+        importance: "high", isAI: true
+    },
+
+    // ========== 补录：第10-11周重大事件 ==========
+
+    // ---- 鸿蒙生态 ----
+    {
+        date: "2026-03-06", vendor: "高德", module: "行业合作", product: "鸿蒙AR导航", direction: "鸿蒙生态",
+        dataType: "article",
+        event: "高德地图基于HarmonyOS SDK AR Engine，在鸿蒙版App首发AR实景步行导航功能，解决复杂场景下'我在哪、往哪走'的痛点",
+        evidence: "IT之家3月6日首发报道，华为手机官方同日介绍。新浪财经(3.6)、搜狐(3.6)、百度百家号(3.13)、新浪新闻(3.19)、CSDN(3.19)等多家媒体跟进。功能特性：全场景无缝衔接GPS/VPS、暗光环境稳定、虚实融合导航箭头",
+        evidenceType: "new",
+        sources: [
+            { name: "IT之家(3.6)", url: "https://www.ithome.com/0/926/525.htm" },
+            { name: "新浪财经(3.6)", url: "https://finance.sina.com.cn/stock/t/2026-03-06/doc-inhpzret2604710.shtml" },
+            { name: "搜狐(3.22)", url: "https://www.sohu.com/a/999743060_120248784" },
+            { name: "腾讯新闻(3.10)", url: "https://news.qq.com/rain/a/20260310A04NH100" }
+        ],
+        officialNote: "📌 出行领域首个启动鸿蒙原生开发的应用，鸿蒙安装量已达297万。AR实景导航是高德×华为鸿蒙深度合作的标志性成果",
+        importance: "high", isAI: true
+    },
+
+    // ---- 开放平台 ----
+    {
+        date: "2026-03-06", vendor: "百度", module: "开放平台", product: "Maps UI-Kit", direction: "低代码",
+        dataType: "article",
+        event: "百度地图Maps UI-Kit上新RoutePlan路径规划组件，从地点搜索到路径规划一站式低代码集成",
+        evidence: "掘金3月6日发布百度地图开放平台官方文章。继2月10日首发Places UI-Kit后，新增RoutePlan组件，支持搜完地点直接规划路线。配合Map Skills可实现AI辅助开发",
+        evidenceType: "update",
+        sources: [
+            { name: "掘金(3.6)", url: "https://juejin.cn/post/7613808397826818057" },
+            { name: "百度地图UI-Kit文档站", url: "https://bmap-uikit.bj.bcebos.com/docs/index.html" }
+        ],
+        officialNote: "",
+        importance: "medium", isAI: true
+    },
+
+    // ---- 公益出行 ----
+    {
+        date: "2026-03-04", vendor: "高德", module: "行业合作", product: "实时公交", direction: "公益出行",
+        dataType: "article",
+        event: "阿里公益联合高德地图将实时公交服务延伸至甘肃陇南礼县农村，到站误差小于2分钟，覆盖全国超360城市",
+        evidence: "快科技/新浪财经3月4日报道。高德实时公交已覆盖360+城市，核心城市到站预测准确率87%，首次延伸至乡村地区，针对山区信号弱场景优化算法",
+        evidenceType: "report",
+        sources: [
+            { name: "新浪财经/快科技(3.4)", url: "https://finance.sina.com.cn/tech/discovery/2026-03-04/doc-inhpvpqp7162961.shtml" },
+            { name: "搜狐(3.20评测)", url: "https://www.sohu.com/a/998952046_121704615" }
+        ],
+        officialNote: "",
+        importance: "medium", isAI: false
+    },
+
+    // ========== 第12周 (3.16 - 3.22) ==========
+
+    // ---- 开放平台 ----
+    {
+        date: "2026-03-20", vendor: "高德", module: "开放平台", product: "SKILL专区", direction: "SKILL",
+        dataType: "article",
+        event: "高德开放平台上线Amap SDK Skills，首批发布搜索、规划及数据可视化SKILL，支持AI IDE直接调用地图能力",
+        evidence: "腾讯云开发者社区发布高德官方推广文章\"Skill上新｜高德开放平台上线Amap SDK Skills！\"，文章发布时间2026年3月20日15:58",
+        evidenceType: "announce",
+        sources: [
+            { name: "腾讯云-官方推广文章(3.20发布)", url: "https://cloud.tencent.com/developer/article/2643200" },
+            { name: "高德SKILL专区页面", url: "https://lbs.amap.com/api/skill/ready-to-use/summary" }
+        ],
+        officialNote: "📌 官网同步更新：高德开放平台首页导航栏\"文档与支持\"下新增\"SKILL专区\"入口（标记NEW），与API/JS API/Android等并列",
+        importance: "high", isAI: true
+    },
+
+    // ---- AI ----
+    {
+        date: "2026-03-17", vendor: "高德", module: "AI", product: "MCP Server", direction: "MCP",
+        dataType: "article",
+        event: "高德MCP Server文档更新，推荐Streamable HTTP传输协议接入方式，支持12项地图核心功能快速集成",
+        evidence: "高德MCP Server快速接入文档页面显示最后更新时间2026年3月17日，明确推荐Streamable HTTP方式接入",
+        evidenceType: "update",
+        sources: [
+            { name: "高德MCP Server接入文档(更新3.17)", url: "https://lbs.amap.com/api/mcp-server/gettingstarted" }
+        ],
+        officialNote: "",
+        importance: "high", isAI: true
+    },
+    {
+        date: "2026-03-21", vendor: "百度", module: "AI", product: "MCP Server", direction: "MCP",
+        dataType: "article",
+        event: "百度地图MCP Server即将在腾讯云MCP广场上架，提供逆地理编码、路线规划等10大标准化接口",
+        evidence: "腾讯云开发者MCP广场百度地图页面显示「2天前」更新（约3月21日），页面浏览3.4K，GitHub仓库同步上线",
+        evidenceType: "new",
+        sources: [
+            { name: "腾讯云MCP-百度地图", url: "https://cloud.tencent.com/developer/mcp/server/10007" },
+            { name: "GitHub-百度地图MCP", url: "https://github.com/baidu-maps/mcp" }
+        ],
+        officialNote: "",
+        importance: "high", isAI: true
+    },
+
+    // ---- 出行AI（行业重要关联动态）----
+    {
+        date: "2026-03-17", vendor: "高德", module: "AI", product: "滴滴小滴", direction: "AI出行",
+        dataType: "article",
+        event: "滴滴AI出行助手「小滴」v1.0正式上线，支持90+服务标签一句话个性化叫车，覆盖扶老携幼、商务接待等场景",
+        evidence: "IT之家3月17日首发，新浪财经/快科技(3.17)、新华网(3.17)、光明网(3.20)同步报道。去年9月公测后正式上线。支持「空气清新」「后备厢大」「驾驶平稳」等90+服务标签。高德打车作为聚合平台在竞争中面临挑战",
+        evidenceType: "new",
+        sources: [
+            { name: "IT之家(3.17)", url: "https://www.ithome.com/0/930/029.htm" },
+            { name: "新浪财经/快科技(3.17)", url: "https://finance.sina.com.cn/tech/discovery/2026-03-17/doc-inhrieim8037071.shtml" },
+            { name: "新华网(3.17)", url: "https://www3.xinhuanet.com/tech/20260317/5df749b54baa416d8587216b2b8a0164/c.html" },
+            { name: "光明网(3.20)", url: "https://economy.gmw.cn/2026-03/20/content_38660045.htm" }
+        ],
+        officialNote: "📌 网约车领域首个正式上线的AI出行助手。57%用户将「又快又便宜」作为核心诉求，12.5%用户明确要求「空气清新」",
+        importance: "high", isAI: true
+    },
+
+    // ---- 行业合作 ----
+    {
+        date: "2026-03-17", vendor: "高德", module: "行业合作", product: "公益地图", direction: "公益地图",
+        dataType: "article",
+        event: "六省市政府部门联合高德推出公益地图：山东/陕西/湖北/辽宁「放心消费」地图、北京「首都公共就业服务地图」、江西「伴手礼」地图",
+        evidence: "经济参考报(新华社旗下)2026年3月17日刊发，中新经纬、网经社、公益时报、环球网等多家媒体同步报道。涵盖消费维权、求职就业、特产推介三大场景",
+        evidenceType: "report",
+        sources: [
+            { name: "经济参考报(3.17)", url: "http://jjckb.xinhuanet.com/20260317/d7c278b4983942478337ed09ffa366cb/c.html" },
+            { name: "中国经济网(3.17)", url: "http://www.ce.cn/cysc/tech/gd2012/202603/t20260317_2833656.shtml" },
+            { name: "新浪新闻转载", url: "https://news.sina.cn/minsheng/2026-03-17/detail-inhrhttn5383089.d.html?vt=4" },
+            { name: "网经社转载", url: "https://www.100ec.cn/detail--6657615.html" }
+        ],
+        officialNote: "📌 北京站融入AI Agent与大模型技术，智能生成供需分析报告与薪资参考，主动推送匹配岗位",
+        importance: "high", isAI: false
+    },
+    {
+        date: "2026-03-20", vendor: "高德", module: "行业合作", product: "公益地图", direction: "公益地图",
+        dataType: "article",
+        event: "北京市人社局联合高德地图发布「首都公共就业服务地图」，首批上线近60个就业服务实体，搜索\"就业\"一键获取岗位查询、简历投递等服务",
+        evidence: "北京日报客户端3月23日报道(事件发生3月20日)，北京朝阳区政府网站同步转载。3个示范站点率先搭载AI智能体服务",
+        evidenceType: "report",
+        sources: [
+            { name: "人民网-北京频道(3.20)", url: "http://bj.people.com.cn/n2/2026/0320/c14540-41529300.html" },
+            { name: "北京日报(3.23报道)", url: "https://news.bjd.com.cn/2026/03/23/11646470.shtml" }
+        ],
+        officialNote: "📌 系统根据用户定位自动推送3~15公里范围内的服务资讯，深度融入AI Agent与大模型技术",
+        importance: "high", isAI: true
+    },
+    {
+        date: "2026-03-17", vendor: "高德", module: "行业合作", product: "安全预警", direction: "鹰眼守护",
+        dataType: "article",
+        event: "小牛电动发布全球首款AI两轮车机系统「灵犀AIOS」，高德地图作为核心供应链合作伙伴提供「鹰眼守护」全域安全预警体系，融合时空大数据+云端AI实现超视距感知预警",
+        evidence: "发布会3月17日在北京举办，小牛官网/新浪财经/IT之家/TechWeb/中国日报/InfoQ/知乎等10+媒体报道。灵犀AIOS搭载Qwen3.5大模型，高德提供鹰眼守护+AR实景导航。合作伙伴含高通/斑马/高德/禾赛等",
+        evidenceType: "report",
+        sources: [
+            { name: "小牛电动官网(3.17)", url: "https://www.niu.com/newsroom/130" },
+            { name: "腾讯新闻/北京日报(3.19)", url: "https://news.qq.com/rain/a/20260319A03DDN00" },
+            { name: "IT之家(3.17)", url: "https://www.ithome.com/0/930/013.htm" },
+            { name: "新浪财经/TechWeb(3.17)", url: "https://finance.sina.com.cn/tech/roll/2026-03-17/doc-inhrikri7958867.shtml" },
+            { name: "中国日报(3.18)", url: "https://cn.chinadaily.com.cn/a/202603/18/WS69ba1580a310942cc49a3b56.html" }
+        ],
+        officialNote: "📌 标志性事件：高德开放平台时空大数据+鹰眼守护首次赋能两轮电动车安全领域。高德与高通/斑马/禾赛等同列核心供应链",
+        importance: "high", isAI: true
+    },
+    {
+        date: "2026-03-17", vendor: "高德", module: "行业合作", product: "系统集成", direction: "OS集成",
+        dataType: "article",
+        event: "vivo OriginOS 6原子通知新增支持高德驾车实时导航信息显示，系统级入口整合地图核心数据",
+        evidence: "IT之家(搜狐转载)3月17日报道。vivo原子岛整合地图导航：骑行/步行支持高德+百度，新增驾车导航仅支持高德；打车服务同时接入高德+百度+滴滴",
+        evidenceType: "report",
+        sources: [
+            { name: "搜狐/IT之家(3.17)", url: "https://www.sohu.com/a/997712919_114760" }
+        ],
+        officialNote: "📌 竞争态势：驾车导航仅接入高德（百度暂未支持），高德在系统级入口竞争中占得先机",
+        importance: "high", isAI: false
+    },
+    {
+        date: "2026-03-20", vendor: "百度", module: "行业合作", product: "智慧停车", direction: "智慧城市",
+        dataType: "article",
+        event: "青岛「青岛停车」智慧平台日均向百度、高德推送动态停车数据近80万次，47万泊位实现一键导航",
+        evidence: "央广网3月20日报道。平台联网接入1669个停车场、47万泊位，App注册用户242万。日均向百度/高德推送数据80万次。金家岭立交桥下实现全国首个车位级导航",
+        evidenceType: "report",
+        sources: [
+            { name: "腾讯新闻/央广网(3.20)", url: "https://news.qq.com/rain/a/20260320A08XCN00" }
+        ],
+        officialNote: "",
+        importance: "medium", isAI: false
+    },
+    {
+        date: "2026-03-19", vendor: "百度", module: "行业合作", product: "数据应用", direction: "充电网络",
+        dataType: "article",
+        event: "基于百度地图2026年3月充电站数据的分析报道：15座城市充电站超2千个，揭示百度地图在新能源POI数据领域的覆盖能力",
+        evidence: "腾讯新闻3月19日发布(作者\"安安小小姐姐说城市\")。文章明确以百度地图数据为基础，分析全国充电站分布。反映百度地图在充电桩POI数据领域的领先覆盖",
+        evidenceType: "report",
+        sources: [
+            { name: "腾讯新闻(3.19)", url: "https://news.qq.com/rain/a/20260318A01ZDK00" }
+        ],
+        officialNote: "",
+        importance: "medium", isAI: false
+    },
+    {
+        date: "2026-03-17", vendor: "高德", module: "行业合作", product: "顺风车合规", direction: "出行监管",
+        dataType: "article",
+        event: "常州交通部门约谈滴滴、高德、百度等8家顺风车平台企业，督促打击\"伪顺风车\"非法营运",
+        evidence: "腾讯新闻3月17日发布(来源\"常州发布\")。被约谈8家企业含百度地图、高德打车、腾讯出行(腾讯地图)、美团打车、滴滴、嘀嗒、哈啰、同程",
+        evidenceType: "report",
+        sources: [
+            { name: "腾讯新闻/常州发布(3.17)", url: "https://news.qq.com/rain/a/20260317A02FAX00" }
+        ],
+        officialNote: "",
+        importance: "low", isAI: false
+    },
+
+    // ---- 开发者运营 ----
+    {
+        date: "2026-03-19", vendor: "高德", module: "开放平台", product: "开发者运营", direction: "SKILL",
+        dataType: "article",
+        event: "高德开放平台发起「OpenClaw开发者专属福利」活动，注册新用户调用Skill即可领取32元瑞幸咖啡券，活动截至3月27日",
+        evidence: "SegmentFault思否2026年3月19日发布高德官方推广文章。活动标语\"码力全开，福利满杯\"，面向OpenClaw平台开发者推广Skill能力",
+        evidenceType: "announce",
+        sources: [
+            { name: "SegmentFault(3.19)", url: "https://segmentfault.com/a/1190000047663873" }
+        ],
+        officialNote: "📌 开发者拉新策略：通过福利活动推动Skill生态用户增长，截止日3月27日",
+        importance: "medium", isAI: true
+    },
+    {
+        date: "2026-03-20", vendor: "高德", module: "开放平台", product: "Amap SDK Skills", direction: "SKILL",
+        dataType: "article",
+        event: "高德Amap SDK Skills上线公告同步分发至腾讯云、SegmentFault、51CTO、InfoQ、CSDN、技术栈等6+主流开发者社区，覆盖RTOS/Android/iOS三大平台SDK",
+        evidence: "腾讯云(3.20)、SegmentFault(3.20)、51CTO(3.20)、InfoQ(3.20)、CSDN(3.20)、技术栈(3.21)同步发布\"Skill上新\"推文。GitHub仓库amap-demo/amap-sdk-skills同步上线",
+        evidenceType: "announce",
+        sources: [
+            { name: "腾讯云(3.20)", url: "https://cloud.tencent.com/developer/article/2643200" },
+            { name: "SegmentFault(3.20)", url: "https://segmentfault.com/a/1190000047666371" },
+            { name: "51CTO(3.20)", url: "https://blog.51cto.com/u_17390245/14518801" },
+            { name: "GitHub仓库", url: "https://github.com/amap-demo/amap-sdk-skills" }
+        ],
+        officialNote: "📌 高德首次将开放平台SDK文档打包为AI IDE Skill形态，覆盖RTOS/Android/iOS全平台，大规模多渠道分发",
+        importance: "high", isAI: true
+    },
+
+    // ---- 官网产品动态监控（巡检类）----
+    {
+        date: "2026-03-20", vendor: "高德", module: "官网动态", product: "SKILL专区", direction: "SKILL",
+        dataType: "patrol",
+        event: "SKILL专区新增至高德开放平台首页导航栏，成为与API/SDK并列的全新服务形态",
+        evidence: "访问高德开放平台首页(lbs.amap.com)确认导航栏\"文档与支持\"下新增\"SKILL专区\"入口（标记NEW），与API/JS API/Android等并列；此前不存在该入口",
+        evidenceType: "new",
+        sources: [
+            { name: "高德SKILL专区（导航栏入口）", url: "https://lbs.amap.com/api/skill/ready-to-use/summary" }
+        ],
+        officialNote: "",
+        importance: "high", isAI: true
+    },
+    {
+        date: "2026-03-19", vendor: "百度", module: "官网动态", product: "具身智能", direction: "具身智能",
+        dataType: "patrol",
+        event: "百度官网首页展示具身智能解决方案，作为新兴热门行业方向重点推荐",
+        evidence: "访问百度地图开放平台首页(lbsyun.baidu.com)，页脚\"热门解决方案\"列表中新增\"具身智能\"为第一位入口，此前不存在该入口；解决方案专题页(lbsyun.baidu.com/solutions/embodied)链接已上线但内容仍在建设中",
+        evidenceType: "new",
+        sources: [
+            { name: "百度具身智能解决方案页", url: "https://lbsyun.baidu.com/solutions/embodied" }
+        ],
+        officialNote: "",
+        importance: "high", isAI: true
+    },
+    {
+        date: "2026-03-18", vendor: "高德", module: "官网动态", product: "智能客服", direction: "智能客服",
+        dataType: "patrol",
+        event: "高德开放平台智能客服全新上线，7×24h秒级答疑+直连人工支持",
+        evidence: "访问高德开放平台FAQ页面(lbs.amap.com/faq)底部确认新增\"智能客服\"入口按钮，点击后弹出AI客服对话窗口；此前该入口不存在",
+        evidenceType: "new",
+        sources: [
+            { name: "高德FAQ页-智能客服入口", url: "https://lbs.amap.com/faq" }
+        ],
+        officialNote: "",
+        importance: "medium", isAI: false
+    },
+    {
+        date: "2026-03-18", vendor: "高德", module: "官网动态", product: "协议公告", direction: "协议公告",
+        dataType: "patrol",
+        event: "高德开放平台服务协议更新、基础服务日配额取消公告正式发布",
+        evidence: "访问高德公告中心(lbs.amap.com/news)确认存在《服务协议更新公告》(2025.07.31)和《基础服务日配额取消公告》(2025.05.15)两项公告，当前仍为最新有效公告，直接影响开发者接入策略",
+        evidenceType: "announce",
+        sources: [
+            { name: "高德公告中心", url: "https://lbs.amap.com/news" }
+        ],
+        officialNote: "",
+        importance: "medium", isAI: false
+    },
+    {
+        date: "2026-03-18", vendor: "百度", module: "官网动态", product: "鸿蒙NEXT SDK", direction: "鸿蒙生态",
+        dataType: "patrol",
+        event: "百度地图HarmonyOS NEXT全套SDK（地图/定位/导航/鹰眼/司乘同显）持续更新迭代",
+        evidence: "访问百度地图鸿蒙NEXT SDK独立文档站(lbsyun.baidu.com/index.php?title=harmonyos-mapsdk)，确认涵盖地图/定位/导航/鹰眼/司乘同显五大模块文档，文档站持续维护中",
+        evidenceType: "update",
+        sources: [
+            { name: "百度鸿蒙NEXT SDK文档站", url: "https://lbsyun.baidu.com/index.php?title=harmonyos-mapsdk" }
+        ],
+        officialNote: "",
+        importance: "medium", isAI: false
+    },
+
+    // ========== 第13周 (3.23 - 3.29) ==========
+
+    // ---- AI ----
+    {
+        date: "2026-03-23", vendor: "高德", module: "AI", product: "千问AI打车", direction: "AI出行",
+        dataType: "article",
+        event: "阿里千问App正式上线AI打车功能，用户授权绑定高德账号后可一句话完成选车型、设途经点、预约时间等全流程操作",
+        evidence: "财新网3月23日报道(付费)，腾讯新闻(3.23)、网易(3.23)、澎湃(3.23)、PConline(3.23)、i黑马(3.23)等10+媒体集中报道。千问已陆续整合高德打车、飞猪、淘鲜达等阿里生态资源。千问2026春节期间日活峰值达1.3亿",
+        evidenceType: "new",
+        sources: [
+            { name: "财新网(3.23)", url: "https://companies.caixin.com/2026-03-23/102426455.html" },
+            { name: "腾讯新闻(3.23)", url: "https://news.qq.com/rain/a/20260323A06ROR00" },
+            { name: "网易(3.24)", url: "https://www.163.com/dy/article/KOOC9ROQ055616EC.html" },
+            { name: "i黑马(3.23)", url: "https://www.iheima.com/article-395349.html" }
+        ],
+        officialNote: "📌 战略意义重大：千问(3亿月活)接入高德打车，AI应用从「对话助手」升级为「生活服务入口」。滴滴小滴(3.17)→千问AI打车(3.23)，AI出行赛道一周内密集交锋",
+        importance: "high", isAI: true
+    },
+
+    {
+        date: "2026-03-23", vendor: "百度", module: "AI", product: "MCP Server", direction: "MCP",
+        dataType: "article",
+        event: "百度地图MCP Server正式在腾讯云MCP广场上架，提供逆地理编码、路线规划等10大标准化接口，支持Claude等智能助手开箱即用",
+        evidence: "腾讯云MCP广场百度地图页面显示上架日期2026-03-23。注：百度地图MCP服务此前已开源支持，本次为正式入驻腾讯云MCP广场分发渠道",
+        evidenceType: "new",
+        sources: [
+            { name: "腾讯云MCP广场-百度地图(上架3.23)", url: "https://cloud.tencent.com/developer/mcp/server/10007" },
+            { name: "GitHub-baidu-maps/mcp", url: "https://github.com/baidu-maps/mcp" }
+        ],
+        officialNote: "",
+        importance: "high", isAI: true
+    },
+    {
+        date: "2026-03-23", vendor: "高德", module: "行业合作", product: "公益地图", direction: "公益地图",
+        dataType: "article",
+        event: "「首都公共就业服务地图」正式入驻高德地图，北京青年报等多家媒体集中报道",
+        evidence: "北京青年报(腾讯新闻转载)3月23日报道。首批上线近60个就业服务实体，首批3个AI智能体示范站点启用",
+        evidenceType: "report",
+        sources: [
+            { name: "腾讯新闻/北京青年报(3.23)", url: "https://news.qq.com/rain/a/20260323A03FY400" },
+            { name: "朝阳区政府网(3.23)", url: "https://www.bjchp.gov.cn/cpqzf/315734/tzgg27/2026032311020632857/index.html" }
+        ],
+        officialNote: "",
+        importance: "medium", isAI: true
+    },
+
+    // ---- 开放平台 ----
+    {
+        date: "2026-03-23", vendor: "高德", module: "开放平台", product: "Skill×OpenClaw", direction: "SKILL",
+        dataType: "article",
+        event: "高德开放平台Skills适配OpenClaw获TechWeb、凤凰科技、太平洋电脑网、ITBEAR等主流科技媒体集中报道，标志Skill生态进入大众传播阶段",
+        evidence: "TechWeb 3月23日15:37首发，凤凰科技(3.23 15:45)、太平洋电脑网(3.23)、ITBEAR(3.23)、CITNews(3.23)等同日密集发稿。此前3月11日腾讯云开发者社区/掘金为开发者渠道首发，本次为科技大众媒体的第二波集中报道",
+        evidenceType: "report",
+        sources: [
+            { name: "TechWeb(3.23)", url: "https://finance.sina.com.cn/tech/roll/2026-03-23/doc-inhryhiv4172326.shtml" },
+            { name: "凤凰科技(3.23)", url: "https://tech.ifeng.com/c/8rjHyGG48NF" },
+            { name: "太平洋电脑网(3.23)", url: "https://www.pconline.com.cn/ai/2119/21195375.html" },
+            { name: "ITBEAR(3.23)", url: "https://www.itbear.com.cn/html/2026-03/1227493.html" }
+        ],
+        officialNote: "📌 从开发者社区(3.11)到科技大众媒体(3.23)的传播升级，高德Skill×OpenClaw进入大众认知阶段",
+        importance: "high", isAI: true
+    },
+
+    // ---- 行业合作 ----
+    {
+        date: "2026-03-23", vendor: "高德", module: "行业合作", product: "司机驿站", direction: "民生出行",
+        dataType: "article",
+        event: "多地交通部门联合高德上线超2100个司机驿站，覆盖全国30省份，出租车/网约车/货车司机可一图查询歇脚点",
+        evidence: "中国消费网3月23日报道(同花顺财经转载)。全国累计超2100个出租汽车司机驿站和货车司机之家在高德地图上线，覆盖30个省份。搜索「司机驿站」可查周边驿站信息、服务设施和开放时间。鹰眼守护预警系统同步服务货车司机安全",
+        evidenceType: "report",
+        sources: [
+            { name: "同花顺/中国消费网(3.23)", url: "https://news.10jqka.com.cn/20260323/c675464706.shtml" },
+            { name: "新浪财经/上游新闻(3.13)", url: "https://finance.sina.com.cn/stock/t/2026-03-13/doc-inhqvnzn1062944.shtml" },
+            { name: "中国交通报(3.5首发)", url: "https://www.zgjtb.com/2026-03/05/content_510042.html" }
+        ],
+        officialNote: "📌 从200座合作出行企业司机服务中心扩展至2100+全行业驿站，覆盖出租车+网约车+货车三大群体。搭载鹰眼守护预警系统服务货车司机安全",
+        importance: "high", isAI: false
+    },
+
+    // ---- 开放平台 ----
+    {
+        date: "2026-03-23", vendor: "百度", module: "开放平台", product: "Map Skills", direction: "SKILL",
+        dataType: "article",
+        event: "百度地图Map Skills获CSDN等多家开发者社区深度报道：AI生成地图代码可用率提升至90%，开发效率提升50%",
+        evidence: "CSDN(3.23)发布深度测评文章。Map Skills于2月2日首发(知乎/掘金)，2月5日官方直播推介，本次为开发者社区的第二轮传播。核心数据：代码可用率90%、效率提升50%、支持JSAPI 4.0-5.3全版本、内置7种应用模板",
+        evidenceType: "report",
+        sources: [
+            { name: "CSDN(3.23)", url: "https://blog.csdn.net/N2314029753_/article/details/159349812" },
+            { name: "知乎(2.2首发)", url: "https://zhuanlan.zhihu.com/p/2001748374148370645" },
+            { name: "GitHub仓库", url: "https://github.com/baidu-maps/jsapi-skills" }
+        ],
+        officialNote: "",
+        importance: "medium", isAI: true
+    },
+
+    // ---- 行业合作 ----
+    {
+        date: "2026-03-23", vendor: "高德", module: "行业合作", product: "百亿补贴约谈", direction: "平台监管",
+        dataType: "article",
+        event: "北京市市场监管局联合市商务局、市文旅局约谈12家平台企业，高德地图因\"百亿补贴\"活动已结束但标识仍在酒店板块展示被点名通报，涉嫌误导消费者",
+        evidence: "央视新闻3月23日首发，人民日报(3.24)、澎湃新闻(3.24)、观察者网(3.24)、凤凰科技(3.24)、腾讯新闻/信网(3.24)等多家权威媒体报道。12家被约谈企业含携程、去哪儿、高德、京东、淘宝闪购、美团、飞猪、同程、途家、小猪、抖音、快手。监管部门已送达《行政告诫书》并指导高德完成整改",
+        evidenceType: "report",
+        sources: [
+            { name: "央视新闻(3.23)", url: "https://news.cctv.com/2026/03/23/ARTIcGZ8ke8duNxuSQ4eU42U260323.shtml" },
+            { name: "人民网(3.24)", url: "https://finance.people.com.cn/n1/2026/0324/c1004-40687353.html" },
+            { name: "澎湃新闻(3.24)", url: "https://www.thepaper.cn/newsDetail_forward_32816969" },
+            { name: "腾讯新闻/信网(3.24)", url: "https://news.qq.com/rain/a/20260324A01AF100" }
+        ],
+        officialNote: "📌 高德酒店业务\"百亿补贴\"活动到期未及时撤除促销标识，属于平台运营合规问题。监管部门重点打击\"内卷式\"竞争四大乱象",
+        importance: "medium", isAI: false
+    },
+    {
+        date: "2026-03-24", vendor: "百度", module: "行业合作", product: "AI赏花地图", direction: "智慧文旅",
+        dataType: "article",
+        event: "北京市文化和旅游局联合百度地图推出「北京赏花地图」，覆盖全市主要赏花点位，集成AI智能寻花、花期预报、精选路线及周边服务功能",
+        evidence: "人民网北京频道3月20日首发报道(活动当日)，文化和旅游部官网(3.23)、新京报(3.20)、百度百家号(3.23)、微新创想(3.24)等多家媒体持续跟进。用户在百度地图App搜索\"北京赏花地图\"或\"地区+花种+赏花攻略\"即可使用。同步发布10条\"漫步北京\"品质赏花游主题线路",
+        evidenceType: "new",
+        sources: [
+            { name: "人民网-北京(3.20)", url: "http://bj.people.com.cn/n2/2026/0320/c14540-41529300.html" },
+            { name: "文旅部官网(3.23)", url: "https://www.mct.gov.cn/whzx/qgwhxxlb/bj/202603/t20260323_965091.htm" },
+            { name: "新京报(3.20)", url: "https://m.bjnews.com.cn/detail/1773997498129001.html" },
+            { name: "百度官方推文(3.23)", url: "https://www.visitbeijing.com.cn/article/4QsSgHKLLz0" },
+            { name: "百度地图公众号(3.24)", url: "https://mp.weixin.qq.com/s?src=11&timestamp=1775187166&ver=6637&signature=kPXdXbaykvEc2ugbrBID*T*zGewy*lg63dcTXzZdOtFdeEASY3FMWzBsZdCrynLBkGS6YbE*tZ6pjKyIyxYlA-0b0SXftGaUGxLD9OE*kWeLqLJzXpmzO94Vmf8FVJFO&new=1" },
+            { name: "文旅北京公众号(3.23)", url: "https://mp.weixin.qq.com/s?src=11&timestamp=1775187166&ver=6637&signature=LD5TF2PH8AT90Ocir5e3nZO7V554lM3Xe7CpYM7TsnLdRpnafUfwJGxCp0ILtZoF6*Hb47QHOInOmvXS4Ydh8yqLL5AqjY8XLWCSHexBMP5VPn0Hz4ihRMsF0hVWOQ94&new=1" },
+            { name: "百度地图公众号(4.2二推)", url: "https://mp.weixin.qq.com/s?src=11&timestamp=1775187166&ver=6637&signature=kPXdXbaykvEc2ugbrBID*T*zGewy*lg63dcTXzZdOtGt10VWhGiVoG9fX3NtLu23wiguL-lR2byzjFKlSWXb1ivZAwbbhIGGrEAyqsXRTCAo76p1swQjp8qLtuH*R1Z8&new=1" }
+        ],
+        officialNote: "📌 百度地图在政务+文旅方向的标志性合作。AI能力赋能赏花场景：输入自然语言即可获得智能寻花服务，体现百度地图AI开放平台定位",
+        importance: "high", isAI: true
+    },
+
+    // ---- 行业合作 ----
+    {
+        date: "2026-03-27", vendor: "高德", module: "行业合作", product: "扫街榜澳门站", direction: "智慧文旅",
+        dataType: "article",
+        event: "高德扫街榜大湾区首站落地澳门，发布全球首个城市级「飞行街景」及「地道澳门味」榜单，联合澳门通推出「烟火澳门支持计划」，金沙中国三方战略签约",
+        evidence: "3月27日澳门伦敦人举办发布会，高德CEO郭宁出席。新华网(3.27)、人民网大湾区频道(3.27)、新浪财经(3.28)、腾讯新闻(3.27)、中工网(3.28)、东方财富(3.28)、海外网(3.27)等10+家权威媒体集中报道。关键数据：扫街榜覆盖澳门985家门店、96家入选状元榜、90家上榜地道澳门味榜单、累计为大湾区11城输送客源3.8亿人次。飞行街景助力英记饼家日均成交额环比增长23%",
+        evidenceType: "new",
+        sources: [
+            { name: "新华网(3.27)", url: "https://www.news.cn/tech/20260327/86789b0ba9854411a900ddd0f03a6fe8/c.html" },
+            { name: "人民网-大湾区(3.27)", url: "http://gba.people.cn/n1/2026/0327/c42272-40690389.html" },
+            { name: "新浪财经(3.28)", url: "https://finance.sina.com.cn/wm/2026-03-28/doc-inhspfkw4596214.shtml" },
+            { name: "腾讯新闻(3.27)", url: "https://news.qq.com/rain/a/20260327A067PZ00" },
+            { name: "福州新闻网(3.28)", url: "https://news.fznews.com.cn/gngj/20260328/nm74019zuU.shtml" },
+            { name: "百度百科", url: "https://baike.baidu.com/item/%E7%83%9F%E7%81%AB%E6%BE%B3%E9%97%A8%E6%94%AF%E6%8C%81%E8%AE%A1%E5%88%92/67542680" },
+            { name: "高德地图公众号(3.27)", url: "https://mp.weixin.qq.com/s?src=11&timestamp=1775187166&ver=6637&signature=CW5qKLqgH79Y8ddRQGGw-d2yD3Y7ktIdfjo6Pnp44bINBt4gwaDnc20tFF69p5l18jleSAn5QrmfLX4t4lAdGpgmuzhFWtuqiEenBPPSS*BD-RreqpgNtAcPGUHhASFF&new=1" },
+            { name: "参考消息公众号(3.27)", url: "https://mp.weixin.qq.com/s?src=11&timestamp=1775187166&ver=6637&signature=9KLBk7dPJaSK95K2GQTYQ1T-K815S*PHiVEs2YlDDvc31kcymbpM0BcIfz1UAF6ns53JhJXPH1*YtZ8nYcATr8DG72S08szykTcDvEIykC6NvZhOMx8uzi*g4jgh*qui&new=1" }
+        ],
+        officialNote: "📌 高德扫街榜大湾区战略布局标志性事件。澳门特区旅游局局长文绮华、金沙中国行政副主席王英伟出席。四大支持举措：AI数字门店+智能化经营工具+百万红包千万流量+达人助推。飞行街景开创地图行业新形态",
+        importance: "high", isAI: true
+    },
+    {
+        date: "2026-03-25", vendor: "高德", module: "行业合作", product: "AI智慧校园", direction: "智慧校园",
+        dataType: "article",
+        event: "高德地图与河南鲁山一高签约共建全国首个高中AI智慧校园项目，空间智能技术首次全面应用于高中校园管理场景",
+        evidence: "3月25日签约仪式在鲁山一高举行，3月26日高德官方公众号发文宣布。凤凰科技(3.26)、快科技(3.26)、网易(3.26)、大象新闻(3.25)、DoNews(3.26)、PChome(3.26)、大河新闻(3.27)等10+家媒体报道。三大核心：①LBS精细化导航覆盖教学楼/宿舍/图书馆等 ②AI智能交通管理划分可通行/禁行区域 ③入校语音播报与安全区域提醒",
+        evidenceType: "new",
+        sources: [
+            { name: "凤凰科技(3.26)", url: "https://tech.ifeng.com/c/8rnnYnGbZAr" },
+            { name: "PChome(3.26)", url: "https://article.pchome.net/info/12207.html" },
+            { name: "DoNews(3.26)", url: "https://www.donews.com/news/detail/8/6484668.html" },
+            { name: "大象新闻(3.25)", url: "http://news.hnr.cn/snxw/article/1/2036946356501864450" },
+            { name: "网易(3.26)", url: "https://www.163.com/dy/article/KOUF6F000511CPVM.html" }
+        ],
+        officialNote: "📌 高德首次面向高中落地智慧校园建设(河南首个、全国第三)。空间智能从城市/出行场景延伸至校园管理，为更多学校提供可复制的智慧校园方案",
+        importance: "high", isAI: true
+    },
+    {
+        date: "2026-03-25", vendor: "高德", module: "行业合作", product: "便民快巴", direction: "出行生态",
+        dataType: "article",
+        event: "富临运业与高德地图在高德总部签署合作协议，以「便民快巴」业务为起点，构建全域出行服务生态，探索交旅融合与数据AI赋能",
+        evidence: "3月25日签约仪式在高德地图总部举行，富临运业官微同日发布，同花顺(3.25)转载。高德副总裁张健、数据中心副总经理郭立帅出席。合作内容：便民快巴试点→多品类出行服务→交旅融合+数据AI+低空产业布局",
+        evidenceType: "new",
+        sources: [
+            { name: "同花顺/富临运业官微(3.25)", url: "https://news.10jqka.com.cn/20260325/c675543226.shtml" },
+            { name: "富临运业官网(3.25)", url: "https://www.scflyy.cn/news/2420.html" }
+        ],
+        officialNote: "",
+        importance: "medium", isAI: false
+    },
+    {
+        date: "2026-03-28", vendor: "高德", module: "行业合作", product: "卒中救治数字地图", direction: "智慧医疗",
+        dataType: "article",
+        event: "国家卫健委百万减残工程专委会携手高德共建「卒中救治数字地图」，天津率先试点上线，用户搜索「卒中中心」可快速定位具备救治能力的医院并一键导航",
+        evidence: "3月28日天津启动仪式，高德董事长刘振飞、吉训明院士出席。新华网(3.28)、天津日报(3.29头版)、中国交通新闻网(3.29)、中华网(3.29)、网易(3.29)、搜狐(3.29)、新浪财经(3.29)、福州新闻网(3.28)等8+家媒体报道。核心功能：卒中中心点位信息整合+出行导航规划，解决患者急救「去哪治」难题。天津已建成25家卒中中心+164家基层卒中救治单元，近十年减少残疾卒中患者累计节约社会资金654亿元",
+        evidenceType: "new",
+        sources: [
+            { name: "新华网(3.28)", url: "http://www.news.cn/tech/20260328/02fd77854b0d4de981b4d78709592d72/c.html" },
+            { name: "天津日报(3.29)", url: "https://epaper.tianjinwe.com/tjrb/html/2026-03/29/content_143080_3273469.htm" },
+            { name: "中国交通新闻网(3.29)", url: "https://www.zgjtb.com/2026-03/29/content_513508.html" },
+            { name: "中华网(3.29)", url: "https://news.china.com/socialgd/10000169/20260329/49365427.html" },
+            { name: "网易(3.29)", url: "https://www.163.com/dy/article/KP4PM07O05506BEH.html" },
+            { name: "搜狐(3.29)", url: "https://www.sohu.com/a/1002452141_121443915" },
+            { name: "天津日报公众号(3.29)", url: "https://mp.weixin.qq.com/s?src=11&timestamp=1775187166&ver=6637&signature=VVYrzhXjaU8i4Q6nQUk-GfQKWYkHLhDIBmCw3*uzlm4Y9LsGPULdbEcDa6pXEMv8fVnSqNIG8NAypq8E4eiXhgBjUr9n1pgIgKRfZ6Mu*ptg8yPMFmm3v4zzKFRL4f5R&new=1" },
+            { name: "国家百万减残工程公众号(4.2)", url: "https://mp.weixin.qq.com/s?src=11&timestamp=1775187166&ver=6637&signature=6fbJOMx84wgam7d1trQ9j5Dk4bUPF5u1dOV5o04qo8eeLdJ7bFUfuYldL2dXphhcAPP2*2gUItGWfiC1-KPVRmQKw5HbrVNLdbEtRSDxpesdPIpupcl*mVfUL4DiJNn1&new=1" },
+            { name: "医师报脑健康频道公众号(3.30)", url: "https://mp.weixin.qq.com/s?src=11&timestamp=1775187166&ver=6637&signature=Zhd3SJbMzpb-xqal1C-WkmGSVj9ntYtEsNTugP2vGnanirHJ0zw-sWim*Ia95Je7O-cbQ3CejfPUzndIFIUzcOH7jsQdcRNRFyeiqBNTc9G13sQ9STtNZyK9SV1DGH*3&new=1" }
+        ],
+        officialNote: "📌 高德空间智能首次进入医疗急救领域，董事长级别出席。卒中为我国居民致死致残首位病因，4.5小时溶栓关键窗口期内快速导航至卒中中心具有救命价值。「医疗+科技」跨界合作标志性事件",
+        importance: "high", isAI: true
+    },
+
+    // ========== 第14周 (3.30 - 4.05) ==========
+
+    // ---- 行业合作 ----
+    {
+        date: "2026-03-30", vendor: "高德", module: "行业合作", product: "智慧文旅", direction: "智慧文旅",
+        dataType: "article",
+        event: "高德董事长刘振飞出席第二十届贵州旅游产业发展大会，公布与贵州文旅数字形象代言人「黄小西」战略合作成果：智慧游门户上线近两月访问量提升超20倍，探索「黄小西扫街榜」等深度合作",
+        evidence: "3月30日贵阳开幕式上刘振飞致辞。新华网(3.31)、腾讯新闻(3.31)、环球网(3.31)、中国经济网(3.31)、贵阳日报(4.1)、动静新闻等10+家媒体报道。核心数据：贵州布局超200万精准点位、覆盖21万家餐厅和1.4万个景点、扫街榜发布近5000个榜单覆盖3.8万特色目的地。刘振飞提出'AI的终点不是对话而是服务，文旅的终点不是流量而是体验'",
+        evidenceType: "report",
+        sources: [
+            { name: "新华网(3.31)", url: "https://www3.xinhuanet.com/tech/20260331/da0543b55e7449b897a7e8fdee91124a/c.html" },
+            { name: "腾讯新闻(3.31)", url: "https://news.qq.com/rain/a/20260331A068JF00" },
+            { name: "环球网(3.31)", url: "https://tech.huanqiu.com/article/4QyE4O2QO8v" },
+            { name: "中国经济网(3.31)", url: "http://adimg.ce.cn/cysc/newmain/yc/jsxw/202603/t20260331_2869942.shtml" },
+            { name: "贵阳日报(4.1)", url: "https://rb.gywb.cn/epaper/gyrb/html/2026-04/01/content_4319.htm" }
+        ],
+        officialNote: "📌 董事长级别出席省级旅发大会，贵州成为高德AI+文旅的标杆省级合作。'黄小西扫街榜'、AI智能体原生互动体验、旅居地图等深度合作方向即将落地",
+        importance: "high", isAI: true
+    },
+
+    // ---- 产品能力 ----
+    {
+        date: "2026-03-30", vendor: "高德", module: "开放平台", product: "无网导航", direction: "离线能力",
+        dataType: "article",
+        event: "高德地图无网导航全面升级，覆盖驾车、公交、货车、摩托车、骑行、步行六大出行场景，离线地图包体积缩小90%以上至几MB，实现秒级下载",
+        evidence: "IT之家3月30日首发报道。核心升级：①智能缓存机制，基于常驻城市和历史路线自动缓存 ②轻量包技术，体积缩小90%+ ③公交无网可展示历史班次参考 ④货车无网保留禁行提示",
+        evidenceType: "update",
+        sources: [
+            { name: "IT之家(3.30)", url: "https://www.ithome.com/0/934/216.htm" }
+        ],
+        officialNote: "",
+        importance: "medium", isAI: false
+    },
+
+    // ---- 大数据 ----
+    {
+        date: "2026-04-01", vendor: "高德", module: "大数据", product: "清明出行预测", direction: "大数据报告",
+        dataType: "article",
+        event: "高德地图发布《2026年清明出行预测报告》，基于交通大数据与机器学习预测清明假期（4月4日-6日）高速拥堵呈M型特征，出程高峰4月4日09-13时，返程高峰4月6日14-20时",
+        evidence: "搜狐4月1日分发，发现报告(3.30)、原创力文档(4.1)、人人文库(4.1)等平台同步上线。热门景区TOP3：杭州西湖、普陀山、九华山。出程最堵：G0421许广高速(清远段)平均车速17km/h",
+        evidenceType: "report",
+        sources: [
+            { name: "搜狐(4.1)", url: "https://www.sohu.com/a/1003475502_121757514" },
+            { name: "发现报告(3.30)", url: "https://www.fxbaogao.com/detail/5326714" }
+        ],
+        officialNote: "",
+        importance: "medium", isAI: false
+    },
+
+    // ---- 车载生态 ----
+    {
+        date: "2026-03-30", vendor: "高德", module: "行业合作", product: "车载地图", direction: "车载生态",
+        dataType: "article",
+        event: "比亚迪全系车型车机导航全面切换至腾讯定制版地图，高德地图正式退出比亚迪车机生态，覆盖海鸥、海豚、汉、唐、方程豹、仰望U8等全系车型，数百万车主受影响",
+        evidence: "新浪新闻(3.30)、百度百家号(3.29)、有驾(4.1)等5+家媒体报道。切换时间线：2月手机App静默切换→3月上旬后排Pad切换→3月中旬车机DiLink全面OTA推送。原因：成本考量(腾讯方案更优惠)、微信生态整合(位置三秒同步车机)、智驾协同(天神之眼适配)、数据自主掌控。新出厂车辆直接预装腾讯地图，老车主无法手动切回高德",
+        evidenceType: "report",
+        sources: [
+            { name: "新浪新闻(3.30)", url: "https://k.sina.com.cn/article_7295511724_1b2d8acac02001buoc.html" },
+            { name: "百度百家号(3.29)", url: "https://baijiahao.baidu.com/s?id=1860964815453523246" },
+            { name: "有驾(4.1)", url: "https://www.yoojia.com/article/9375647134342443517.html" }
+        ],
+        officialNote: "📌 高德失去比亚迪车机生态（年销量300万+辆），腾讯地图借车载+微信生态闭环实现车机市场份额跃升。驾车导航仅支持高德的vivo OriginOS 6(3.17)与比亚迪全面切换腾讯(3.30)形成鲜明对比，车载地图竞争格局正在重塑",
+        importance: "high", isAI: false
+    },
+
+    // ---- 开放平台 ----
+    {
+        date: "2026-03-30", vendor: "高德", module: "开放平台", product: "鹰眼守护", direction: "安全预警",
+        dataType: "article",
+        event: "高德开放平台官方宣布已全面接入「鹰眼守护」安全预警系统，并推出两轮车版率先适配小牛电动，覆盖后方快速来车、前方急刹车、借道超车、弯道会车、夜间前方慢速货车、前方慢速车六大核心场景",
+        evidence: "高德地图官方微信公众号2026年3月30日17:26发布。鹰眼守护由中国安全生产科学研究院与高德联合发布(国家重点研发计划成果)，基于云端大数据+AI大模型实现超视距感知。两轮车版6大预警场景面向骑行安全。此前3月17日小牛灵犀AIOS发布会已预告合作，本次为官方正式宣布开放平台全面接入",
+        evidenceType: "announce",
+        sources: [
+            { name: "高德地图公众号(3.30)", url: "https://mp.weixin.qq.com/s?src=11&timestamp=1775186879&ver=6637&signature=CW5qKLqgH79Y8ddRQGGw-d2yD3Y7ktIdfjo6Pnp44bI9MNMJO6QRRL7zEptVWeHO7XBnS6Tbh0oVmeBFAX455ceJD8yJOuY8BK8LvQQg28srvWRh4w7a*aCS84KBX4uL&new=1" },
+            { name: "小牛电动官网(3.17)", url: "https://www.niu.com/newsroom/130" },
+            { name: "IT之家(3.17)", url: "https://www.ithome.com/0/930/013.htm" }
+        ],
+        officialNote: "📌 鹰眼守护从高德App内置功能正式升级为开放平台能力输出，两轮车版6大场景覆盖骑行安全。标志着高德安全预警能力从四轮车延伸至两轮车，从App自用升级为平台开放",
+        importance: "high", isAI: true
+    },
+
+    // ---- AI/生态 ----
+    {
+        date: "2026-04-02", vendor: "百度", module: "AI", product: "GDPS2026", direction: "AI Agent生态",
+        dataType: "article",
+        event: "百度智能云在GDPS2026全球开发者先锋大会上展示OpenClaw生态全景，百度地图作为「空间感知基建」核心角色，为OpenClaw智能体提供地点检索、路线规划、动态路况等物理世界能力，赋能DuMate桌面智能体、AI眼镜、机器人等多形态硬件落地",
+        evidence: "百度智能云官方微信公众号2026年4月2日21:07发布。百度地图为OpenClaw提供地点检索/路线规划/动态路况三大核心能力，使AI从'问答'跨越至'物理世界执行'。大会展示DuMate桌面智能体、李未可AI眼镜、地瓜机器人+上海交大RoboClaw、追觅数字员工、跃界Aura陪伴精灵等多场景落地",
+        evidenceType: "new",
+        sources: [
+            { name: "百度智能云公众号(4.2)", url: "https://mp.weixin.qq.com/s?src=11&timestamp=1775186922&ver=6637&signature=XUA4PMQXqU9T7T23-BYFtZL8IWb-m4n4Iap3NQFIC1SHpiDPZhmVocacHOqhIQv3vL2BIDv5Pe5pdqbtGS*23PMB2XhFTPqsg6f695rL*tbZWGhOonWJeHzLnLDljXE7&new=1" }
+        ],
+        officialNote: "📌 百度地图在GDPS2026上被定义为OpenClaw'打破虚拟与现实边界'的关键基建，为AI眼镜/机器人/桌面智能体等多形态终端提供空间感知。与高德CLI/Skill的开发者工具路线不同，百度强调'端到端生态集成'路线",
+        importance: "high", isAI: true
+    },
+
+    // ---- 开放平台/AI ----
+    {
+        date: "2026-04-01", vendor: "高德", module: "开放平台", product: "CLI工具", direction: "AI Agent基建",
+        dataType: "article",
+        event: "高德开放平台正式上线CLI命令行工具，推出「Skill + CLI + Container」三位一体解决方案，让AI Agent零代码集成地图能力，一行命令即可调用POI搜索、路线规划、地图可视化等全链路功能",
+        evidence: "高德开放平台微信公众号4月1日18:13官方发布，AtomGit/CSDN(4.2)转载。CLI指令集支持amap-gui start/route/search等标准化命令；SKILL技能包指导Agent智能匹配指令；GUI容器实时展示地图操作结果。已同步上架ClawHub(amap-cli-skill)，LLMBase平台收录。支持npm全局安装(@amap-lbs/amap-gui)和OpenClaw两种接入方式",
+        evidenceType: "new",
+        sources: [
+            { name: "高德开放平台公众号(4.1)", url: "https://mp.weixin.qq.com/s/LKLboUSJGI3UVfu41Bhh1w" },
+            { name: "AtomGit/CSDN(4.2)", url: "https://gitcode.csdn.net/69ce352d0a2f6a37c59c8976.html" },
+            { name: "ClawHub(amap-cli-skill)", url: "https://clawhub.ai/lbs-amap/amap-cli-skill" },
+            { name: "LLMBase收录", url: "https://llmbase.ai/openclaw/amap-cli-skill/" },
+            { name: "高德CLI文档站", url: "https://lbs.amap.com/api/cli/map-cli/summary" }
+        ],
+        officialNote: "📌 重要升级：高德从Skill(自然语言调用)扩展到CLI(命令行调用)，形成SKILL+CLI+MCP三轨并行的AI Agent接入体系。CLI方案比MCP更轻量，比纯Skill更精准可控，标志着地图开放平台从'API服务商'向'AI Agent基础设施'全面转型",
+        importance: "high", isAI: true
+    },
+    {
+        date: "2026-04-01", vendor: "百度", module: "开放平台", product: "Map Agent Plan", direction: "AI Agent基建",
+        dataType: "article",
+        event: "百度地图开放平台发布Map Agent Plan，为AI Agent提供极简零门槛的地图技能包，基于3.4亿POI数据支持自然语言交互，无需注册认证即可使用",
+        evidence: "3月30日SegmentFault/CSDN首批内测招募→4月1日GitHub baidu-maps/map-skills仓库发布v1.0.0→4月2日DoNews快讯正式发布。提供双轨方案：路径一Map Agent Plan面向非开发者(零代码Prompt配置)，路径二地图Skills面向开发者(API深度定制)。已适配OpenClaw平台，领取TOKEN即用。GitHub仓库含baidu-ai-map Skill，覆盖地点检索/路线规划/地理编码/逆地理编码/天气查询五大能力",
+        evidenceType: "new",
+        sources: [
+            { name: "百度地图开放平台公众号", url: "https://mp.weixin.qq.com/s/tCBPVkyseuZXInhybNeOrw" },
+            { name: "DoNews快讯(4.2)", url: "https://www.donews.com/news/detail/8/6496046.html" },
+            { name: "SegmentFault内测招募(3.30)", url: "https://segmentfault.com/a/1190000047683978" },
+            { name: "GitHub baidu-maps/map-skills", url: "https://github.com/baidu-maps/map-skills" },
+            { name: "百度Map Agent Plan", url: "https://lbs.baidu.com/apiconsole/agentplan" }
+        ],
+        officialNote: "📌 百度地图首次推出面向非开发者的AI Agent地图接入方案，与高德CLI/Skill形成直接竞争。双方均在OpenClaw平台布局，AI Agent时代地图开放平台之争正式开打",
+        importance: "high", isAI: true
+    },
+
+    // ---- AI ----
+    {
+        date: "2026-04-01", vendor: "高德", module: "AI", product: "煎蛋侠", direction: "AI Agent",
+        dataType: "article",
+        event: "高德被曝正在开发极简地图AI Agent产品「煎蛋侠」，以自然语言对话界面取代传统地图操作，基于OpenClaw Skill技术栈实现AI直接调用地图能力",
+        evidence: "i黑马/腾讯新闻4月1日报道。煎蛋侠非传统高德瘦身版，而是AI Agent原生形态切入。参考高德车机版极简安装包(80MB)、鹰眼静音预警功能。产品尚未正式发布，处于开发阶段",
+        evidenceType: "new",
+        sources: [
+            { name: "腾讯新闻/i黑马(4.1)", url: "https://news.qq.com/rain/a/20260401A05UT800" }
+        ],
+        officialNote: "📌 战略信号：高德正从地图App向AI Agent原生产品形态演进。'煎蛋侠'若推出将是地图行业首个AI Agent原生应用，与OpenClaw Skill生态形成闭环",
+        importance: "high", isAI: true
+    },
+
+    // ---- 开放平台 ----
+    {
+        date: "2026-04-01", vendor: "高德", module: "开放平台", product: "CLI & Skill", direction: "开发者工具",
+        dataType: "article",
+        event: "高德开放平台正式上线CLI命令行工具及Skill能力，支持开发者通过命令行和Skill两种方式快速接入高德地图服务",
+        evidence: "高德地图官方微信公众号2026年4月1日深夜发布（23:28），ToB Dev等媒体报道。CLI工具支持容器化部署，Skill能力支持千问等大模型平台接入",
+        evidenceType: "announce",
+        sources: [
+            { name: "高德地图公众号(4.1)", url: "https://mp.weixin.qq.com/s?src=11&timestamp=1775529959&ver=6645&signature=1WLyV4Sdm2ZMqTMzFJ73Gcu0TU8f3bsFv4D*TRzDiTmPkrzv-Pn0FL41z*l-LhNMwKJiFw*8TFDFZhv7u3--3exS-AoYKN3lU4E*lSsKFMN8ZMlMo2TZML1q7TAE43d*&new=1" },
+            { name: "ToB Dev-高德CLI/Skill上线(4.1)", url: "https://mp.weixin.qq.com/s?src=11&timestamp=1775529959&ver=6645&signature=1WLyV4Sdm2ZMqTMzFJ73Gcu0TU8f3bsFv4D*TRzDiTmPkrzv-Pn0FL41z*l-LhNMwKJiFw*8TFDFZhv7u3--3exS-AoYKN3lU4E*lSsKFMN8ZMlMo2TZML1q7TAE43d*&new=1" }
+        ],
+        officialNote: "📌 高德正式补齐CLI和Skill开发者工具链，与百度Map Agent Plan形成直接对标，双方在AI Agent时代地图开放平台的竞争升级",
+        importance: "high", isAI: true
+    },
+
+    // ---- 行业合作/OS集成 ----
+    {
+        date: "2026-04-03", vendor: "高德", module: "行业合作", product: "系统集成", direction: "OS集成",
+        dataType: "article",
+        event: "高德地图公交地铁导航正式接入vivo OriginOS小V建议和原子通知，号称安卓首发，用户无需打开App即可在系统级入口查看公交地铁线路、站点信息和实时到站提醒",
+        evidence: "4月3日vivo OriginOS官方微博宣布。IT之家(4.3)首发，CNMO(4.3)、凤凰科技(4.3)、PChome(4.3)、太平洋电脑网(4.3)、搜狐(4.6)、网易(4.6)、同花顺(4.3)、17173(4.3)等10+媒体报道。继3月17日驾车导航首发后，公交地铁导航进一步深化高德×vivo系统级合作。vivo/iQOO用户升级最新版高德地图后即可使用",
+        evidenceType: "new",
+        sources: [
+            { name: "IT之家(4.3)", url: "https://www.ithome.com/0/935/636.htm" },
+            { name: "CNMO/腾讯新闻(4.3)", url: "https://news.qq.com/rain/a/20260403A02QLT00" },
+            { name: "凤凰科技(4.3)", url: "https://tech.ifeng.com/c/8s1EuOZBnru" },
+            { name: "PChome(4.3)", url: "https://article.pchome.net/info/12535.html" },
+            { name: "搜狐(4.6)", url: "https://www.sohu.com/a/1006029296_100085330" },
+            { name: "网易(4.6)", url: "https://www.163.com/dy/article/KPRTIM6U0530RMN7.html" }
+        ],
+        officialNote: "📌 继驾车导航(3.17)后，高德公交地铁导航也接入vivo OriginOS系统级入口，安卓首发。高德在vivo系统集成竞争中持续领先百度，覆盖驾车+骑行+步行+公交地铁全场景",
+        importance: "high", isAI: false
+    },
+
+    // ---- 开放平台（补录） ----
+    {
+        date: "2026-04-02", vendor: "高德", module: "开放平台", product: "CLI工具", direction: "CLI",
+        dataType: "article",
+        event: "高德开放平台正式上线CLI能力，为AI Agent提供「Skill+CLI指令集+GUI容器」三位一体的地图智能操控方案，支持自然语言一行命令操控地图",
+        evidence: "4月2日腾讯云开发者/知乎/CSDN/SegmentFault/51CTO等10+技术平台同步发布官方推广文章。CLI架构：SKILL技能包(指导Agent安装指令集)+CLI指令集(标准化命令行)+GUI容器(可视化地图界面)。官方文档已上线lbs.amap.com/api/cli/map-cli/summary",
+        evidenceType: "new",
+        sources: [
+            { name: "腾讯云开发者(4.7)", url: "https://cloud.tencent.com/developer/article/2651125" },
+            { name: "知乎(4.2)", url: "https://zhuanlan.zhihu.com/p/2023065508929349114" },
+            { name: "CSDN(4.2)", url: "https://blog.csdn.net/weixin_67361678/article/details/159766725" },
+            { name: "SegmentFault(4.7)", url: "https://segmentfault.com/a/1190000047697497" },
+            { name: "微信公众号ToB Dev(4.1)", url: "https://mp.weixin.qq.com/s?src=11&timestamp=1775725252&ver=6649&signature=nQUrL91V2VLqODFLH-3P4z7VDYF-0ECMbrg3S3xO119QOpnxaMr6DJBDkhaeSpkiIkgnE3AuAUfDMjuV5NPIuIex2adRfmTrdF9mOGHQR5hlD-7mdFjgvGcM1Dik0MDy&new=1" }
+        ],
+        officialNote: "📌 继MCP Server和SKILL专区后，高德开放平台推出第三代AI交互形态——CLI命令行工具。形成MCP(协议层)+SKILL(技能层)+CLI(命令行层)三层AI能力矩阵",
+        importance: "high", isAI: true
+    },
+
+    // ---- 开放平台（补录） ----
+    {
+        date: "2026-04-02", vendor: "百度", module: "开放平台", product: "Map Agent Plan", direction: "AI Agent",
+        dataType: "article",
+        event: "百度地图正式发布Map Agent Plan，面向AI Agent提供「极简、零门槛、开箱即用」的地图技能包，挖掘3.4亿POI数据深层信息，支持自然语言交互，2步即可让智能体获得地图能力",
+        evidence: "4月2日百度专网地图DuGIS公众号首发、电商派/DoNews/壹览商业(4.2)同日报道、掘金(3.30)开启首批内测招募、CSDN(4.7)技术解读。提供两条交付路径：Map Agent Plan(零代码)+地图Skills(代码定制)，企业级Skills含智慧物流/商业选址",
+        evidenceType: "new",
+        sources: [
+            { name: "电商派(4.2)", url: "https://www.pai.com.cn/news/01kn6p0d6tbhffxshd8mv99bhc" },
+            { name: "DoNews(4.2)", url: "https://www.donews.com/news/detail/8/6496046.html" },
+            { name: "掘金-内测招募(3.30)", url: "https://juejin.cn/post/7622662117822529577" },
+            { name: "CSDN技术解读(4.7)", url: "https://blog.csdn.net/quruijie/article/details/159926509" },
+            { name: "百度DuGIS公众号(4.2)", url: "https://mp.weixin.qq.com/s?src=11&timestamp=1775725267&ver=6649&signature=gFIChDsYWybN*LGG*twItQfMr*O7VF35m3FppmuexhYiIoXoX5Nm0TID1ANfnXbKGnLeS5DjMoOtOEmoBqSRyM5nLz5Kd*nlKxxnoO8*Chx10IoHr9MyoLHCCwhHX4-H&new=1" }
+        ],
+        officialNote: "📌 百度地图AI Agent战略升级：Map Agent Plan(零代码) + Skills(代码定制)双轨并行。与高德CLI形成正面竞争，双方同日(4.2)发布AI Agent新品",
+        importance: "high", isAI: true
+    },
+
+    // ========== 第17周 (4.20 - 4.26) ==========
+
+    // ---- AI ----
+    {
+        date: "2026-04-22", vendor: "高德", module: "AI", product: "汽车出行AI Agent", direction: "AI Agent",
+        dataType: "article",
+        event: "高德正式发布汽车出行AI Agent，基于千问大模型实现车载导航从「被动响应指令」到「主动理解意图」的范式跃迁，理想汽车为首发合作车企",
+        evidence: "4月19日高德发布产品宣传片，4月20日理想汽车宣布首发搭载，4月22日高德正式发布。核心能力：①模糊语义精确搜索（口语化描述映射POI）②复杂行程一句话串联 ③动态空间路线推理 ④多轮对话式路线编辑。技术架构：「语言大脑+空间大脑」双引擎，LLM理解意图+高德数据库校验事实，杜绝幻觉。主动服务：电量预判补能、路况预判绕行、情境语义理解。36氪/IT之家/腾讯新闻/PChome/网通社等10+家媒体密集报道",
+        evidenceType: "new",
+        sources: [
+            { name: "36氪(4.23)", url: "https://www.36kr.com/p/3778836230575105" },
+            { name: "IT之家(4.23)", url: "https://k.sina.cn/article_1826017320_6cd6d02802001kof2.html" },
+            { name: "腾讯新闻/电车汇(4.21)", url: "https://news.qq.com/rain/a/20260421A05ZT900" },
+            { name: "PChome(4.21)", url: "https://article.pchome.net/news/12974.html" }
+        ],
+        officialNote: "📌 里程碑事件：车载导航从「工具」向「智能出行伙伴」进化。理想汽车首发，后续将有更多车企官宣。与百度AI座舱智能体(4.12百人会)形成车载Agent正面竞争",
+        importance: "high", isAI: true
+    },
+    {
+        date: "2026-04-24", vendor: "高德", module: "AI", product: "AI伴行", direction: "AI Agent",
+        dataType: "article",
+        event: "高德地图面向导航场景正式发布「AI伴行」产品，行业首款面向真实世界出行场景的全模态出行伙伴，融合文本/语音/视觉/位置多模态感知",
+        evidence: "4月24日中国经济网/凯迪网/ITBEAR/果粉控/MarsBit等多家媒体集中报道。四大核心技术：①时空上下文感知 ②多模态融合理解 ③空间行动能力 ④复杂任务处理机制(QwenPaw框架)。功能：直观方向指引(以麦当劳为参照)、多重意图理解、景区实时导览、视觉识别与AR导览、主动伴行服务。当前已启动测试，入口为步行导航「按住说话」按钮",
+        evidenceType: "new",
+        sources: [
+            { name: "中国经济网(4.24)", url: "http://www.ce.cn/cysc/tech/gd2012/202604/t20260424_2927599.shtml" },
+            { name: "ITBEAR(4.25)", url: "https://www.itbear.com.cn/html/2026-04/1302900.html" },
+            { name: "MarsBit(4.24)", url: "https://news.marsbit.co/flash/20260424162002703958.html" }
+        ],
+        officialNote: "📌 高德AI产品矩阵再扩容：汽车出行AI Agent(车载场景)+AI伴行(步行场景)，覆盖全出行链路。AI伴行首发步行导航，逐步扩展至更多场景",
+        importance: "high", isAI: true
+    },
+
+    // ---- 行业合作/智慧校园 ----
+    {
+        date: "2026-04-20", vendor: "高德", module: "行业合作", product: "智慧校园", direction: "智慧校园",
+        dataType: "article",
+        event: "高德地图与北京科技大学签署战略合作协议，围绕智慧校园建设、科研合作、协同育人三大领域深度合作，已落地9大功能模块，并计划在雄安校区打造全国首个介入空间智能的高校校区",
+        evidence: "4月20日签约仪式在北科大举行(建校74周年之际)，环球网(4.20)、中新网(4.21)、北京日报(4.21)、快科技(4.22)、搜狐(4.21)、澎湃新闻(4.20)、ZOL(4.22)等10+家媒体报道。已落地9大模块：POI精细化上图、校园公交实时查询、AI智能体、安全播报、校园运动、AR打卡、创意文化路线、飞行街景、地图API开放平台。北科大校长吕昭平(中科院院士)与高德董事长刘振飞出席",
+        evidenceType: "new",
+        sources: [
+            { name: "环球网(4.20)", url: "https://tech.huanqiu.com/article/4RFfPKIZRYz" },
+            { name: "中新网(4.21)", url: "https://www.chinanews.com.cn/cj/2026/04-21/10607857.shtml" },
+            { name: "快科技(4.22)", url: "https://finance.sina.com.cn/tech/roll/2026-04-22/doc-inhvinun9540747.shtml" },
+            { name: "北京日报(4.21)", url: "https://peking.bjd.com.cn/content/s69e88238e4b0cd719ea0f231.html" },
+            { name: "北科大官网(4.22)", url: "https://news.ustb.edu.cn/info/1121/74742.htm" }
+        ],
+        officialNote: "📌 高德智慧校园从高中(鲁山一高3.25)跃升至双一流高校(北科大4.20)，董事长刘振飞亲自出席。雄安校区将成全国首个空间智能高校校区，形成可复制示范经验",
+        importance: "high", isAI: true
+    },
+
+    // ---- 行业合作/两轮车鸿蒙 ----
+    {
+        date: "2026-04-22", vendor: "百度", module: "行业合作", product: "两轮车导航", direction: "鸿蒙生态",
+        dataType: "article",
+        event: "百度地图联合雅迪首发支持华为鸿蒙系统两轮车投屏导航，成为行业首家支持鸿蒙生态两轮车导航投屏的地图厂商，首批适配冠能白鲨Ⅱ、冠能星舰Ⅱ、冠能龙霆三款车型",
+        evidence: "4月21-22日IT之家/新浪汽车/DoNews/东方财富/腾讯新闻等密集报道。基于鸿蒙分布式架构实现手机与车机低延迟通信，导航信息实时投射至仪表盘，覆盖路线指引、转向提示、实时路况。2025年双方已推出安卓/iOS投屏导航，本次为鸿蒙专属版本",
+        evidenceType: "new",
+        sources: [
+            { name: "IT之家(4.21)", url: "https://new.qq.com/rain/a/20260421A0719P00" },
+            { name: "新浪汽车(4.22)", url: "https://k.sina.com.cn/article_5953740931_162dee083067032iro.html" },
+            { name: "DoNews(4.22)", url: "https://www.donews.com/news/detail/8/6522767.html" },
+            { name: "东方财富(4.21)", url: "http://finance.eastmoney.com/a/202604213712574267.html" }
+        ],
+        officialNote: "📌 百度地图成为行业首家支持鸿蒙两轮车投屏导航的地图厂商，标志两轮车智慧出行进入鸿蒙时代。与高德×鸿蒙智能路况提醒(4.7)形成差异化竞争：高德做系统级实况窗，百度做车机投屏",
+        importance: "high", isAI: false
+    },
+
+    // ---- 行业合作/出行生态 ----
+    {
+        date: "2026-04-23", vendor: "高德", module: "行业合作", product: "哈啰租车", direction: "出行生态",
+        dataType: "article",
+        event: "高德车服与哈啰租车在哈啰租车全国合作伙伴大会（苏州）达成战略合作，共建「地图+租车」智慧出行新范式，依托空间智能技术实现「需求感知—智能推荐—体验闭环」",
+        evidence: "4月23日中华网/腾讯新闻/上观新闻/易车/信息时报等10+家媒体报道。合作正值哈啰租车成立五周年，高德提供空间智能底层技术+规模化入口+场景化触达，哈啰提供租车专业运营+全国化服务网络（60万+车源/5万+车型/1100+县市）。同期哈啰还与东风猛士深化合作",
+        evidenceType: "new",
+        sources: [
+            { name: "腾讯新闻/上观新闻(4.23)", url: "https://news.qq.com/rain/a/20260423A06ZSO00" },
+            { name: "中华网(4.23)", url: "https://m.tech.china.com/redian/2026/0423/042026_1853598.html" },
+            { name: "信息时报(4.24)", url: "https://xxsb.gz-cmc.com/pages/2026/04/24/7fd9139559cc4a28b7c7aea9d29a905a.html" }
+        ],
+        officialNote: "📌 AMAP-AI Inside战略在出行垂类场景的重要落地。空间智能从「连接真实世界」向「主动理解需求、精准调度服务」进阶，打造「服务恰在需要时出现」的无感化出行体验",
+        importance: "high", isAI: true
+    },
+
+    // ---- 行业合作/车企出海 ----
+    {
+        date: "2026-04-24", vendor: "百度", module: "行业合作", product: "HERE合作", direction: "车企出海",
+        dataType: "article",
+        event: "百度地图与HERE Technologies在2026北京车展签署战略合作备忘录，共同为全球车企打造车道级导航与智能驾驶地图解决方案，助力中国车企出海",
+        evidence: "4月24日北京车展现场签署，IT之家/InfoQ/同花顺/ITBEAR/新浪等10+家媒体4月25日密集报道。四大合作内容：①全球车道级导航（HERE提供全球地图+百度开发导航引擎）②全球实时红绿灯（HERE数据+百度AI推演算法）③海外智驾地图（HERE车道级数据+ADAS+ISA限速合规）④AI座舱智能体。百度地图全球POI覆盖3.4亿，96%地图数据AI化。帮助车企缩短30%以上海外适配周期",
+        evidenceType: "new",
+        sources: [
+            { name: "IT之家(4.25)", url: "https://www.ithome.com/0/943/490.htm" },
+            { name: "InfoQ(4.25)", url: "https://xie.infoq.cn/article/e4444c565f47aac45a27ad615" },
+            { name: "同花顺(4.25)", url: "https://news.10jqka.com.cn/20260425/c676281300.shtml" },
+            { name: "ITBEAR(4.25)", url: "https://www.itbear.com.cn/html/2026-04/1304388.html" }
+        ],
+        officialNote: "📌 百度地图「技术+合规」双轮驱动出海战略：HERE提供全球合规数据+百度提供车道级导航量产经验。与高德AMAP-AI Inside国内生态战略形成互补，百度率先布局全球化",
+        importance: "high", isAI: true
+    },
+
+    // ---- 开放平台/开发者运营 ----
+    {
+        date: "2026-04-17", vendor: "百度", module: "开放平台", product: "Map Agent Plan", direction: "AI Agent",
+        dataType: "article",
+        event: "百度地图Map Agent Plan获千龙网、同花顺、新浪财经、科技快讯、雪球、InfoQ等10+家科技大众媒体集中报道，标志Map Agent Plan从开发者社区进入大众传播阶段",
+        evidence: "千龙网(4.17)、同花顺(4.17)、新浪财经(4.17)、科技快讯(4.17)、雪球(4.17)等10+家媒体密集发稿。此前4月2日DoNews/SegmentFault/电商派为开发者渠道首发，本次为科技大众媒体的第二波集中报道，报道内容聚焦'龙虾畅行物理世界'主题，完整阐述零代码双轨方案(Map Agent Plan+地图Skills)",
+        evidenceType: "report",
+        sources: [
+            { name: "千龙网(4.17)", url: "https://china.qianlong.com/2026/0417/8655993.shtml" },
+            { name: "同花顺(4.17)", url: "https://t.10jqka.com.cn/pid_616389633.shtml" },
+            { name: "新浪财经(4.17)", url: "https://finance.sina.cn/tech/2026-04-17/detail-inhuuptk3373043.d.html" },
+            { name: "科技快讯(4.17)", url: "https://www.kejixun.co/article/750602.html" },
+            { name: "雪球(4.17)", url: "https://xueqiu.com/2409491919/384428663" }
+        ],
+        officialNote: "📌 从开发者社区(4.2)到科技大众媒体(4.17)的传播升级，百度Map Agent Plan进入大众认知阶段。与高德Skill×OpenClaw(3.11→3.23)的传播路径高度相似",
+        importance: "medium", isAI: true
+    },
+    {
+        date: "2026-04-21", vendor: "百度", module: "开放平台", product: "Agent Plan福利", direction: "开发者运营",
+        dataType: "article",
+        event: "百度地图Agent Plan发起开发者限时福利活动：前100名体验用户可免费获得QQ音乐超级会员年卡（价值348元），活动截至4月23日，同步展示骑手厕所地图、张骞通西域教学地图等创意应用案例",
+        evidence: "SegmentFault(4.21)、InfoQ(4.20)同步发布百度地图开放平台官方推广文章。活动标语'开发者正在用Agent Plan做出有温度、有脑洞的智能场景'。展示多个真实开发案例：骑手厕所自由地图(POI语义筛选)、张骞通西域互动教学地图(历史路线+课堂控制台)、i人独处咖啡馆推荐等",
+        evidenceType: "announce",
+        sources: [
+            { name: "SegmentFault(4.21)", url: "https://segmentfault.com/a/1190000047721083" },
+            { name: "SegmentFault(4.21-2)", url: "https://segmentfault.com/a/1190000047720023" },
+            { name: "InfoQ(4.20)", url: "https://xie.infoq.cn/article/044084e55eefd5074093bde40" }
+        ],
+        officialNote: "📌 开发者拉新策略：通过QQ音乐年卡(348元)福利推动Agent Plan用户增长，限量100份截至4.23。与高德3.19 OpenClaw瑞幸咖啡券(32元)策略对标，百度在开发者激励力度上更大",
+        importance: "medium", isAI: true
+    },
+
+    // ========== 第16周 (4.13 - 4.19) ==========
+
+    // ---- 具身智能/ABot全栈体系正式发布 ----
+    {
+        date: "2026-04-19", vendor: "高德", module: "AI", product: "ABot全栈具身技术体系+途途", direction: "具身智能",
+        dataType: "article",
+        event: "高德在2026北京亦庄机器人半马正式发布全球首个面向AGI的全栈具身技术体系ABot并宣布全面开源，同步公开全球首款开放环境全自主具身机器人「高德途途」。途途作为四足机器人成功协助视障人士完成复杂避障、人群穿行、自主寻找补给站等挑战，定位为智能导盲犬。ABot体系采用DATA(ABot-World 14B DiT世界模型)+MODEL(ABot-N导航+ABot-M操作双核)+AGENT(ABot-Claw具身版龙虾)三层闭环架构，15项国际评测SOTA",
+        evidence: "4月19日亦庄半马现场发布，中新网(4.19)、凤凰网(4.19)、观察者网(4.19)、量子位(4.19)、新智元(4.19)、IT之家(4.19)、经济观察网(4.19)、搜狐(4.19)、同花顺(4.19)、腾讯新闻(4.19)、MSN(4.19)、ITBEAR(4.19)等30+家媒体密集报道，微信公众号'乾臻智能'(4.20)、'WebGIS开发技术栈'(4.19)、'智慧城市沙龙'(4.19)等亦跟进。核心突破：①全球首款开放环境全自主具身机器人 ②ABot-Claw为全球首个具备反思和纠错能力的具身智能体 ③ABot-N在CityWalker等7项国际评测SOTA，CVPR2026录用十余篇 ④全面开源ABot-M0和ABot-PhysWorld(数据+算法+模型三大维度)",
+        evidenceType: "new",
+        sources: [
+            { name: "中新网(4.19)", url: "https://www.chinanews.com.cn/cj/2026/04-19/10606706.shtml" },
+            { name: "凤凰网科技(4.19)", url: "https://tech.ifeng.com/c/8sRjKnpauXF" },
+            { name: "观察者网(4.19)", url: "https://www.guancha.cn/economy/2026_04_19_814166.shtml" },
+            { name: "量子位(4.19)", url: "https://www.qbitai.com/2026/04/403505.html" },
+            { name: "新智元(4.19)", url: "https://www.163.com/dy/article/KQSJNHJM0511ABV6.html" },
+            { name: "腾讯新闻(4.19)", url: "https://news.qq.com/rain/a/20260419A034G000" },
+            { name: "ITBEAR(4.19)", url: "https://www.itbear.com.cn/html/2026-04/1287332.html" },
+            { name: "同花顺(4.19)", url: "https://news.10jqka.com.cn/20260419/c676098258.shtml" }
+        ],
+        officialNote: "📌 具身智能里程碑：从4.14预告→4.15世界模型双榜登顶→4.19正式发布ABot全栈体系+途途首秀，高德具身智能三连击完美收官。ABot全面开源(ABot-M0+ABot-PhysWorld)标志着'AMAP AI Inside'战略输出。途途定位智能导盲犬(中国1700万视障群体vs仅400只导盲犬)，从'炫技'走向'服务'",
+        importance: "high", isAI: true
+    },
+
+    // ---- 行业合作/入境游 ----
+    {
+        date: "2026-04-14", vendor: "百度", module: "行业合作", product: "来华通APP×中国银行", direction: "入境游",
+        dataType: "article",
+        event: "百度地图作为核心生态合作伙伴亮相中国银行GBIC大会暨「来华通」APP全球推介会，将导航、POI搜索、AI智能体「小度想想」等核心能力直接嵌入来华通APP，实现境外游客在华出行从「找得到路」到「丝滑对话」的全面升级",
+        evidence: "4月14日海口消博会现场，百度副总裁谢天发表致辞。上海证券报(4.15)、环球网(4.15)、中国经济网(4.17)、新浪财经(4.15)、同花顺(4.15)、消费日报(4.15)、中国银行官网(4.14)等10+家权威媒体报道。核心方案：①百度地图200+国家和地区「一张图」能力底座 ②AI智能体「小度想想」对话式交互(可问可聊可查) ③开放平台Agent Plan产品向行业输出AI能力。海南副省长赵峰、中国银行副行长黄学玲出席",
+        evidenceType: "new",
+        sources: [
+            { name: "上海证券报(4.15)", url: "https://stock.10jqka.com.cn/hks/20260415/c676015141.shtml" },
+            { name: "环球网(4.15)", url: "https://tech.huanqiu.com/article/4RAlzejitj6" },
+            { name: "新浪财经(4.15)", url: "https://finance.sina.cn/2026-04-15/detail-inhuqfuy0878485.d.html" },
+            { name: "中国银行官网(4.14)", url: "https://www.boc.cn/aboutboc/bi1/202604/t20260414_25661205.html" },
+            { name: "电商派(4.16)", url: "https://www.pai.com.cn/news/01kpaga0zdtb1rq93jjqfx1sap" }
+        ],
+        officialNote: "📌 百度地图ToB能力输出标杆案例：通过嵌入中国银行来华通APP服务入境游客，将'时空智能'从C端导航延伸至金融+出行跨界场景。副总裁级别出席消博会，国家级入境便利化战略站台",
+        importance: "medium", isAI: true
+    },
+
+    // ---- 具身智能/世界模型 ----
+    {
+        date: "2026-04-15", vendor: "高德", module: "AI", product: "ABot-World世界模型", direction: "具身智能",
+        dataType: "article",
+        event: "高德Abot-world系列世界模型在Agibot World Challenge与World Arena两大国际权威评测中双双登顶，3个月内累计拿下15项权威评测第一名，显著超越Google、NVIDIA及国内头部团队，标志中国在具身智能世界模型构建方面实现全面突破",
+        evidence: "4月15日消息，新华网(4.16)、腾讯新闻/DoNews(4.16)、量子位(4.16)、经济观察网(4.16)、ITBEAR(4.16)、搜狐(4.16)、网易(4.16)、同花顺(4.16)、雪球(4.16)、新智元(4.16)等20+家媒体密集报道。核心技术优势：①物理规律深度内化（准确预见滑动/倾倒/堆叠/流体变化） ②长程动态预测能力（多步因果逻辑一致性） ③泛化理解与安全执行。此前2月发布ABot-M0(操作)和ABot-N0(导航)两款基座模型已拿下11项第一，加上Abot-world在PBench/EZSbench等主流评测SOTA，共计15项",
+        evidenceType: "new",
+        sources: [
+            { name: "新华网(4.16)", url: "https://www.news.cn/tech/20260416/c823ba6d51c8445a928d87c581cc903c/c.html" },
+            { name: "腾讯新闻/DoNews(4.16)", url: "https://news.qq.com/rain/a/20260416A03SPD00" },
+            { name: "量子位(4.16)", url: "https://www.qbitai.com/2026/04/401649.html" },
+            { name: "经济观察网(4.16)", url: "https://www.eeo.com.cn/2026/0416/840305.shtml" },
+            { name: "ITBEAR(4.16)", url: "https://www.itbear.com.cn/html/2026-04/1281122.html" },
+            { name: "同花顺(4.16)", url: "https://news.10jqka.com.cn/20260416/c676034211.shtml" },
+            { name: "搜狐(4.16)", url: "https://www.sohu.com/a/1010263251_121207965" }
+        ],
+        officialNote: "📌 里程碑事件：高德从地图服务到具身智能全球领先。ABot-World世界模型力压Google/NVIDIA双榜登顶，ABot-M0/N0基座模型11项第一+世界模型4项第一=15项世界第一。4.19亦庄半马将是四足机器人首次实战验证，26个品牌300+台机器人同场竞技",
+        importance: "high", isAI: true
+    },
+
+    // ---- 具身智能 ----
+    {
+        date: "2026-04-14", vendor: "高德", module: "AI", product: "具身智能机器人", direction: "具身智能",
+        dataType: "article",
+        event: "高德具身业务部宣布即将发布首款四足机器人，为阿里巴巴集团首个具身机器人产品，将于4月19日亦庄机器人半马赛事首次公开亮相，在开放场景完成自主感知、智能决策与交互任务挑战",
+        evidence: "4月14日上海证券报独家获悉，IT之家/新浪科技/时代财经/封面新闻/光明网/中关村在线/钛媒体/东方财富/每日经济新闻/雪球等20+媒体密集报道。高德于2026年初成立具身业务部，3月31日全量开源ABot-M0(全球首个基于统一架构的机器人具身操作基座模型，多个权威基准SOTA)。已构建业内最大规模具身导航数据引擎，同步探索四足机器人与人形机器人两种形态",
+        evidenceType: "new",
+        sources: [
+            { name: "新浪科技/快科技(4.15)", url: "https://finance.sina.com.cn/tech/roll/2026-04-15/doc-inhunxzr8829851.shtml" },
+            { name: "IT之家(4.14)", url: "https://finance.sina.com.cn/tech/digi/2026-04-14/doc-inhumshf9193217.shtml" },
+            { name: "光明网(4.14)", url: "https://economy.gmw.cn/2026-04/14/content_38708045.htm" },
+            { name: "东方财富(4.14)", url: "http://finance.eastmoney.com/a/202604143704302665.html" },
+            { name: "封面新闻(4.14)", url: "https://www.thecover.cn/news/h78ZQK1hb3SH90qSdq8Jkw==" },
+            { name: "中关村在线(4.14)", url: "https://m.zol.com.cn/article/11653459.html" }
+        ],
+        officialNote: "📌 标志性事件：高德从地图服务向具身智能硬件跨越，阿里集团首款具身机器人。ABot-M0已开源，实现'一个通用大脑适配多种形态机器人'。4.19亦庄半马将是首次实战验证",
+        importance: "high", isAI: true
+    },
+
+    // ---- 行业合作/本地生活 ----
+    {
+        date: "2026-04-13", vendor: "高德", module: "行业合作", product: "扫街榜×北京文旅", direction: "本地生活",
+        dataType: "article",
+        event: "高德扫街榜「烟火城市发布会·北京站」举行，联合北京市文旅局、商务局启动「烟火北京支持计划」，发布「畅游北京」扫街榜及文旅地图，全国首个非遗榜单同步上线，北京已覆盖3万家优质门店、259家入选状元榜",
+        evidence: "4月13日发布会现场，北京文旅局局长郭怀刚与高德董事长刘振飞出席并签署战略合作协议。中国新闻网(4.14)、科技日报(4.14)、每日经济新闻(4.14)、新华财经(4.14)、中国经营报(4.14)、中国旅游新闻网(4.14)、同花顺(4.13)、长安街知事(4.13)、北京日报/劳动午报(4.15)等20+权威媒体密集报道。三大政策：①零门槛入驻(首年年费减免最高4800元) ②亿级流量补贴 ③AI经营工具(AI营销全托管)。扫街榜自2025.9上线后以'一月一城'节奏推进(上海→济南→长沙→澳门→北京)，全国700万+餐厅点位+日1.2亿次搜索",
+        evidenceType: "new",
+        sources: [
+            { name: "中国新闻网(4.14)", url: "https://www.chinanews.com.cn/cj/2026/04-14/10603444.shtml" },
+            { name: "科技日报(4.14)", url: "https://www.stdaily.com/web/gdxw/2026-04/14/content_501843.html" },
+            { name: "每日经济新闻(4.14)", url: "https://www.nbd.com.cn/articles/2026-04-14/4339442.html" },
+            { name: "新华财经(4.14)", url: "https://www.cnfin.com/cq-lb/detail/20260414/4399140_1.html" },
+            { name: "同花顺(4.13)", url: "https://news.10jqka.com.cn/20260413/c675954846.shtml" },
+            { name: "微信公众号-文旅北京(4.13)", url: "https://mp.weixin.qq.com/s?src=11&timestamp=1776215345&ver=6661&signature=V-9h*tKKecHE1PitJ8ejKQasFGsngDfYSYZ9y6pUU41UircYosbZnWU0xUAYS53ToXGoaHxH0VNPUCxCYDFhXlksTjgWwrY9vMS1DK*dP6yuT7yPH*Jf9oWsMhhzaSnK&new=1" },
+            { name: "微信公众号-高德扫街榜(4.14)", url: "https://mp.weixin.qq.com/s?src=11&timestamp=1776215345&ver=6661&signature=0lbI*Y8wOpDdQsFmMwTRE1QBY8*rRelNtBQbwQsx*-H7ObhVmRFIANuwNrE8VGWfB-SlltyRrZyP3x6A8gyd0RKQTwI9KIEYRdIasT1pKQYLo46DugVz4Zh*Nb3W1P*Y&new=1" }
+        ],
+        officialNote: "📌 高德本地生活战略深化：扫街榜落地北京标志C端消费生态扩张加速。北京文旅局官方签约+全国首个非遗榜单，政企合作层级高。CEO郭宁承诺'扫街榜永不商业化'，与美团必吃榜/抖音心动榜/京东真榜形成'四分天下'格局",
+        importance: "high", isAI: false
+    },
+
+    // ---- 开放平台/AI编程 ----
+    {
+        date: "2026-04-14", vendor: "百度", module: "开放平台", product: "文档MCP化+Rules", direction: "AI编程生态",
+        dataType: "article",
+        event: "百度地图开放平台持续推进位置服务大模型友好化改造，将官网文档MCP化，为Codex、Cursor、Claude Code等AI编程工具补充官方Rules与Skills支持，实现从API调用到AI编程工具原生集成的能力升级",
+        evidence: "百度地图开放平台官方CSDN博客4月14日发布《百度地图赋能AI智能体的新路径》，浏览量316。文中明确提出'将官网文档MCP化，为Codex、Cursor、Claude Code等AI编程工具补充官方支持的Rules与Skills'。此举将百度地图开发者生态从传统SDK/API扩展至AI IDE原生集成，企业级Skills含智慧物流(配送路径优化)、商业选址(选址决策支撑)等高级功能",
+        evidenceType: "update",
+        sources: [
+            { name: "CSDN-百度地图官方博客(4.14)", url: "https://blog.csdn.net/baiduopenmap/article/details/160140460" },
+            { name: "百度开发者社区-MCP实践(4.11)", url: "https://developer.baidu.com/article/detail.html?id=6514218" }
+        ],
+        officialNote: "📌 百度地图将开发者文档MCP协议化+Rules标准化，直接对标高德Skill+CLI方案。从SDK时代→MCP/Rules时代，AI编程工具(Codex/Cursor/Claude Code)成为新的开发者入口",
+        importance: "medium", isAI: true
+    },
+
+    // ---- AI/车载 ----
+    {
+        date: "2026-04-12", vendor: "百度", module: "AI", product: "AI座舱智能体", direction: "AI汽车",
+        dataType: "article",
+        event: "百度地图在2026年中国电动汽车百人会论坛上发布行业首个量产端到端AI座舱智能体，提出AI地图从「导航工具」升级为「智能体中枢」战略定位，同时宣布车道级SR导航实现全域大规模量产，NOA辅助驾驶地图市占率超41.8%行业领跑",
+        evidence: "4月12日百人会论坛现场演讲，百度地图事业部副总经理刘增刚分享。腾讯新闻/新民晚报(4.13)、环球网(4.13)、新浪汽车(4.13)、泰伯网(4.13)、电商派(4.13)、亿欧(4.13)、江西商报(4.13)、同花顺(4.13)等10+家媒体密集报道。核心数据：语音伴聊交互数增长13倍、AI副驾日活用户环比增长54倍。AI座舱智能体以百度语音语言大模型为基座，由中枢Agent统一调度导航/娱乐/车控/伴聊四大子Agent。车道级SR导航已与小鹏汽车、深蓝汽车+梧桐车联量产，零跑D19即将搭载。2026下半年将推出沉浸式车位级SR导航",
+        evidenceType: "new",
+        sources: [
+            { name: "腾讯新闻/新民晚报(4.13)", url: "https://news.qq.com/rain/a/20260413A03MJM00" },
+            { name: "环球网(4.13)", url: "https://tech.huanqiu.com/article/4R8wdRGi1Mj" },
+            { name: "新浪汽车(4.13)", url: "https://auto.sina.cn/news/2026-04-13/detail-inhuipik4893253.d.html" },
+            { name: "泰伯网(4.13)", url: "https://www.taibo.cn/p/99199" },
+            { name: "电商派(4.13)", url: "https://www.pai.com.cn/p/01kp312fvg8cf4kb12jy435ska" },
+            { name: "亿欧(4.13)", url: "https://data.iyiou.com/intelligence/details/81f62784c192478c2f1d5ca379dff58d" },
+            { name: "同花顺(4.13)", url: "https://news.10jqka.com.cn/20260413/c675932769.shtml" },
+            { name: "微信公众号-智能网联前沿(4.13)", url: "https://mp.weixin.qq.com/s?src=11&timestamp=1776128411&ver=6659&signature=8s0Nr8wMiy-9YxZ2V3AhnC5yrQHQ1rZCRo2sageiGqcREzTkgYgHZ2rolBEEeZYxb8a8Bco6GqR108vzvppL58NUpB3RS1L7XypgU8FU2sjpNd*4yVq2NxRtCv3aPbqQ&new=1" }
+        ],
+        officialNote: "📌 百度地图在百人会重磅亮相，三大核心发布：①行业首个量产端到端AI座舱智能体(中枢Agent统调四大子Agent) ②车道级SR导航全域量产(小鹏/深蓝/零跑) ③NOA智驾地图市占超41.8%。战略升级为'连接智能座舱与智能驾驶的核心基建与关键桥梁'，预告2026下半年推出车位级SR导航打通'车位到车位'全场景",
+        importance: "high", isAI: true
+    },
+
+    // ========== 第15周 (4.06 - 4.12) ==========
+
+    // ---- AI ----
+    {
+        date: "2026-04-05", vendor: "百度", module: "AI", product: "MCP Server", direction: "MCP",
+        dataType: "article",
+        event: "百度地图MCP Server在腾讯云MCP广场新增「2天前」更新提示，提供逆地理编码、地点检索、路线规划等10大标准化接口，全面支持MCP协议",
+        evidence: "腾讯云开发者MCP广场百度地图页面显示「2天前」更新（约4月5日），页面浏览量持续增长。GitHub仓库baidu-maps/mcp同步维护",
+        evidenceType: "update",
+        sources: [
+            { name: "腾讯云MCP-百度地图(更新4.5)", url: "https://cloud.tencent.com/developer/mcp/server/10007" },
+            { name: "GitHub-baidu-maps/mcp", url: "https://github.com/baidu-maps/mcp" }
+        ],
+        officialNote: "",
+        importance: "medium", isAI: true
+    },
+
+    // ---- AI Skills应用 ----
+    {
+        date: "2026-04-02", vendor: "百度", module: "AI", product: "Skills场景", direction: "SKILL",
+        dataType: "article",
+        event: "百度地图Skills联合OpenClaw智能体平台，继「城市横行私人管家」后扩展至商业选址、智慧物流等垂直场景，打造「龙溢」Agent生态",
+        evidence: "微信公众号文章显示百度地图Skills+OpenClaw已在多场景落地，包括城市私人管家(3.16)、智慧物流(3.26)、商业选址(3.30)等，形成完整的垂直场景Skill矩阵",
+        evidenceType: "report",
+        sources: [
+            { name: "百度地图公众号-私人管家(3.16)", url: "https://mp.weixin.qq.com/s?src=11&timestamp=1775529416&ver=6645&signature=iDNjjdqzC4Q7kw-nLOnN29OTRJVNZTTPNuIUTenb4AJlu4nx1N4ulPhjbbs-3UMx5Dz6FLoRMsfIOOaUrmuZ94fzJ-AGsmb8iBsELfYfd48KmbpKo01MaKsunUGuzasK" },
+            { name: "百度地图公众号-智慧物流(3.26)", url: "https://mp.weixin.qq.com/s?src=11&timestamp=1775529416&ver=6645&signature=0aeroNzsfZPTzbAXUEYjp3gjpgblnZMTiy8ZmzxXqtj0iH32NXPqVOb06zXZ1e5wnHCLb7Y4o3-e2i8SklQQqhXSYzSgkp9fgcGaL5mFUNbnEYiIx5H2VcArEOLi9fmF" },
+            { name: "百度地图公众号-商业选址(3.30)", url: "https://mp.weixin.qq.com/s?src=11&timestamp=1775529416&ver=6645&signature=0aeroNzsfZPTzbAXUEYjp3gjpgblnZMTiy8ZmzxXqth4gHqFTbg*ERVMOil3rumAw-bVGpAy4kkLQ49yZCzYULRrcJZ9wpvnZFFoCnSI3F3UfWCTobWwprXIXXe9LEoY" }
+        ],
+        officialNote: "📌 百度Skills生态从通用场景向垂直行业延伸，商业选址+智慧物流形成行业解决方案矩阵",
+        importance: "medium", isAI: true
+    },
+
+    // ---- AI ----
+    {
+        date: "2026-04-04", vendor: "高德", module: "AI", product: "煎蛋侠APP", direction: "AI Agent",
+        dataType: "article",
+        event: "高德极简AI助手「煎蛋侠」APP版正式发布，主动式AI开启办公新体验，支持语音交互出行方案制定，从「开发中」走向可下载体验阶段",
+        evidence: "多平台密集报道：大厂风云独家首发(4.1)、大厂运营深度解读(4.6)、AIHub收录产品介绍页、搜狐/百度/网易等科技媒体转载",
+        evidenceType: "update",
+        sources: [
+            { name: "大厂风云-独家(4.1)", url: "https://mp.weixin.qq.com/s?src=11&timestamp=1775530318&ver=6645&signature=dGfg9hxyL48IzWl7Vk62ZYopHTqqVSlg7Aiv90RqcDJl5sO0WBv0eoVYoer35naX6wIdGOuMIgq593EZVHyb9*soHlWEdifKatWB6ex40mCpuYulsPrMztnrAp8MW1-v&new=1" },
+            { name: "大厂运营-深度(4.6)", url: "https://mp.weixin.qq.com/s?src=11&timestamp=1775530318&ver=6645&signature=w7no-hi2aLZBFFdWB04idRLF*7aZzg9iHCGXc1ajdSXyZK*nSHNu5l4in*BNbYMXUHr5jJkMOUfHgweeQhVsD3ZqSY3QIWZBOtmS15KqvcjJDlaZj6btBrxaStTOPUmT&new=1" },
+            { name: "AIHub产品页", url: "https://www.aihub.cn/agents/jiandanxia/" },
+            { name: "搜狐科技(4.1)", url: "https://www.sohu.com/a/1004022506_350699" },
+            { name: "百度百家(4.1)", url: "https://baijiahao.baidu.com/s?id=1861261448244138296" },
+            { name: "网易科技(4.1)", url: "https://www.163.com/dy/article/KPEEHSOP05118I96.html" }
+        ],
+        officialNote: "📌 煎蛋侠从「曝光开发」到「APP发布」，多平台密集报道，高德AI Agent产品化加速。与百度Map Agent Plan形成正面竞争",
+        importance: "medium", isAI: true
+    },
+
+    // ---- 鸿蒙生态 ----
+    {
+        date: "2026-04-07", vendor: "高德", module: "行业合作", product: "鸿蒙智能路况", direction: "鸿蒙生态",
+        dataType: "article",
+        event: "鸿蒙版高德地图业内首发系统级「智能路况提醒」功能，与HarmonyOS 6深度共创，驾驶/骑行至红绿灯路口时无需打开地图App，系统通过「实况窗」自动推送红绿灯读秒信息",
+        evidence: "4月7日北青网/网易号首发，4月8日IT之家/腾讯新闻/17173/极客公园等10+家媒体密集跟进，4月9日快科技/凤凰科技二轮传播。华为畅享90 Pro Max(4.2首销)为首发机型。功能路径：设置>情景模式>智感畅行，开启后全程无需打开高德App。已覆盖全国多城各类道路路口",
+        evidenceType: "new",
+        sources: [
+            { name: "网易号/北青网(4.7)", url: "https://www.163.com/dy/article/KPTTR0LC0514R9KQ.html" },
+            { name: "IT之家/腾讯新闻(4.8)", url: "https://news.qq.com/rain/a/20260408A07QPB00" },
+            { name: "快科技/凤凰科技(4.9)", url: "https://tech.ifeng.com/c/8sARB2Isrce" },
+            { name: "极客公园(4.7)", url: "https://www.geekpark.net/news/362232" },
+            { name: "快科技(4.8)", url: "https://news.mydrivers.com/1/1114/1114092.htm" }
+        ],
+        officialNote: "📌 从「App内导航」到「系统级无感服务」的质变。高德×鸿蒙合作深度再进一步：AR实景导航(3.6) → vivo系统级入口(3.17) → 鸿蒙实况窗(4.7)，系统级集成加速",
+        importance: "high", isAI: true
+    },
+
+    // ---- 车载生态/辟谣 ----
+    {
+        date: "2026-04-09", vendor: "高德", module: "行业合作", product: "比亚迪合作", direction: "车载生态",
+        dataType: "article",
+        event: "高德地图与比亚迪联合发布辟谣声明，澄清「高德与比亚迪合作全面中断」系不实信息。双方明确各项合作业务正常推进，比亚迪闪充网络已于4月1日全量接入高德地图，覆盖全国超300万根充电桩",
+        evidence: "4月8日高德官方发布辟谣通告(腾讯新闻/网易/搜狐/泰伯网4.8报道)，4月9日太平洋汽车等跟进。辟谣背景：3月中旬比亚迪车机导航切换至腾讯地图后，自媒体传播「合作全面中断」谣言。实际情况：车机导航合作调整≠全面中断，高德仍为比亚迪提供高精地图、新能源充电导航等服务。比亚迪闪充3月30日全量入驻高德(国际充换电网4.2、新浪3.31、虎扑3.30等报道)，用户搜索\"比亚迪闪充\"可查看实时站点信息并一键导航",
+        evidenceType: "new",
+        sources: [
+            { name: "腾讯新闻/潮新闻(4.8)", url: "https://news.qq.com/rain/a/20260408A07FF300" },
+            { name: "网易(4.9)", url: "https://www.163.com/dy/article/KQ2BO6UT0519U3I5.html" },
+            { name: "搜狐(4.9)", url: "https://www.sohu.com/a/1007057368_100117963" },
+            { name: "太平洋汽车(4.9)", url: "https://www.pcauto.com.cn/ask/5134083.html" },
+            { name: "泰伯网(4.9)", url: "https://www.taibo.cn/newsflashes/30633285" },
+            { name: "国际充换电网-闪充入驻(4.2)", url: "https://mchd.in-en.com/html/chd-2458540.shtml" },
+            { name: "新浪-闪充入驻(3.31)", url: "https://www.sina.cn/news/detail/5282592708364295.html" }
+        ],
+        officialNote: "📌 重要后续：此前3.30比亚迪车机切换腾讯地图引发市场恐慌，4.8-9高德官方辟谣+比亚迪闪充全量接入(300万桩)证明合作仍在深化。车机导航是合作调整而非全面中断，高精地图+充电导航+打车等业务正常推进",
+        importance: "high", isAI: false
+    },
+
+    // ---- 行业合作 ----
+    {
+        date: "2026-04-09", vendor: "高德", module: "行业合作", product: "养老服务地图", direction: "公益地图",
+        dataType: "article",
+        event: "北京市民政局与高德地图联合推进「北京市养老服务地图」将于4月正式上线，提供一站式养老服务查询指引；高德暖心车站已在北京建设1200余座，覆盖社区/医院等老年人集中区域",
+        evidence: "人民政协报(4.9)、新京报贝壳财经(4.3)、财经网康养(3.31)、搜狐(4.3)、网易(4.4)等多家权威媒体报道。合作签约时间3月27日，北京市民政局已先后与美团/京东/阿里巴巴三大互联网平台签署战略协议",
+        evidenceType: "new",
+        sources: [
+            { name: "人民政协报(4.9)", url: "https://www.rmzxb.com.cn/c/2026-04-09/3898730.shtml" },
+            { name: "新京报贝壳财经(4.3)", url: "https://news.qq.com/rain/a/20260403A038FM00" },
+            { name: "财经网康养(3.31)", url: "http://health.caijing.com.cn/2026/0331/5151027.shtml" },
+            { name: "新浪财经(4.3)", url: "https://finance.sina.com.cn/jjxw/2026-04-03/doc-inhtfkwz8811543.shtml" },
+            { name: "搜狐(4.3)", url: "https://www.sohu.com/a/1005029084_122014422" }
+        ],
+        officialNote: "📌 政企合作标杆：北京民政局先后签约美团→京东→阿里(高德)，高德负责「行」赛道(养老地图+暖心车站+无障碍打车)。1200+暖心车站、4月上线养老服务地图",
+        importance: "high", isAI: false
+    },
+];
+
+// ===== 周定义 =====
+const weeks = [
+    { id: "w10", label: "第10周", start: "2026-03-02", end: "2026-03-08", display: "2026.03.02 — 2026.03.08" },
+    { id: "w11", label: "第11周", start: "2026-03-09", end: "2026-03-15", display: "2026.03.09 — 2026.03.15" },
+    { id: "w12", label: "第12周", start: "2026-03-16", end: "2026-03-22", display: "2026.03.16 — 2026.03.22" },
+    { id: "w13", label: "第13周", start: "2026-03-23", end: "2026-03-29", display: "2026.03.23 — 2026.03.29" },
+    { id: "w14", label: "第14周", start: "2026-03-30", end: "2026-04-05", display: "2026.03.30 — 2026.04.05" },
+    { id: "w15", label: "第15周", start: "2026-04-06", end: "2026-04-12", display: "2026.04.06 — 2026.04.12" },
+    { id: "w16", label: "第16周", start: "2026-04-13", end: "2026-04-19", display: "2026.04.13 — 2026.04.19" },
+    { id: "w17", label: "第17周", start: "2026-04-20", end: "2026-04-26", display: "2026.04.20 — 2026.04.26" },
+];
+
+let currentWeekIndex = 2;
+let currentTab = 'overview';
+
+function initWeek() {
+    const today = "2026-04-22";
+    for (let i = weeks.length - 1; i >= 0; i--) {
+        if (today >= weeks[i].start && today <= weeks[i].end) {
+            currentWeekIndex = i;
+            break;
+        }
+    }
+}
+
+function getWeekData(weekIndex) {
+    const w = weeks[weekIndex];
+    return allData.filter(d => d.date >= w.start && d.date <= w.end);
+}
+
+function filterByTab(data, tab) {
+    switch (tab) {
+        case 'overview': return data;
+        case 'amap': return data.filter(d => d.vendor === '高德');
+        case 'bmap': return data.filter(d => d.vendor === '百度');
+        case 'ai': return data.filter(d => d.isAI);
+        default: return data;
+    }
+}
+
+function render() {
+    const weekData = getWeekData(currentWeekIndex);
+    const w = weeks[currentWeekIndex];
+
+    document.getElementById('headerWeekBadge').textContent = `2026年 ${w.label}`;
+    document.getElementById('count-all').textContent = weekData.length;
+    document.getElementById('count-amap').textContent = weekData.filter(d => d.vendor === '高德').length;
+    document.getElementById('count-bmap').textContent = weekData.filter(d => d.vendor === '百度').length;
+    document.getElementById('count-ai').textContent = weekData.filter(d => d.isAI).length;
+
+    renderSection('section-overview', weekData, w, 'overview');
+    renderSection('section-amap', weekData, w, 'amap');
+    renderSection('section-bmap', weekData, w, 'bmap');
+    renderSection('section-ai', weekData, w, 'ai');
+}
+
+function renderSection(sectionId, allWeekData, w, tabType) {
+    let data;
+    switch (tabType) {
+        case 'amap': data = allWeekData.filter(d => d.vendor === '高德'); break;
+        case 'bmap': data = allWeekData.filter(d => d.vendor === '百度'); break;
+        case 'ai': data = allWeekData.filter(d => d.isAI); break;
+        default: data = allWeekData;
+    }
+
+    const amapCount = data.filter(d => d.vendor === '高德').length;
+    const bmapCount = data.filter(d => d.vendor === '百度').length;
+    const aiCount = data.filter(d => d.isAI).length;
+
+    const platform = data.filter(d => d.module === '开放平台');
+    const bigdata = data.filter(d => d.module === '大数据');
+    const ai = data.filter(d => d.isAI);
+    const official = data.filter(d => d.module === '官网动态');
+    const collab = data.filter(d => d.module === '行业合作');
+
+    let statsHtml;
+    if (tabType === 'overview') {
+        statsHtml = `
+            <div class="stat-card"><div class="stat-label">本周资讯总数</div><div class="stat-value">${data.length}</div></div>
+            <div class="stat-card"><div class="stat-label">高德动态</div><div class="stat-value amap">${amapCount}</div></div>
+            <div class="stat-card"><div class="stat-label">百度动态</div><div class="stat-value bmap">${bmapCount}</div></div>
+            <div class="stat-card"><div class="stat-label">AI相关</div><div class="stat-value ai">${aiCount}</div></div>`;
+    } else if (tabType === 'ai') {
+        const mcp = data.filter(d => (d.direction||'').includes('MCP')).length;
+        const agent = data.filter(d => (d.direction||'').includes('Agent') || (d.direction||'').includes('SKILL')).length;
+        statsHtml = `
+            <div class="stat-card"><div class="stat-label">AI专题资讯</div><div class="stat-value ai">${data.length}</div></div>
+            <div class="stat-card"><div class="stat-label">MCP相关</div><div class="stat-value" style="color:#34d399;">${mcp}</div></div>
+            <div class="stat-card"><div class="stat-label">Agent/Skill</div><div class="stat-value" style="color:#60a5fa;">${agent}</div></div>
+            <div class="stat-card"><div class="stat-label">高德</div><div class="stat-value amap">${data.filter(d=>d.vendor==='高德').length}</div></div>`;
+    } else {
+        const vendorName = tabType === 'amap' ? '高德' : '百度';
+        const collabCount = collab.length;
+        statsHtml = `
+            <div class="stat-card"><div class="stat-label">${vendorName}本周资讯</div><div class="stat-value ${tabType}">${data.length}</div></div>
+            <div class="stat-card"><div class="stat-label">行业合作</div><div class="stat-value" style="color:#34d399;">${collabCount}</div></div>
+            <div class="stat-card"><div class="stat-label">官网动态</div><div class="stat-value" style="color:#fbbf24;">${official.length}</div></div>
+            <div class="stat-card"><div class="stat-label">AI相关</div><div class="stat-value" style="color:#a78bfa;">${ai.length}</div></div>`;
+    }
+
+    const cols = tabType === 'ai' ? colsAI : (tabType === 'overview' ? colsFull : colsNoVendor);
+    const moduleData = tabType === 'ai' ? [{ type: 'ai', icon: '🤖', title: 'AI · MCP · 空间智能 · Agent · Skill', sub: '强AI属性资讯独立汇总', items: data }]
+        : [
+            { type: 'platform', icon: '🔌', title: '开放平台', sub: tabType === 'amap' ? '高德 lbs.amap.com' : tabType === 'bmap' ? '百度 lbsyun.baidu.com' : '高德 lbs.amap.com | 百度 lbsyun.baidu.com 的开放平台资讯', items: platform },
+            { type: 'official', icon: '🌐', title: '官网产品动态监控', sub: tabType === 'amap' ? '高德 lbs.amap.com' : tabType === 'bmap' ? '百度 lbsyun.baidu.com' : '高德 lbs.amap.com | 百度 lbsyun.baidu.com 的产品级更新', items: official },
+            { type: 'platform', icon: '🤝', title: '行业合作·生态拓展', sub: '硬件合作、政企合作、OS集成、安全出行等行业级动态', items: collab },
+            { type: 'ai', icon: '🤖', title: 'AI · MCP · Agent', sub: '强AI属性资讯', items: ai },
+            { type: 'bigdata', icon: '📊', title: '大数据', sub: '先机、云睿、慧眼、星河大数据等', items: bigdata },
+        ];
+
+    let modulesHtml = '';
+    moduleData.forEach(m => {
+        modulesHtml += buildModule(m.type, m.icon, m.title, m.sub, m.items, cols);
+    });
+
+    document.getElementById(sectionId).innerHTML = `
+        <div class="stats-bar">${statsHtml}</div>
+        ${buildWeekNav(w)}
+        ${modulesHtml}
+    `;
+}
+
+function buildWeekNav(weekInfo) {
+    const prevDisabled = currentWeekIndex <= 0 ? 'disabled' : '';
+    const nextDisabled = currentWeekIndex >= weeks.length - 1 ? 'disabled' : '';
+    return `<div class="week-nav">
+        <span class="week-label">📅 周期选择</span>
+        <button class="week-nav-btn" onclick="changeWeek(-1)" ${prevDisabled}>◀</button>
+        <span class="week-range">${weekInfo.label} | ${weekInfo.display}</span>
+        <button class="week-nav-btn" onclick="changeWeek(1)" ${nextDisabled}>▶</button>
+    </div>`;
+}
+
+function buildTable(items, columns) {
+    if (items.length === 0) {
+        return `<div class="empty-state"><div class="empty-state-icon">📭</div><p>本周暂无相关资讯</p><p style="font-size:12px;margin-top:4px;color:#4b5563;">如有新动态将及时补充</p></div>`;
+    }
+    let html = '<table class="news-table"><thead><tr>';
+    columns.forEach(col => { html += `<th style="width:${col.width||'auto'}">${col.label}</th>`; });
+    html += '</tr></thead><tbody>';
+    items.sort((a, b) => b.date.localeCompare(a.date));
+    items.forEach(item => {
+        html += '<tr>';
+        columns.forEach(col => { html += `<td>${col.render(item)}</td>`; });
+        html += '</tr>';
+    });
+    html += '</tbody></table>';
+    return html;
+}
+
+function buildModule(type, icon, title, subtitle, items, cols) {
+    return `<div class="module-section">
+        <div class="module-header">
+            <div class="module-icon ${type}">${icon}</div>
+            <div><div class="module-title">${title}</div><div class="module-subtitle">${subtitle}</div></div>
+        </div>
+        ${buildTable(items, cols)}
+    </div>`;
+}
+
+function importanceHtml(level) { return `<span class="importance ${level}"></span>`; }
+
+function vendorHtml(vendor) {
+    return vendor === '高德' ? '<span class="vendor-tag amap">高德</span>' : '<span class="vendor-tag bmap">百度</span>';
+}
+
+function dataTypeHtml(item) {
+    if (item.dataType === 'article') return '<span class="data-type-tag article">资讯</span>';
+    if (item.dataType === 'patrol') return '<span class="data-type-tag patrol">巡检</span>';
+    return '';
+}
+
+function eventHtml(item) {
+    let text = item.event.replace(/\"([^\"]+)\"/g, '<span class="event-highlight">$1</span>');
+    ['SKILL专区', 'Amap SDK Skills', 'MCP Server', 'MCP协议', 'MCP广场', 'Streamable HTTP', '具身智能', 'HarmonyOS NEXT', 'Claude', '10大标准化接口', '智能客服', '日配额取消', '服务协议', '雷鸟智慧生活', 'AR扫街榜', 'LBS Agent', '鹰眼守护', '公益地图', '首都公共就业服务地图', 'OriginOS 6', '原子通知', 'AI Agent', '充电站', '青岛停车', '车位级导航', '放心消费', 'OpenClaw', 'ClawHub', '灵犀AIOS', 'Qwen3.5', 'AR实景步行导航', 'AR Engine', 'HarmonyOS SDK', 'Maps UI-Kit', 'RoutePlan', 'Map Skills', '千问', 'AI打车', '小滴', '实时公交', 'JSAPI Skills', '司机驿站', '扫街榜', '飞行街景', '烟火澳门支持计划', '金沙中国', '澳门通', 'AI智慧校园', '鲁山一高', '便民快巴', '富临运业', '卒中救治数字地图', '百万减残', '卒中中心', '黄小西', '智慧游门户', '贵州旅游产业发展大会', '煎蛋侠', '无网导航', '清明出行预测报告', '比亚迪', '腾讯地图', 'DiLink', '天神之眼', 'CLI', 'amap-gui', 'Map Agent Plan', 'Container', 'TOKEN', '3.4亿POI', 'GDPS2026', 'DuMate', 'RoboClaw', '空间感知', '超视距', '两轮车', 'Skills场景', '商业选址', '智慧物流', '龙溢', '智能路况提醒', 'HarmonyOS 6', '实况窗', '智感畅行', '畅享90', '养老服务地图', '暖心车站', '适老出行', 'CLI指令集', 'GUI容器', 'Skill技能包', '闪充', '300万根充电桩', '辟谣', '高精地图', '充电导航', 'AI座舱智能体', '百人会', '中枢Agent', '车道级SR导航', 'NOA', '41.8%', '小鹏汽车', '深蓝汽车', '梧桐车联', '零跑', '车位级SR导航', '舱驾融合', '端到端', 'AI司机', 'AI助理', 'AI搭子', 'V21', '四足机器人', 'ABot-M0', '具身导航', '亦庄机器人半马', '具身操作基座模型', '畅游北京', '烟火北京支持计划', '非遗榜单', '3万家', '259家', '状元榜', '一月一城', '文档MCP化', 'Codex', 'Cursor', 'Claude Code', 'Rules', 'ABot-World', 'Agibot World Challenge', 'World Arena', '15项', '世界模型', '途途', 'ABot-Claw', 'ABot全栈', 'AGI', '全面开源', '导盲', '来华通', 'GBIC', '小度想想', 'Agent Plan', '入境游', 'ABot-N', 'ABot-M', 'ABot-PhysWorld', 'CVPR 2026', '14B DiT', 'QQ音乐', '超级会员年卡', 'SegmentFault', '千龙网', '北京科技大学', '北科大', '雄安校区', '空间智能高校', '雅迪', '鸿蒙投屏', '冠能白鲨', '冠能星舰', '冠能龙霆', '两轮车导航', '汽车出行AI Agent', 'AI伴行', '千问大模型', '语言大脑', '空间大脑', '理想汽车', 'QwenPaw', '多模态感知', '哈啰租车', '地图+租车', '东风猛士', 'HERE Technologies', '车企出海', '全球实时红绿灯', '海外智驾地图'].forEach(h => {
+        if (text.includes(h) && !text.includes(`class="event-highlight">${h}`)) {
+            text = text.replace(h, `<span class="event-highlight">${h}</span>`);
+        }
+    });
+    let html = `<span class="event-desc">${importanceHtml(item.importance)}${text}`;
+    if (item.officialNote) { html += `<span class="official-note">${item.officialNote}</span>`; }
+    html += `</span>`;
+    return html;
+}
+
+function evidenceHtml(item) {
+    const map = { 'new': {l:'新增',c:'new'}, 'update': {l:'更新',c:'update'}, 'announce': {l:'公告',c:'announce'}, 'report': {l:'报道',c:'report'}, 'observe': {l:'监测',c:'observe'} };
+    const tag = map[item.evidenceType] || {l:'监测',c:'observe'};
+    return `<div class="evidence-cell"><span class="evidence-tag ${tag.c}">${tag.l}</span> ${item.evidence}</div>`;
+}
+
+function sourceHtml(item) {
+    if (!item.sources || item.sources.length === 0) return '-';
+    if (item.sources.length === 1) return `<a class="source-link" href="${item.sources[0].url}" target="_blank">${item.sources[0].name}</a>`;
+    let html = '<div class="source-links">';
+    item.sources.forEach(s => { html += `<a class="source-link" href="${s.url}" target="_blank">${s.name}</a>`; });
+    html += '</div>';
+    return html;
+}
+
+const colsFull = [
+    { label: '日期', width: '90px', render: i => `<span class="date-cell">${i.date}</span>${dataTypeHtml(i)}` },
+    { label: '厂商', width: '70px', render: i => vendorHtml(i.vendor) },
+    { label: '产品线', width: '85px', render: i => `<span class="product-tag">${i.product}</span>` },
+    { label: '核心事件', width: '', render: i => eventHtml(i) },
+    { label: '信息判断', width: '260px', render: i => evidenceHtml(i) },
+    { label: '信息来源', width: '180px', render: i => sourceHtml(i) },
+];
+
+const colsNoVendor = [
+    { label: '日期', width: '90px', render: i => `<span class="date-cell">${i.date}</span>${dataTypeHtml(i)}` },
+    { label: '产品线', width: '85px', render: i => `<span class="product-tag">${i.product}</span>` },
+    { label: '核心事件', width: '', render: i => eventHtml(i) },
+    { label: '信息判断', width: '260px', render: i => evidenceHtml(i) },
+    { label: '信息来源', width: '180px', render: i => sourceHtml(i) },
+];
+
+const colsAI = [
+    { label: '日期', width: '90px', render: i => `<span class="date-cell">${i.date}</span>${dataTypeHtml(i)}` },
+    { label: '厂商', width: '70px', render: i => vendorHtml(i.vendor) },
+    { label: 'AI方向', width: '100px', render: i => `<span class="product-tag">${i.direction || i.product}</span>` },
+    { label: '核心事件', width: '', render: i => eventHtml(i) },
+    { label: '信息判断', width: '260px', render: i => evidenceHtml(i) },
+    { label: '信息来源', width: '180px', render: i => sourceHtml(i) },
+];
+
+function switchTab(tab, el) {
+    currentTab = tab;
+    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+    document.querySelectorAll('.vendor-section').forEach(s => s.classList.remove('active'));
+    document.getElementById('section-' + tab).classList.add('active');
+}
+
+function changeWeek(delta) {
+    const newIndex = currentWeekIndex + delta;
+    if (newIndex >= 0 && newIndex < weeks.length) {
+        currentWeekIndex = newIndex;
+        render();
+        document.querySelectorAll('.vendor-section').forEach(s => s.classList.remove('active'));
+        document.getElementById('section-' + currentTab).classList.add('active');
+    }
+}
+
+function showExportModal() {
+    const w = weeks[currentWeekIndex];
+    document.getElementById('exportWeekHint').textContent = `📅 将导出 ${w.label}（${w.display}）的数据`;
+    document.getElementById('exportModal').classList.add('active');
+}
+function hideExportModal() { document.getElementById('exportModal').classList.remove('active'); }
+
+function getCurrentExportData() { return filterByTab(getWeekData(currentWeekIndex), currentTab); }
+
+function exportCSV() {
+    const data = getCurrentExportData(); const w = weeks[currentWeekIndex];
+    let csv = '\uFEFF日期,数据类型,厂商,模块,产品线,核心事件,官网同步更新,信息判断,判断类型,信息来源,来源链接,是否AI相关\n';
+    data.forEach(i => {
+        const dt = i.dataType === 'article' ? '资讯' : '巡检';
+        csv += `"${i.date}","${dt}","${i.vendor}","${i.module}","${i.product}","${i.event}","${i.officialNote||''}","${i.evidence}","${i.evidenceType}","${i.sources.map(s=>s.name).join(' | ')}","${i.sources.map(s=>s.url).join(' | ')}","${i.isAI?'是':'否'}"\n`;
+    });
+    downloadFile(csv, `竞品监控-${w.label}-${currentTab}-${getDateStr()}.csv`, 'text/csv;charset=utf-8');
+    hideExportModal();
+}
+
+function exportJSON() {
+    const data = getCurrentExportData(); const w = weeks[currentWeekIndex];
+    downloadFile(JSON.stringify({ week: w.label, period: w.display, tab: currentTab, exportTime: new Date().toISOString(), count: data.length, data }, null, 2), `竞品监控-${w.label}-${currentTab}-${getDateStr()}.json`, 'application/json');
+    hideExportModal();
+}
+
+function exportMarkdown() {
+    const data = getCurrentExportData(); const w = weeks[currentWeekIndex];
+    let md = `# 地图竞品动态监控周报\n\n> 周期: ${w.display} (${w.label})\n> 导出: ${new Date().toLocaleString('zh-CN')}\n> 📰 资讯=来源发布时间 | 🔍 巡检=我方发现时间\n\n`;
+    md += `| 日期 | 类型 | 厂商 | 产品 | 核心事件 | 信息判断 | 来源 |\n|------|------|------|------|----------|----------|------|\n`;
+    data.forEach(i => {
+        const dt = i.dataType === 'article' ? '📰资讯' : '🔍巡检';
+        const src = i.sources.map(s => `[${s.name}](${s.url})`).join(' ');
+        md += `| ${i.date} | ${dt} | ${i.vendor} | ${i.product} | ${i.event}${i.officialNote?' '+i.officialNote:''} | ${i.evidence} | ${src} |\n`;
+    });
+    downloadFile(md, `竞品监控-${w.label}-${currentTab}-${getDateStr()}.md`, 'text/markdown');
+    hideExportModal();
+}
+
+function downloadFile(content, filename, type) {
+    const blob = new Blob([content], { type }); const url = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url; a.download = filename; a.click(); URL.revokeObjectURL(url);
+}
+
+function getDateStr() { const d = new Date(); return `${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}`; }
+
+document.getElementById('exportModal').addEventListener('click', function(e) { if (e.target === this) hideExportModal(); });
+
+initWeek();
+render();
+</script>
+</body>
+</html>
