@@ -176,8 +176,8 @@
         <div>
             <h1>🗺️ 地图竞品动态监控 · ToB周报</h1>
             <div style="display:flex;gap:12px;margin-top:8px;">
-                <span class="week-badge" id="headerWeekBadge">2026年 第18周</span>
-                <span class="update-time">更新时间: 2026-04-29 15:30</span>
+                <span class="week-badge" id="headerWeekBadge">2026年 第19周</span>
+                <span class="update-time">更新时间: 2026-05-08 09:00</span>
             </div>
         </div>
         <div class="controls">
@@ -225,6 +225,64 @@
 // 巡检类条目的evidence必须说明：怎么发现的、为什么判断是近期变化
 
 const allData = [
+    // ========== 第19周 (5.4 - 5.10) ==========
+
+    // ---- 高德新增 ----
+    {
+        date: "2026-05-07", vendor: "高德", module: "AI", product: "百校路况", direction: "AI出行",
+        dataType: "article",
+        event: "高德地图基于VLM大模型生成的路况信息能力，正式将开放道路的路况服务扩展至全国100高校校园，校内主干道、校门口、宿舍区、食堂周边、教学楼路口等关键区域可实时查看拥堵情况",
+        evidence: "5月7日快科技/腾讯新闻/IT之家等媒体报道。高德表示，实时路况能力将在校门口接送车辆扎堆、校庆/迎新/运动会等开放日大量访客涌入等场景中发挥作用。系统可提示校门口路段车辆排队情况，引导从其他入口进入",
+        evidenceType: "new",
+        sources: [
+            { name: "快科技(5.7)", url: "https://new.qq.com/rain/a/20260507A07V6H00" },
+            { name: "IT之家(5.7)", url: "https://www.ithome.com/0/957/015.htm" }
+        ],
+        officialNote: "📌 高德将城市级路况服务能力延伸至校园场景，基于VLM大模型的AI能力实现校内关键区域实时拥堵可视化，是地图服务从开放道路向封闭园区拓展的标志性进展",
+        importance: "high", isAI: true
+    },
+    {
+        date: "2026-05-07", vendor: "高德", module: "行业合作", product: "奕境汽车", direction: "出行生态",
+        dataType: "article",
+        event: "高德车服与东风汽车旗下奕境汽车签署战略合作协议，围绕品牌曝光、内容生产、数据共建、线上线下串联及线索成交转化构建从新品牌发布到用户全生命周期运营的完整行销闭环",
+        evidence: "5月7日中国网/中国经济网/腾讯新闻等媒体报道。奕境汽车是东风与华为乾崑深度合作的高端智慧化品牌，首款车型奕境X9于北京车展亮相。高德提供从最后一段到第一站的全周期增长伙伴价值，助力新品牌快速起量",
+        evidenceType: "new",
+        sources: [
+            { name: "中国网(5.7)", url: "https://big5.china.com.cn/gate/big5/business.china.com.cn/2026-05/07/content_43420504.shtml" },
+            { name: "中国经济网(5.7)", url: "http://www.ce.cn/cysc/tech/gd2012/202605/t20260507_2929589.shtml" },
+            { name: "腾讯新闻(5.7)", url: "https://news.qq.com/rain/a/20260507A06YM200" }
+        ],
+        officialNote: "📌 高德车服从「地图工具」升级为「新品牌营销增长伙伴」。奕境汽车作为东风×华为乾崑合作高端品牌，高德提供全周期行销闭环支持",
+        importance: "high", isAI: false
+    },
+    {
+        date: "2026-05-05", vendor: "百度", module: "AI", product: "AI副驾", direction: "AI导航",
+        dataType: "article",
+        event: "百度地图AI副驾功能正式上线，将AI能力嵌入导航语音包，实现聊天、预判提醒、习惯记忆等陪伴式导航体验，改变传统导航语音包仅作为提示音的交互形态",
+        evidence: "5月5日百度地图官方微博/新浪财经/IT之家等媒体报道。AI副驾支持：①AI聊天陪伴 ②预判式安全提醒 ③个性化习惯记忆。用户可在导航语音包设置中选择启用",
+        evidenceType: "new",
+        sources: [
+            { name: "微博-百度地图(5.5)", url: "https://m.weibo.cn/status/5295355749204776" },
+            { name: "新浪财经(5.5)", url: "https://finance.sina.com.cn/tech/roll/2026-05-05/doc-inhvxuru1059604.shtml" },
+            { name: "IT之家(5.5)", url: "https://www.ithome.com/0/957/015.htm" }
+        ],
+        officialNote: "📌 导航语音包从「提示音」升级为「AI出行伙伴」，百度地图在车载AI交互赛道率先落地陪伴式导航体验",
+        importance: "high", isAI: true
+    },
+    {
+        date: "2026-05-05", vendor: "高德", module: "行业合作", product: "低空出行生态", direction: "低空经济",
+        dataType: "article",
+        event: "高德与广汽高域科技签署低空出行战略合作协议，围绕低空出行生态共建、安全高效的商业化飞行运营试点展开深度合作",
+        evidence: "2026北京国际汽车展览会期间（5月4日），高德与广汽旗下飞行汽车品牌高域科技正式签署战略合作协议。高德将地面导航中刻画真实世界的能力向低空延伸，构建整合气象、地磁及飞行管控数据的城市级空间智能数字底座",
+        evidenceType: "new",
+        sources: [
+            { name: "网易（2026-05-05）", url: "https://www.163.com/dy/article/KS5IMEP505503O4L.html" },
+            { name: "腾讯新闻（2026-04-29）", url: "https://new.qq.com/rain/a/20260429A07DE000" }
+        ],
+        officialNote: "📌 高德构建城市级空间智能数字底座，为低空飞行器提供厘米级环境感知与毫秒级决策响应，推动低空出行从愿景走向日常",
+        importance: "high", isAI: true
+    },
+
     // ========== 第11周 (3.9 - 3.15) ==========
 
     // ---- 行业合作 ----
@@ -1426,6 +1484,7 @@ const weeks = [
     { id: "w16", label: "第16周", start: "2026-04-13", end: "2026-04-19", display: "2026.04.13 — 2026.04.19" },
     { id: "w17", label: "第17周", start: "2026-04-20", end: "2026-04-26", display: "2026.04.20 — 2026.04.26" },
     { id: "w18", label: "第18周", start: "2026-04-27", end: "2026-05-03", display: "2026.04.27 — 2026.05.03" },
+    { id: "w19", label: "第19周", start: "2026-05-04", end: "2026-05-10", display: "2026.05.04 — 2026.05.10" },
 ];
 
 let currentWeekIndex = 2;
