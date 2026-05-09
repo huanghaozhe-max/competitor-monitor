@@ -177,7 +177,7 @@
             <h1>🗺️ 地图竞品动态监控 · ToB周报</h1>
             <div style="display:flex;gap:12px;margin-top:8px;">
                 <span class="week-badge" id="headerWeekBadge">2026年 第19周</span>
-                <span class="update-time">更新时间: 2026-05-08 09:00</span>
+                <span class="update-time">更新时间: 2026-05-09 09:00</span>
             </div>
         </div>
         <div class="controls">
@@ -1471,6 +1471,34 @@ const allData = [
         officialNote: "📌 车载生态全面发力：百度地图在车展展示端到端AI座舱智能体、车道级SR导航等创新成果，与多家车企达成合作，巩固在智能座舱和智能驾驶领域的关键基建地位",
         importance: "high", isAI: true
     },
+    // ---- 新增：第19周 (5.7) ----
+    {
+        date: "2026-05-07", vendor: "百度", module: "行业合作", product: "免导航红绿灯倒计时", direction: "车联网",
+        dataType: "article",
+        event: "小牛电动与百度地图达成合作，行业首家上线免导航红绿灯倒计时功能，无需导航仪表盘即可实时显示前方路口红绿灯倒计时，误差控制在毫秒级",
+        evidence: "IT之家5月7日报道，搜狐汽车5月7日19:08发布。核心能力：①免导航显示红绿灯倒计时 ②毫秒级误差 ③覆盖全国近3000个区县主要路口。当前支持小牛NX马拉松车型，未来将通过OTA升级支持更多高端车型。小牛上月底还与腾讯地图达成深度合作，行业首家实现鸿蒙端投屏导航全量开放",
+        evidenceType: "new",
+        sources: [
+            { name: "IT之家(5.7)", url: "https://www.ithome.com/0/947/393.htm" },
+            { name: "搜狐汽车(5.7)", url: "https://www.sohu.com/a/1019474644_114760" }
+        ],
+        officialNote: "📌 行业首家上线免导航红绿灯倒计时功能，百度地图在车联网AI能力输出方向率先落地。与小牛电动合作，将百度地图AI能力直接嵌入车载仪表盘",
+        importance: "high", isAI: true
+    },
+    {
+        date: "2026-05-07", vendor: "高德", module: "产品功能", product: "红绿灯倒计时", direction: "区域拓展",
+        dataType: "article",
+        event: "高德地图红绿灯倒计时功能在台湾上线，引发岛内民众广泛关注和好评，APP登顶台湾iOS和安卓双平台下载榜首",
+        evidence: "人民日报客户端、环球时报5月7日报道，国务院台办4月29日新闻发布会提及此事。核心数据：红绿灯倒计时误差几乎零误差，4月23日登顶台湾双平台下载榜首。民进党当局声称有安全疑虑，国务院台办发言人陈斌华回应批评民进党反中反到反智地步",
+        evidenceType: "new",
+        sources: [
+            { name: "网易/人民日报客户端(5.7)", url: "https://www.163.com/dy/article/KSBQP4U405319UN7.html" },
+            { name: "环球时报(5.7)", url: "https://www.globaltimes.cn/page/202605/1078547.shtml" }
+        ],
+        officialNote: "📌 高德红绿灯倒计时功能拓展至台湾地区，以高精度技术获得岛内用户高度认可，同时也引发政治争议。显示高德地图在技术输出和区域拓展方向的持续布局",
+        importance: "high", isAI: false
+    }
+
 ];
 
 // ===== 周定义 =====
@@ -1491,7 +1519,7 @@ let currentWeekIndex = 2;
 let currentTab = 'overview';
 
 function initWeek() {
-    const today = "2026-04-29";
+    const today = "2026-05-09";
     for (let i = weeks.length - 1; i >= 0; i--) {
         if (today >= weeks[i].start && today <= weeks[i].end) {
             currentWeekIndex = i;
