@@ -177,7 +177,7 @@
             <h1>🗺️ 地图竞品动态监控 · ToB周报</h1>
             <div style="display:flex;gap:12px;margin-top:8px;">
                 <span class="week-badge" id="headerWeekBadge">2026年 第19周</span>
-                <span class="update-time">更新时间: 2026-05-09 09:00</span>
+                <span class="update-time">更新时间: 2026-05-14 09:00</span>
             </div>
         </div>
         <div class="controls">
@@ -225,6 +225,81 @@
 // 巡检类条目的evidence必须说明：怎么发现的、为什么判断是近期变化
 
 const allData = [
+    // ========== 第20周 (5.11 - 5.17) ==========
+
+    // ---- 行业合作 ----
+    {
+        date: "2026-05-11", vendor: "高德", module: "行业合作", product: "比亚迪闪充", direction: "出行生态",
+        dataType: "article",
+        event: "高德地图与比亚迪汽车正式签署战略合作协议，比亚迪闪充网络将全面接入高德地图平台，双方在找桩体验、智能选址、商用车补能及品牌营销等维度展开联动",
+        evidence: "5月11日网通社快报/凤凰网/腾讯新闻等多家媒体报道。合作达成后，比亚迪闪充站点信息已全面上线高德平台，用户在高德地图App内搜索比亚迪闪充即可查看站点位置、距离、空闲桩数及价格信息，并支持导航直达。高德还为比亚迪闪充站点配置专属视觉标识",
+        evidenceType: "new",
+        sources: [
+            { name: "网通社快报(5.11)", url: "https://auto.ifeng.com/c/8t2I5p1tchZ" },
+            { name: "凤凰网(5.11)", url: "https://auto.ifeng.com/c/8t2I5p1tchZ" },
+            { name: "腾讯新闻(5.11)", url: "https://news.qq.com/rain/a/20260511A03TBC00" }
+        ],
+        officialNote: "📌 比亚迪闪充全面接入高德，充电网络与地图搜索/导航/可视化深度整合。双方将共建智能充电站选址模型，并延伸至商用车领域（重卡/物流车）",
+        importance: "high", isAI: false
+    },
+    {
+        date: "2026-05-12", vendor: "高德", module: "AI", product: "企业用车", direction: "AI出行",
+        dataType: "article",
+        event: "高德企业用车正式推出智能升舱与预约用时预估两项新功能，将多年出行服务积淀转化为企业差旅场景中的务实方案，在叫车体验与时间管理两个维度同步推进",
+        evidence: "5月12日央广网/中国经济网/腾讯新闻等媒体报道。智能升舱：系统综合研判，适时为员工推荐符合企业费用标准的高级车型运力，提升用车体验。预约用时预估：基于大数据预测到达目的地所需时间，帮助企业员工合理规划行程，减少等待焦虑",
+        evidenceType: "new",
+        sources: [
+            { name: "央广网(5.12)", url: "https://www.cnr.cn/2013qcpd/hy/20260512/t20260512_527617294.shtml" },
+            { name: "中国经济网(5.12)", url: "http://www.ce.cn/cysc/tech/gd2012/202605/t20260512_2933272.shtml" },
+            { name: "腾讯新闻(5.12)", url: "https://news.qq.com/rain/a/20260512A03EDP00" }
+        ],
+        officialNote: "📌 高德企业用车从聚合打车平台向企业差旅全链路方案升级，AI赋能叫车匹配与用时预估，提升企业出行效率",
+        importance: "medium", isAI: true
+    },
+    {
+        date: "2026-05-12", vendor: "高德", module: "行业合作", product: "一键智慧游嵊泗", direction: "智慧文旅",
+        dataType: "article",
+        event: "高德地图联合阿里公益为浙江嵊泗县打造数字化旅游服务平台「一键智慧游·嵊泗」正式上线，整合美食、美景、美居、美物，提供行前规划、行中导览、行后分享等全链路服务",
+        evidence: "5月12日搜狐/淘宝公益/腾讯新闻等媒体报道。核心功能：①AI旅游助手「嵊仔」7×24小时解答游客咨询 ②轮渡信息上线（覆盖3岛25条轮渡线路）③公交实时服务（11条线路、27辆公交车接入实时公交系统）。惠及2万岛民及众多游客",
+        evidenceType: "new",
+        sources: [
+            { name: "搜狐/淘宝公益(5.12)", url: "https://www.sohu.com/a/1021600555_121956424" },
+            { name: "淘宝公益-智慧游嵊泗", url: "https://gongyi.taobao.com/markets/gy/zhihuilyusishen" }
+        ],
+        officialNote: "📌 高德×阿里公益乡村振兴标杆案例：科技+公益+文旅模式，将地图、导航、AI等能力输出至海岛县域，弥合数字鸿沟",
+        importance: "medium", isAI: true
+    },
+
+    // ---- 5月13日新增 ----
+    {
+        date: "2026-05-13", vendor: "高德", module: "AI", product: "途途机器人", direction: "具身智能",
+        dataType: "article",
+        event: "高德首款具身机器人途途正式亮相2026年APEC第二次高官会，针对银发族日常出行与照护需求，首次发布陪伴场景核心功能与智能动作生成技术",
+        evidence: "5月13日光明网/经济参考网/科技中国等多家媒体报道。核心能力：①能出门——导盲级认路，全自主导航 ②会思考——基于用户交互数据智能学习 ③能导盲——复杂路况自主导航。智能动作生成技术：突破传统机器人依赖预设动作库的局限，根据自然语言语义实时生成连贯的肢体动作",
+        evidenceType: "new",
+        sources: [
+            { name: "光明网(5.13)", url: "https://www.jjckb.cn/20260513/71cc6b3ca6b44666a5e47831296bdb0b/c.html" },
+            { name: "腾讯新闻(5.13)", url: "https://news.qq.com/rain/a/20260513A08NDF00" },
+            { name: "科技中国(5.13)", url: "https://tech.china.com.cn/sx/20260513/412804.shtml" }
+        ],
+        officialNote: "📌 高德途途是高德首款具身机器人，将高德空间智能能力输出至具身智能硬件，标志着高德从软件平台向软硬一体化AI公司转型的重要一步",
+        importance: "high", isAI: true
+    },
+    {
+        date: "2026-05-13", vendor: "百度", module: "行业合作", product: "车道级SR导航", direction: "智能座舱",
+        dataType: "article",
+        event: "上汽大众旗舰大型SUV ID.ERA 9X正式上市，搭载百度地图车道级SR导航方案，以车道为最小单元进行导航，结合3D游戏级引擎渲染技术构建物理道路环境的动态虚拟副本",
+        evidence: "5月13日腾讯新闻/车联中国/DoNews等多家媒体报道。核心功能：①车道级SR导航——所见即所得的沉浸式导航指引 ②主动式引导与预警——结合秒级动态更新和超视距预警 ③手车一体——手机百度地图功能无缝同步到车机端（红绿灯倒计时、实时停车位查询、充电桩状态等）。覆盖中国360多个城市、2800个区县及3.8万个乡镇",
+        evidenceType: "new",
+        sources: [
+            { name: "腾讯新闻(5.13)", url: "https://news.qq.com/rain/a/20260513A07BMT00" },
+            { name: "车联中国(5.13)", url: "https://en.taibo.cn/p/25783620" },
+            { name: "DoNews(5.13)", url: "https://so.html5.qq.com/page/real/search_news?docid=70000021_0616a0438ce60152" }
+        ],
+        officialNote: "📌 百度地图车道级SR导航方案首次搭载合资品牌旗舰车型，标志着百度地图技术已覆盖新势力、自主品牌与传统合资三大阵营，合资2.0时代正式开启",
+        importance: "high", isAI: true
+    },
+
     // ========== 第19周 (5.4 - 5.10) ==========
 
     // ---- 高德新增 ----
@@ -1513,13 +1588,14 @@ const weeks = [
     { id: "w17", label: "第17周", start: "2026-04-20", end: "2026-04-26", display: "2026.04.20 — 2026.04.26" },
     { id: "w18", label: "第18周", start: "2026-04-27", end: "2026-05-03", display: "2026.04.27 — 2026.05.03" },
     { id: "w19", label: "第19周", start: "2026-05-04", end: "2026-05-10", display: "2026.05.04 — 2026.05.10" },
+    { id: "w20", label: "第20周", start: "2026-05-11", end: "2026-05-17", display: "2026.05.11 — 2026.05.17" },
 ];
 
 let currentWeekIndex = 2;
 let currentTab = 'overview';
 
 function initWeek() {
-    const today = "2026-05-09";
+    const today = "2026-05-14";
     for (let i = weeks.length - 1; i >= 0; i--) {
         if (today >= weeks[i].start && today <= weeks[i].end) {
             currentWeekIndex = i;
