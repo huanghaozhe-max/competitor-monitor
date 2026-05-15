@@ -177,7 +177,7 @@
             <h1>🗺️ 地图竞品动态监控 · ToB周报</h1>
             <div style="display:flex;gap:12px;margin-top:8px;">
                 <span class="week-badge" id="headerWeekBadge">2026年 第19周</span>
-                <span class="update-time">更新时间: 2026-05-14 09:00</span>
+                <span class="update-time">更新时间: 2026-05-14 22:00</span>
             </div>
         </div>
         <div class="controls">
@@ -297,6 +297,40 @@ const allData = [
             { name: "DoNews(5.13)", url: "https://so.html5.qq.com/page/real/search_news?docid=70000021_0616a0438ce60152" }
         ],
         officialNote: "📌 百度地图车道级SR导航方案首次搭载合资品牌旗舰车型，标志着百度地图技术已覆盖新势力、自主品牌与传统合资三大阵营，合资2.0时代正式开启",
+        importance: "high", isAI: true
+    },
+
+    // ---- 5月14日新增 ----
+    {
+        date: "2026-05-14", vendor: "百度", module: "AI", product: "脉芽MAPYA", direction: "AI Agent",
+        dataType: "article",
+        event: "百度地图在Create2026开发者大会正式发布三大AI原生能力：对话式地图开发智能体「脉芽MAPYA」、百度地图CLI命令行工具、Docs-MCP文档库，并公布「地图原生智能」三层技术架构，重塑地图应用开发范式",
+        evidence: "5月14日搜狐/新浪财经/中国经济网/中国日报/IT之家等10+家媒体报道。核心发布：①脉芽MAPYA——业内首个对话式地图开发智能体，理解自然语言需求直接生成地图应用 ②百度地图CLI——命令行工具，支持脚本化批量处理 ③Docs-MCP——文档库与MCP协议深度集成 ④Map Native Intelligence三层架构：模型层(千问/文心等)+工具层(Agent Tools)+生态层(开发者社区)",
+        evidenceType: "new",
+        sources: [
+            { name: "搜狐(5.14)", url: "https://www.sohu.com/a/1022663713_121956424" },
+            { name: "新浪财经(5.14)", url: "https://finance.sina.com.cn/stock/t/2026-05-14/doc-inhvmxqn6977780.shtml" },
+            { name: "中国经济网(5.14)", url: "http://www.ce.cn/cysc/tech/gd2012/202605/t20260514_2935153.shtml" },
+            { name: "中国日报(5.14)", url: "https://cn.chinadaily.com.cn/a/202605/14/WS69b544a8a310c4d36ba9990.html" },
+            { name: "IT之家(5.14)", url: "https://www.ithome.com/0/957/015.htm" }
+        ],
+        officialNote: "📌 百度地图Create2026发布标志地图AI从「功能叠加」升级为「原生智能」。脉芽MAPYA是业内首个对话式地图开发智能体，与高德CLI(4.1)形成正面竞争。Docs-MCP创新文档库与MCP协议集成",
+        importance: "high", isAI: true
+    },
+    {
+        date: "2026-05-14", vendor: "高德", module: "AI", product: "Traffic Claw", direction: "AI Agent",
+        dataType: "article",
+        event: "高德地图在厦门国际智能交通产业博览会上正式发布全域交通智能体「Traffic Claw」，实现从「数据辅助」到「自主决策」的范式跃迁，首发Multi-Agent协同决策机制与自进化能力",
+        evidence: "5月14日中国网/中华网/腾讯新闻/搜狐/凤凰网等10+家媒体报道。核心能力：①Multi-Agent协同决策——规划/调度/预测Agent并行计算，动态优化信号灯配时与车流引导 ②自进化能力——基于实时流量数据自动调优算法参数，持续迭代 ③Skill+行业MCP重组智能体架构——高德开放平台已有73个MCP，覆盖95%开发需求。发布会现场展示了绿波车速引导/自适应信号灯/应急车辆优先通行三大场景实战效果",
+        evidenceType: "new",
+        sources: [
+            { name: "中国网(5.14)", url: "https://big5.china.com.cn/gate/big5/tech.china.com.cn/2026-05/14/content_43476698.shtml" },
+            { name: "中华网(5.14)", url: "https://tech.china.com/article/20260514/20260514003067.html" },
+            { name: "腾讯新闻(5.14)", url: "https://news.qq.com/rain/a/20260514A06HKW00" },
+            { name: "搜狐(5.14)", url: "https://www.sohu.com/a/1022707775_121956424" },
+            { name: "凤凰网(5.14)", url: "https://tech.ifeng.com/c/8t5b5FG4YvW" }
+        ],
+        officialNote: "📌 高德Traffic Claw是全球首个全域交通AI智能体，Multi-Agent协同决策+自进化能力标志高德AI从「工具赋能」到「自主决策」的质变。73个MCP+95%覆盖率构筑开放生态壁垒",
         importance: "high", isAI: true
     },
 
