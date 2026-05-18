@@ -177,7 +177,7 @@
             <h1>🗺️ 地图竞品动态监控 · ToB周报</h1>
             <div style="display:flex;gap:12px;margin-top:8px;">
                 <span class="week-badge" id="headerWeekBadge">2026年 第19周</span>
-                <span class="update-time">更新时间: 2026-05-18 09:00</span>
+                <span class="update-time">更新时间: 2026-05-18 14:30</span>
             </div>
         </div>
         <div class="controls">
@@ -406,6 +406,48 @@ const allData = [
         ],
         officialNote: "📌 高德Traffic Claw是全球首个全域交通AI智能体，Multi-Agent协同决策+自进化能力标志高德AI从「工具赋能」到「自主决策」的质变。73个MCP+95%覆盖率构筑开放生态壁垒",
         importance: "high", isAI: true
+    },
+
+    // ---- 5月14日补搜新增 ----
+    {
+        date: "2026-05-14", vendor: "高德", module: "AI", product: "高德地图2025", direction: "AI原生应用",
+        dataType: "article",
+        event: "高德地图宣布全面AI化，发布全球首个AI原生地图应用「高德地图2025」，将地图演进为具备深度时空理解和自主推理决策能力的一体化出行生活智能体，包含AI领航、AI即刻、AI探索、AR打卡等创新场景",
+        evidence: "5月14日人民网/今日头条/四川观察等多家媒体报道。核心升级：①主智能体「小高老师」——基于高德与通义深度共建的大模型簇，支持全双工语音交互，通过MCP协同调用出行/生活/空间服务子智能体与工具链 ②生活服务智能体——AI即刻（基于时空双轴排序模型预判即时出行需求）+AI探索（认知模型推荐超预期目的地）③出行服务智能体——AI领航依托TrafficVLM实现超视距感知与车道级决策 ④空间服务智能体——AR打卡虚实结合。CEO郭宁表示「空间智能是在三维空间和时间中感知、推理和行动的能力」，推动AI从「对话工具」蜕变为「行动伙伴」",
+        evidenceType: "new",
+        sources: [
+            { name: "人民网(5.14)", url: "https://app.people.cn/h5/detail/normal/6432607942231040" },
+            { name: "今日头条(5.14)", url: "https://www.toutiao.com/article/7639625094281445926/" }
+        ],
+        officialNote: "📌 高德地图全面AI化是导航行业里程碑事件：从传统地图APP升级为AI原生出行生活智能体。四大智能体架构（出行+生活+空间+主智能体）+MCP工具链协同，标志高德从「工具型地图」到「AI原生平台」的根本性转型，与百度AI原生能力（MAPYA/DuDuClaw）形成AI原生地图赛道全面竞争",
+        importance: "high", isAI: true
+    },
+    {
+        date: "2026-05-16", vendor: "高德", module: "行业合作", product: "Rokid智能眼镜", direction: "AI+AR生态",
+        dataType: "article",
+        event: "高德地图与Rokid宣布达成合作，共同推出基于全场景智能眼镜Rokid Glasses的全球首个导航智能体(NaviAgent)应用，标志着高德Planner-Executor架构开启跨终端合作部署",
+        evidence: "5月16日搜狐/南方+/腾讯云开发者等多家媒体报道。核心能力：①AR导航——精准定位+智能搜索+路径规划+实时导航，采用稳定贴地引导线和场景化转向立牌 ②高阶导航HUD展示——小地图视图/路线全览图，实时展示路径/提醒后方来车/读秒红绿灯 ③语音+视觉+环境感知三维交互——轻松切换步行/骑行/驾车三种导航模式。高德负责地图数据与导航引擎SDK，Rokid负责硬件集成与显示优化",
+        evidenceType: "new",
+        sources: [
+            { name: "搜狐(5.16)", url: "https://www.sohu.com/a/895858113_313745" },
+            { name: "腾讯云开发者(5.16)", url: "https://cloud.tencent.cn/developer/article/2521932" }
+        ],
+        officialNote: "📌 高德×Rokid标志空间智能从手机端走向AR眼镜跨终端部署，与雷鸟AR×高德（3.11 AWE发布）构成智能眼镜导航双线布局。高德Planner-Executor架构+LBS Agent能力向可穿戴设备延伸，构建空间智能生态体系",
+        importance: "medium", isAI: true
+    },
+    {
+        date: "2026-05-13", vendor: "高德", module: "官网动态", product: "V16.16版本升级", direction: "产品升级",
+        dataType: "patrol",
+        event: "高德地图双端同步推送V16.16版本更新（安卓16.16.0.2001+鸿蒙新版），核心升级：北斗惯导增强定位（VDR技术，隧道/地库定位误差≤1米）、3D视界导航（世界模型1:1还原城市道路）、AI红绿灯绿波领航（覆盖8万+路口）、鹰眼守护2.0独立巡航预警",
+        evidence: "5月7-15日多家科技媒体/自媒体报道。VDR惯导增强定位：整合北斗卫星+手机惯性导航单元，解决地库/隧道定位漂移。3D视界导航：通过世界模型将城市道路/标线/红绿灯/建筑1:1立体还原，复杂路口走错率下降62%。AI红绿灯绿波领航：推荐最佳通行车速，通勤时间缩短15-20分钟，等红灯次数减少30%。鹰眼守护2.0升级为独立巡航预警模块，无需设置目的地即可实时预警",
+        evidenceType: "update",
+        sources: [
+            { name: "百家号(5.13)", url: "https://baijiahao.baidu.com/s?id=1865310755898355137" },
+            { name: "今日头条(5.15)", url: "https://www.toutiao.com/article/7640139009112506920/" },
+            { name: "今日头条(5.7)", url: "https://www.toutiao.com/a7637166129001005619" }
+        ],
+        officialNote: "📌 高德V16.16是2026年以来最重磅的版本升级，从3月到5月连续推送V16.11/V16.13/V16.16，被称为「全场景革命」。VDR惯导+3D视界+AI红绿灯绿波+鹰眼2.0四项核心升级，全方位解决出行痛点",
+        importance: "medium", isAI: true
     },
 
     // ========== 第19周 (5.4 - 5.10) ==========
@@ -1862,7 +1904,7 @@ function dataTypeHtml(item) {
 
 function eventHtml(item) {
     let text = item.event.replace(/\"([^\"]+)\"/g, '<span class="event-highlight">$1</span>');
-    ['SKILL专区', 'Amap SDK Skills', 'MCP Server', 'MCP协议', 'MCP广场', 'Streamable HTTP', '具身智能', 'HarmonyOS NEXT', 'Claude', '10大标准化接口', '智能客服', '日配额取消', '服务协议', '雷鸟智慧生活', 'AR扫街榜', 'LBS Agent', '鹰眼守护', '公益地图', '首都公共就业服务地图', 'OriginOS 6', '原子通知', 'AI Agent', '充电站', '青岛停车', '车位级导航', '放心消费', 'OpenClaw', 'ClawHub', '灵犀AIOS', 'Qwen3.5', 'AR实景步行导航', 'AR Engine', 'HarmonyOS SDK', 'Maps UI-Kit', 'RoutePlan', 'Map Skills', '千问', 'AI打车', '小滴', '实时公交', 'JSAPI Skills', '司机驿站', '扫街榜', '飞行街景', '烟火澳门支持计划', '金沙中国', '澳门通', 'AI智慧校园', '鲁山一高', '便民快巴', '富临运业', '卒中救治数字地图', '百万减残', '卒中中心', '黄小西', '智慧游门户', '贵州旅游产业发展大会', '煎蛋侠', '无网导航', '清明出行预测报告', '比亚迪', '腾讯地图', 'DiLink', '天神之眼', 'CLI', 'amap-gui', 'Map Agent Plan', 'Container', 'TOKEN', '3.4亿POI', 'GDPS2026', 'DuMate', 'RoboClaw', '空间感知', '超视距', '两轮车', 'Skills场景', '商业选址', '智慧物流', '龙溢', '智能路况提醒', 'HarmonyOS 6', '实况窗', '智感畅行', '畅享90', '养老服务地图', '暖心车站', '适老出行', 'CLI指令集', 'GUI容器', 'Skill技能包', '闪充', '300万根充电桩', '辟谣', '高精地图', '充电导航', 'AI座舱智能体', '百人会', '中枢Agent', '车道级SR导航', 'NOA', '41.8%', '小鹏汽车', '深蓝汽车', '梧桐车联', '零跑', '车位级SR导航', '舱驾融合', '端到端', 'AI司机', 'AI助理', 'AI搭子', 'V21', '四足机器人', 'ABot-M0', '具身导航', '亦庄机器人半马', '具身操作基座模型', '畅游北京', '烟火北京支持计划', '非遗榜单', '3万家', '259家', '状元榜', '一月一城', '文档MCP化', 'Codex', 'Cursor', 'Claude Code', 'Rules', 'ABot-World', 'Agibot World Challenge', 'World Arena', '15项', '世界模型', '途途', 'ABot-Claw', 'ABot全栈', 'AGI', '全面开源', '导盲', '来华通', 'GBIC', '小度想想', 'Agent Plan', '入境游', 'ABot-N', 'ABot-M', 'ABot-PhysWorld', 'CVPR 2026', '14B DiT', 'QQ音乐', '超级会员年卡', 'SegmentFault', '千龙网', '北京科技大学', '北科大', '雄安校区', '空间智能高校', '雅迪', '鸿蒙投屏', '冠能白鲨', '冠能星舰', '冠能龙霆', '两轮车导航', '汽车出行AI Agent', 'AI伴行', '千问大模型', '语言大脑', '空间大脑', '理想汽车', 'QwenPaw', '多模态感知', '哈啰租车', '地图+租车', '东风猛士', 'HERE Technologies', '车企出海', '全球实时红绿灯', '海外智驾地图'].forEach(h => {
+    ['SKILL专区', 'Amap SDK Skills', 'MCP Server', 'MCP协议', 'MCP广场', 'Streamable HTTP', '具身智能', 'HarmonyOS NEXT', 'Claude', '10大标准化接口', '智能客服', '日配额取消', '服务协议', '雷鸟智慧生活', 'AR扫街榜', 'LBS Agent', '鹰眼守护', '公益地图', '首都公共就业服务地图', 'OriginOS 6', '原子通知', 'AI Agent', '充电站', '青岛停车', '车位级导航', '放心消费', 'OpenClaw', 'ClawHub', '灵犀AIOS', 'Qwen3.5', 'AR实景步行导航', 'AR Engine', 'HarmonyOS SDK', 'Maps UI-Kit', 'RoutePlan', 'Map Skills', '千问', 'AI打车', '小滴', '实时公交', 'JSAPI Skills', '司机驿站', '扫街榜', '飞行街景', '烟火澳门支持计划', '金沙中国', '澳门通', 'AI智慧校园', '鲁山一高', '便民快巴', '富临运业', '卒中救治数字地图', '百万减残', '卒中中心', '黄小西', '智慧游门户', '贵州旅游产业发展大会', '煎蛋侠', '无网导航', '清明出行预测报告', '比亚迪', '腾讯地图', 'DiLink', '天神之眼', 'CLI', 'amap-gui', 'Map Agent Plan', 'Container', 'TOKEN', '3.4亿POI', 'GDPS2026', 'DuMate', 'RoboClaw', '空间感知', '超视距', '两轮车', 'Skills场景', '商业选址', '智慧物流', '龙溢', '智能路况提醒', 'HarmonyOS 6', '实况窗', '智感畅行', '畅享90', '养老服务地图', '暖心车站', '适老出行', 'CLI指令集', 'GUI容器', 'Skill技能包', '闪充', '300万根充电桩', '辟谣', '高精地图', '充电导航', 'AI座舱智能体', '百人会', '中枢Agent', '车道级SR导航', 'NOA', '41.8%', '小鹏汽车', '深蓝汽车', '梧桐车联', '零跑', '车位级SR导航', '舱驾融合', '端到端', 'AI司机', 'AI助理', 'AI搭子', 'V21', '四足机器人', 'ABot-M0', '具身导航', '亦庄机器人半马', '具身操作基座模型', '畅游北京', '烟火北京支持计划', '非遗榜单', '3万家', '259家', '状元榜', '一月一城', '文档MCP化', 'Codex', 'Cursor', 'Claude Code', 'Rules', 'ABot-World', 'Agibot World Challenge', 'World Arena', '15项', '世界模型', '途途', 'ABot-Claw', 'ABot全栈', 'AGI', '全面开源', '导盲', '来华通', 'GBIC', '小度想想', 'Agent Plan', '入境游', 'ABot-N', 'ABot-M', 'ABot-PhysWorld', 'CVPR 2026', '14B DiT', 'QQ音乐', '超级会员年卡', 'SegmentFault', '千龙网', '北京科技大学', '北科大', '雄安校区', '空间智能高校', '雅迪', '鸿蒙投屏', '冠能白鲨', '冠能星舰', '冠能龙霆', '两轮车导航', '汽车出行AI Agent', 'AI伴行', '千问大模型', '语言大脑', '空间大脑', '理想汽车', 'QwenPaw', '多模态感知', '哈啰租车', '地图+租车', '东风猛士', 'HERE Technologies', '车企出海', '全球实时红绿灯', '海外智驾地图', '高德地图2025', '小高老师', 'NaviAgent', 'TrafficVLM', 'AI即刻', 'AI探索', 'AI领航', 'VDR', '3D视界导航', 'Rokid', 'Rokid Glasses', 'Planner-Executor'].forEach(h => {
         if (text.includes(h) && !text.includes(`class="event-highlight">${h}`)) {
             text = text.replace(h, `<span class="event-highlight">${h}</span>`);
         }
